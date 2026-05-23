@@ -1,0 +1,59 @@
+:root {
+  font-size: 13px;
+  font-family: 'Hammersmith One', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* MyBibleLens brand palette */
+  --color-background: #f5f2ed;
+  --color-text: #4a3322;
+  --color-link: #4a3322;
+  --color-link-hover: #b6751d;
+  --color-dot: rgba(74, 51, 34, 0.28);
+  --page-padding: 1.5rem;
+  --color-loader-bg: #f5f2ed;
+  --color-loader-bar-bg: transparent;
+  --color-loader-bar-fill: transparent;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--color-text);
+  background-color: var(--color-background);
+  /* Infinite-canvas dotted parchment — dots scale at 22px grid */
+  background-image: radial-gradient(circle, var(--color-dot) 1.2px, transparent 1.8px);
+  background-size: 22px 22px;
+  font-family: 'Hammersmith One', sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: var(--color-link);
+  outline: none;
+  cursor: pointer;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: var(--color-link-hover);
+}
+
+a:focus:not(:focus-visible) {
+  outline: none;
+}
+
+a:focus-visible {
+  outline: 2px solid #b6751d;
+}
+
+#root {
+  position: relative;
+  min-height: 100svh;
+}
