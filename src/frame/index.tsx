@@ -16,6 +16,9 @@ export function Frame() {
       <a className={styles.frame__linkedin} href="https://www.linkedin.com/feed/">
         LinkedIn
       </a>
+      <a className={styles.frame__snapchat} href="https://snapchat.com/t/NsQxXMoF">
+        Snapchat
+      </a>
       <div className={styles.frame__credits}>
         <span>Made by </span>
         <a href="https://mybiblelens.us">Denzel · ExpectedEnd</a>

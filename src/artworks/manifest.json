@@ -251,4 +251,37 @@
     "width": 2000,
     "height": 1333
   }
+,
+  {
+    "url": "artworks/24.jpg",
+    "type": "image",
+    "title": "Denzel — frame 24",
+    "artist": "Denzel Rigaud",
+    "year": "2026",
+    "link": "https://mybiblelens.us",
+    "width": 2000,
+    "height": 1500
+  }
+,
+  {
+    "url": "artworks/25.jpg",
+    "type": "image",
+    "title": "Denzel — frame 25",
+    "artist": "Denzel Rigaud",
+    "year": "2026",
+    "link": "https://mybiblelens.us",
+    "width": 2000,
+    "height": 1500
+  }
+,
+  {
+    "url": "artworks/26.jpg",
+    "type": "image",
+    "title": "Denzel — frame 26",
+    "artist": "Denzel Rigaud",
+    "year": "2026",
+    "link": "https://mybiblelens.us",
+    "width": 1125,
+    "height": 2000
+  }
 ]

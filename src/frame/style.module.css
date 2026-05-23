@@ -8,12 +8,12 @@
   pointer-events: none;
   justify-items: start;
   align-items: center;
-  grid-template-columns: auto auto auto auto 1fr;
+  grid-template-columns: auto auto auto auto auto 1fr;
   grid-template-areas:
-    "title title title credits ..."
-    "back archive github linkedin ..."
-    "tags tags tags tags tags"
-    "sponsor sponsor sponsor sponsor sponsor";
+    "title title title title credits ..."
+    "back archive github linkedin snapchat ..."
+    "tags tags tags tags tags tags"
+    "sponsor sponsor sponsor sponsor sponsor sponsor";
   color: #fff;
   mix-blend-mode: difference;
   font-family: 'Inter', sans-serif;
@@ -58,6 +58,10 @@
   grid-area: linkedin;
 }
 
+.frame__snapchat {
+  grid-area: snapchat;
+}
+
 .frame__credits {
   grid-area: credits;
 }
@@ -83,13 +87,13 @@
     left: 0;
     width: 100%;
     grid-column-gap: 2rem;
-    grid-template-columns: auto auto auto auto 1fr;
+    grid-template-columns: auto auto auto auto auto 1fr;
     grid-template-rows: auto auto auto;
     align-content: space-between;
     grid-template-areas:
-      "back github archive linkedin credits"
-      "title title title title title"
-      "tags tags tags tags sponsor";
+      "back github archive linkedin snapchat credits"
+      "title title title title title title"
+      "tags tags tags tags tags sponsor";
   }
 
   .frame__title {
