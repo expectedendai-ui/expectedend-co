@@ -1,6 +1,6 @@
 :root {
   font-size: 13px;
-  font-family: 'Hammersmith One', sans-serif;
+  font-family: "Hammersmith One", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
@@ -27,10 +27,7 @@ body {
   padding: 0;
   color: var(--color-text);
   background-color: var(--color-background);
-  /* Infinite-canvas dotted parchment — dots scale at 22px grid */
-  background-image: radial-gradient(circle, var(--color-dot) 1.2px, transparent 1.8px);
-  background-size: 22px 22px;
-  font-family: 'Hammersmith One', sans-serif;
+  font-family: "Hammersmith One", sans-serif;
 }
 
 a {

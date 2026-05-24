@@ -8,15 +8,14 @@
   pointer-events: none;
   justify-items: start;
   align-items: center;
-  grid-template-columns: auto auto auto auto auto 1fr;
+  grid-template-columns: auto auto 1fr auto auto;
   grid-template-areas:
-    "title title title title credits ..."
-    "back archive github linkedin snapchat ..."
-    "tags tags tags tags tags tags"
-    "sponsor sponsor sponsor sponsor sponsor sponsor";
+    "title title title title title"
+    "back github . . ."
+    "archive . . linkedin snapchat";
   color: #fff;
   mix-blend-mode: difference;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.02em;
@@ -31,7 +30,7 @@
 
 .frame__title {
   grid-area: title;
-  font-family: 'Hammersmith One', sans-serif;
+  font-family: "Hammersmith One", sans-serif;
   font-size: 1rem;
   font-weight: 400;
   margin: 0;
@@ -45,37 +44,24 @@
   justify-self: start;
 }
 
+.frame__github {
+  grid-area: github;
+  justify-self: start;
+}
+
 .frame__archive {
   grid-area: archive;
   justify-self: start;
 }
 
-.frame__github {
-  grid-area: github;
-}
-
 .frame__linkedin {
   grid-area: linkedin;
+  justify-self: end;
 }
 
 .frame__snapchat {
   grid-area: snapchat;
-}
-
-.frame__credits {
-  grid-area: credits;
-}
-
-.frame__tags {
-  grid-area: tags;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.frame__tags a {
-  color: #fff;
-  mix-blend-mode: difference;
+  justify-self: end;
 }
 
 @media screen and (min-width: 53em) {
@@ -87,28 +73,19 @@
     left: 0;
     width: 100%;
     grid-column-gap: 2rem;
-    grid-template-columns: auto auto auto auto auto 1fr;
-    grid-template-rows: auto auto auto;
+    grid-template-columns: auto auto 1fr auto auto;
+    grid-template-rows: auto 1fr auto;
     align-content: space-between;
     grid-template-areas:
-      "back github archive linkedin snapchat credits"
-      "title title title title title title"
-      "tags tags tags tags tags sponsor";
+      "back github . . ."
+      "title title title title title"
+      "archive . . linkedin snapchat";
   }
 
   .frame__title {
     justify-self: center;
     font-size: clamp(2rem, 5vw, 3rem);
-    font-family: 'Hammersmith One', sans-serif;
+    font-family: "Hammersmith One", sans-serif;
     letter-spacing: 0.04em;
-  }
-
-  .frame__tags {
-    align-self: end;
-    gap: 2rem;
-  }
-
-  .frame__credits {
-    text-align: right;
   }
 }
