@@ -1,110 +1,88 @@
+/* Matrix-binary loader — full-screen takeover with gold falling 1s and 0s.
+   Adapted from uiverse.io/PriyanshuGupta28/bright-bobcat-12 (MIT). */
+
 .overlay {
   position: fixed;
   inset: 0;
+  background: #212121;
   z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--color-loader-bg);
-  transition: opacity 0.5s ease-out;
+  overflow: hidden;
+  transition: opacity 600ms ease-out;
 }
 
-.overlay.hidden {
+.overlay.fading {
   opacity: 0;
   pointer-events: none;
 }
 
-.overlay.visible {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.stack {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.4rem;
-}
-
-.tapPrompt {
-  position: relative;
-  font-family: "Hammersmith One", sans-serif;
-  font-size: 4.5rem;
-  color: #4a3322;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  padding: 1.4rem 2.6rem 1.6rem;
-  background: #fffdf6;
-  border: 2.5px solid #b6751d;
-  border-radius: 1.6rem;
-  box-shadow:
-    0 18px 38px -16px rgba(74, 51, 34, 0.35),
-    inset 0 1px 0 rgba(255, 248, 224, 0.7);
-  animation: pulse 0.7s ease-out infinite;
-}
-
-.tapPrompt::after {
-  content: "";
+.glow {
   position: absolute;
-  bottom: -14px;
-  left: 50%;
-  width: 22px;
-  height: 22px;
-  background: #fffdf6;
-  border-right: 2.5px solid #b6751d;
-  border-bottom: 2.5px solid #b6751d;
-  transform: translateX(-50%) rotate(45deg);
-  border-bottom-right-radius: 4px;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.12) 0%, transparent 70%);
+  animation: matrix-pulse 2s infinite;
+  pointer-events: none;
 }
 
-@keyframes pulse {
+.grid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 36px);
+  grid-auto-rows: 36px;
+  justify-content: center;
+  align-content: center;
+  padding: 0;
+  perspective: 800px;
+}
+
+.digit {
+  color: #ffd700;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 18px;
+  line-height: 36px;
+  text-align: center;
+  text-shadow: 0 0 5px #ffd700;
+  animation:
+    matrix-fall 3.2s infinite,
+    matrix-flicker 1.6s infinite;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+@keyframes matrix-fall {
+  0% {
+    transform: translateY(-12px);
+    opacity: 0;
+  }
+  8%,
+  92% {
+    transform: translateY(0);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+}
+
+@keyframes matrix-flicker {
+  0%,
+  19%,
+  21%,
+  100% {
+    opacity: 0.8;
+  }
+  20% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes matrix-pulse {
   0%,
   100% {
-    opacity: 1;
-    transform: scale(1);
+    opacity: 0.3;
   }
   50% {
     opacity: 0.7;
-    transform: scale(1.05);
-  }
-}
-
-.punchline {
-  position: relative;
-  font-family: "Hammersmith One", sans-serif;
-  font-size: 1.1rem;
-  color: #4a3322;
-  letter-spacing: 0.01em;
-  padding: 0.7rem 1.3rem 0.8rem;
-  background: #fffdf6;
-  border: 2px solid #b6751d;
-  border-radius: 1.1rem;
-  box-shadow: 0 10px 22px -10px rgba(74, 51, 34, 0.3);
-  animation: poofIn 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
-  transform-origin: center bottom;
-}
-
-.punchline::after {
-  content: "";
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  width: 12px;
-  height: 12px;
-  background: #fffdf6;
-  border-right: 2px solid #b6751d;
-  border-bottom: 2px solid #b6751d;
-  transform: translateX(-50%) rotate(45deg);
-  border-bottom-right-radius: 2px;
-}
-
-@keyframes poofIn {
-  from {
-    opacity: 0;
-    transform: scale(0.6) translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
   }
 }

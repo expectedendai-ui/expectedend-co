@@ -4,6 +4,7 @@ export function Frame() {
   return (
     <header className={`frame ${styles.frame}`}>
       <h1 className={styles.frame__title}>Denzel Rigaud</h1>
+      <p className={styles.frame__subtitle}>self taught full-stack developer</p>
       <a className={styles.frame__back} href="https://mybiblelens.us">
         MyBibleLens
       </a>

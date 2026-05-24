@@ -4,14 +4,14 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /* MyBibleLens brand palette */
-  --color-background: #f5f2ed;
-  --color-text: #4a3322;
-  --color-link: #4a3322;
-  --color-link-hover: #b6751d;
-  --color-dot: rgba(74, 51, 34, 0.28);
+  /* Dark canvas palette — gold ink on near-black, matches the matrix loader */
+  --color-background: #0a0a0a;
+  --color-text: #ffd700;
+  --color-link: #ffd700;
+  --color-link-hover: #fff4ad;
+  --color-dot: rgba(255, 215, 0, 0.2);
   --page-padding: 1.5rem;
-  --color-loader-bg: #f5f2ed;
+  --color-loader-bg: #0a0a0a;
   --color-loader-bar-bg: transparent;
   --color-loader-bar-fill: transparent;
 }
@@ -47,10 +47,34 @@ a:focus:not(:focus-visible) {
 }
 
 a:focus-visible {
-  outline: 2px solid #b6751d;
+  outline: 2px solid #ffd700;
 }
 
 #root {
   position: relative;
   min-height: 100svh;
+}
+
+/* Bass-driven page shake — triggered by Web Audio analyser in src/app.
+   Apply to <body> so the whole canvas + every photo vibrates together. */
+body.thump {
+  animation: bass-thump 110ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes bass-thump {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  25% {
+    transform: translate3d(8px, -5px, 0) scale(1.012);
+  }
+  50% {
+    transform: translate3d(-8px, 5px, 0) scale(1.008);
+  }
+  75% {
+    transform: translate3d(5px, -3px, 0) scale(1.006);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
 }

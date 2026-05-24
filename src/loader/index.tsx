@@ -1,64 +1,54 @@
 import * as React from "react";
 import styles from "./style.module.css";
 
-export function PageLoader({ progress }: { progress: number }) {
-  const [show, setShow] = React.useState(true);
-  const [minTimeElapsed, setMinTimeElapsed] = React.useState(false);
-  const [jokePhase, setJokePhase] = React.useState<"tap" | "punchline">("tap");
-  const visualRef = React.useRef(0);
-  const [visualProgress, setVisualProgress] = React.useState(0);
+const CELL_SIZE = 36;
+const SHOW_MS = 2200;
+const FADE_MS = 600;
 
-  React.useEffect(() => {
-    const timer = setTimeout(() => setMinTimeElapsed(true), 1800);
-    return () => clearTimeout(timer);
-  }, []);
+type Digit = { value: "0" | "1"; fallDelay: string; flickerDelay: string };
 
-  React.useEffect(() => {
-    const flip = setTimeout(() => setJokePhase("punchline"), 700);
-    return () => clearTimeout(flip);
-  }, []);
-
-  React.useEffect(() => {
-    let raf: number;
-
-    const animate = () => {
-      const diff = progress - visualRef.current;
-
-      if (diff > 0.1) {
-        visualRef.current += diff * 0.08;
-        setVisualProgress(visualRef.current);
-        raf = requestAnimationFrame(animate);
-      } else {
-        visualRef.current = progress;
-        setVisualProgress(progress);
-      }
+function buildDigits(): Digit[] {
+  const cols = Math.ceil(window.innerWidth / CELL_SIZE);
+  const rows = Math.ceil(window.innerHeight / CELL_SIZE);
+  const count = cols * rows;
+  const out: Digit[] = new Array(count);
+  for (let i = 0; i < count; i++) {
+    out[i] = {
+      value: Math.random() < 0.5 ? "0" : "1",
+      fallDelay: `${(Math.random() * 2).toFixed(2)}s`,
+      flickerDelay: `${(Math.random() * 1.6).toFixed(2)}s`,
     };
+  }
+  return out;
+}
 
-    raf = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(raf);
-  }, [progress]);
+export function MatrixLoader({ onDone }: { onDone: () => void }) {
+  const [phase, setPhase] = React.useState<"visible" | "fading">("visible");
+  const digits = React.useMemo(buildDigits, []);
 
   React.useEffect(() => {
-    if (minTimeElapsed && progress === 100 && visualProgress >= 99.5) {
-      const t = setTimeout(() => setShow(false), 200);
-      return () => clearTimeout(t);
-    }
-  }, [minTimeElapsed, progress, visualProgress]);
-
-  if (!show) {
-    return null;
-  }
-
-  const isHidden = minTimeElapsed && progress === 100 && visualProgress >= 99.5;
+    const fade = setTimeout(() => setPhase("fading"), SHOW_MS);
+    const done = setTimeout(onDone, SHOW_MS + FADE_MS);
+    return () => {
+      clearTimeout(fade);
+      clearTimeout(done);
+    };
+  }, [onDone]);
 
   return (
-    <div className={`${styles.overlay} ${isHidden ? styles.hidden : styles.visible}`}>
-      <div className={styles.stack}>
-        {jokePhase === "tap" ? (
-          <div className={styles.tapPrompt}>Tap</div>
-        ) : (
-          <div className={styles.punchline}>just kidding it's a loader haha</div>
-        )}
+    <div className={`${styles.overlay} ${phase === "fading" ? styles.fading : ""}`}>
+      <div className={styles.glow} />
+      <div className={styles.grid}>
+        {digits.map((d, i) => (
+          <span
+            // biome-ignore lint/suspicious/noArrayIndexKey: digits are positional and never reorder
+            key={i}
+            className={styles.digit}
+            style={{ animationDelay: `${d.fallDelay}, ${d.flickerDelay}` }}
+          >
+            {d.value}
+          </span>
+        ))}
       </div>
     </div>
   );

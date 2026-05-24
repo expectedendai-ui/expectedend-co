@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Local-only audio (third-party content — never commit, never ship)
+public/audio/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

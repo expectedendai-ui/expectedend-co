@@ -292,7 +292,29 @@ function SceneController({ media, onTextureProgress }: { media: MediaItem[]; onT
   const isTouchDevice = useIsTouchDevice();
   const [, getKeys] = useKeyboardControls<keyof KeyboardKeys>();
 
-  const state = React.useRef<ControllerState>(createInitialState(INITIAL_CAMERA_Z));
+  // Initial entry dolly: camera starts FAR (z=320) and rushes toward INITIAL_CAMERA_Z (z=50)
+  // over DOLLY_DURATION_MS — fast, snappy ease-out for the "boom, you're in the canvas" feel.
+  // The dolly is GATED on the "ee-entrance" event dispatched by <App> when the matrix
+  // loader finishes, so the camera move actually happens in front of the user (not behind
+  // the loader curtain).
+  const DOLLY_START_Z = 320;
+  const DOLLY_DURATION_MS = 1800;
+
+  const state = React.useRef<ControllerState>(createInitialState(DOLLY_START_Z));
+  const dollyRef = React.useRef<{ startTime: number; active: boolean; armed: boolean }>({
+    startTime: 0,
+    active: false,
+    armed: false,
+  });
+
+  React.useEffect(() => {
+    const onEntrance = () => {
+      dollyRef.current.armed = true;
+      dollyRef.current.active = true;
+    };
+    window.addEventListener("ee-entrance", onEntrance);
+    return () => window.removeEventListener("ee-entrance", onEntrance);
+  }, []);
   const cameraGridRef = React.useRef<CameraGridState>({ cx: 0, cy: 0, cz: 0, camZ: camera.position.z });
 
   const [chunks, setChunks] = React.useState<ChunkData[]>([]);
@@ -351,7 +373,7 @@ function SceneController({ media, onTextureProgress }: { media: MediaItem[]; onT
 
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
-      s.scrollAccum += e.deltaY * 0.006;
+      s.scrollAccum += e.deltaY * 0.009;
     };
 
     const onTouchStart = (e: TouchEvent) => {
@@ -370,12 +392,12 @@ function SceneController({ media, onTextureProgress }: { media: MediaItem[]; onT
         const [last] = s.lastTouches;
 
         if (touch && last) {
-          s.targetVel.x -= (touch.clientX - last.clientX) * 0.02;
-          s.targetVel.y += (touch.clientY - last.clientY) * 0.02;
+          s.targetVel.x -= (touch.clientX - last.clientX) * 0.03;
+          s.targetVel.y += (touch.clientY - last.clientY) * 0.03;
         }
       } else if (touches.length === 2 && s.lastTouchDist > 0) {
         const dist = getTouchDistance(touches);
-        s.scrollAccum += (s.lastTouchDist - dist) * 0.006;
+        s.scrollAccum += (s.lastTouchDist - dist) * 0.009;
         s.lastTouchDist = dist;
       }
 
@@ -412,6 +434,16 @@ function SceneController({ media, onTextureProgress }: { media: MediaItem[]; onT
   useFrame(() => {
     const s = state.current;
     const now = performance.now();
+
+    // Intro dolly: override basePos.z directly while the entry animation runs.
+    // After it completes, hand off to the normal velocity-driven motion.
+    if (dollyRef.current.active) {
+      if (dollyRef.current.startTime === 0) dollyRef.current.startTime = now;
+      const t = Math.min((now - dollyRef.current.startTime) / DOLLY_DURATION_MS, 1);
+      const eased = 1 - (1 - t) ** 3; // ease-out cubic
+      s.basePos.z = DOLLY_START_Z + (INITIAL_CAMERA_Z - DOLLY_START_Z) * eased;
+      if (t >= 1) dollyRef.current.active = false;
+    }
 
     const { forward, backward, left, right, up, down } = getKeys();
     if (forward) s.targetVel.z -= KEYBOARD_SPEED;
@@ -520,8 +552,8 @@ export function InfiniteCanvasScene({
   cameraFar = 500,
   fogNear = 120,
   fogFar = 320,
-  // backgroundColor intentionally unused — the dotted parchment from body CSS shows through (alpha:true on gl).
-  fogColor = "#f5f2ed",
+  // backgroundColor intentionally unused — the dark body CSS shows through (alpha:true on gl).
+  fogColor = "#0a0a0a",
 }: InfiniteCanvasProps) {
   const isTouchDevice = useIsTouchDevice();
   const dpr = Math.min(window.devicePixelRatio || 1, isTouchDevice ? 1.25 : 1.5);

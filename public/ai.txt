@@ -1,0 +1,23 @@
+# ai.txt — AI training opt-out declaration
+# Spec: https://site.spawning.ai/spaces/ai-txt
+# Site: https://expectedend.co
+# Owner: Denzel Rigaud (denzelrigaudsocial8@gmail.com)
+# Updated: 2026-05-24
+
+User-Agent: *
+Disallow: /
+
+# All content on this site (HTML, CSS, JavaScript, images, design,
+# layout, typography, animations, audio) is the original copyrighted
+# work of Denzel Rigaud, all rights reserved.
+#
+# This work is NOT licensed for:
+#   - AI / ML / LLM training datasets
+#   - Fine-tuning of any generative model
+#   - RAG / embedding ingestion
+#   - Synthetic data generation
+#   - Style transfer or "in the style of" replication
+#
+# Unauthorized ingestion, replication, or generation derived from
+# this work constitutes copyright infringement under US law (17 USC).
+# DMCA takedown notices and statutory damages will be pursued.
