@@ -12,7 +12,7 @@
     "lint": "npm run check:biome",
     "format": "biome check --write --unsafe",
     "preview": "vite preview",
-    "deploy": "npm run build && wrangler pages deploy dist --project-name=expectedend-co --branch=main"
+    "deploy": "npm run build && npx wrangler pages deploy dist --project-name=expectedend-co --branch=main"
   },
   "dependencies": {
     "@react-three/drei": "10.7.7",
