@@ -18,7 +18,11 @@ export function App() {
   const [media] = React.useState<MediaItem[]>(manifest);
   const [loading, setLoading] = React.useState(true);
   const [scareOpen, setScareOpen] = React.useState(false);
-  const audioRef = React.useRef<HTMLAudioElement>(null);
+  // Using <video playsinline> instead of <audio> so audio plays even when
+  // iOS Safari users have their physical silent switch on. iOS treats audio
+  // inside a video element as "media" (allowed on silent), while raw <audio>
+  // elements are categorized as "audio" (muted on silent).
+  const audioRef = React.useRef<HTMLVideoElement>(null);
 
   const triggerScare = React.useCallback(() => setScareOpen(true), []);
   useScareTriggers(triggerScare);
@@ -145,7 +149,16 @@ export function App() {
       {loading && <MatrixLoader onDone={onLoaderDone} />}
       <ScareModal open={scareOpen} onClose={() => setScareOpen(false)} />
       <AiNotice />
-      <audio ref={audioRef} src={AUDIO_SRC} loop preload="auto" />
+      {/* biome-ignore lint/a11y/useMediaCaption: instrumental background track, no spoken content to caption */}
+      <video
+        ref={audioRef}
+        src={AUDIO_SRC}
+        loop
+        preload="auto"
+        playsInline
+        // visually hidden but kept in the DOM so iOS allows audio playback
+        style={{ position: "fixed", width: 1, height: 1, opacity: 0, pointerEvents: "none", top: 0, left: 0 }}
+      />
     </>
   );
 }
