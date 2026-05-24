@@ -13,7 +13,8 @@
     ". . . . subtitle"
     "title title title title title"
     "back github . . ."
-    "archive . . linkedin snapchat";
+    "archive . . linkedin snapchat"
+    "music music music music music";
   color: #ffd700;
   text-shadow: 0 0 8px rgba(255, 215, 0, 0.55);
   font-family: "Inter", sans-serif;
@@ -88,6 +89,22 @@
   text-align: right;
 }
 
+.frame__music {
+  grid-area: music;
+  justify-self: start;
+  margin: 0;
+  margin-top: 0.5rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: #ffd700;
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+  opacity: 0.75;
+  pointer-events: none;
+  text-align: left;
+}
+
 /* The name's per-bass-hit transform lives on .frame__title itself
    (transition + CSS variables). No body-class keyframes needed anymore —
    JS just updates --name-x/y/rot on body and the title flies there. */
@@ -104,10 +121,12 @@
     grid-template-columns: auto auto 1fr auto auto;
     grid-template-rows: auto 1fr auto;
     align-content: space-between;
+    grid-template-rows: auto 1fr auto auto;
     grid-template-areas:
       "back github . . subtitle"
       "title title title title title"
-      "archive . . linkedin snapchat";
+      "archive . . linkedin snapchat"
+      "music music music music music";
   }
 
   .frame__title {

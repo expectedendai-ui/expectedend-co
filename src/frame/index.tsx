@@ -20,6 +20,7 @@ export function Frame() {
       <a className={styles.frame__snapchat} href="https://snapchat.com/t/NsQxXMoF">
         Snapchat
       </a>
+      <p className={styles.frame__music}>♫ "All The Way Turnt Up" — Roscoe Dash feat. Soulja Boy</p>
     </header>
   );
 }
