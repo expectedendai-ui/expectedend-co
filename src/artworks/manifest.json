@@ -408,5 +408,15 @@
     "link": "https://mybiblelens.us",
     "width": 570,
     "height": 416
+  },
+  {
+    "url": "artworks/42.jpg",
+    "type": "image",
+    "title": "The Expected One — research wall",
+    "artist": "Denzel Rigaud",
+    "year": "2026",
+    "link": "https://mybiblelens.us",
+    "width": 1170,
+    "height": 1643
   }
 ]
