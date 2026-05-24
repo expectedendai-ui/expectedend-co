@@ -6,8 +6,11 @@ import type { MediaItem } from "~/src/infinite-canvas/types";
 import { MatrixLoader } from "~/src/loader";
 import { AiNotice, ScareModal, useScareTriggers } from "~/src/scare";
 
-// Local-only audio file (gitignored — not in dist, not in git, not on Cloudflare).
-const AUDIO_SRC = "/audio/track.mp3";
+// Local-only media file (gitignored — never committed). Served from /public.
+// We use a real MP4 (silent 1px video stream + AAC audio) rather than raw MP3
+// so iOS Safari treats it as proper "media" — plays in silent mode, plays
+// reliably from a tap. Raw MP3-in-<video> is iffy on iOS.
+const AUDIO_SRC = "/audio/track.mp4";
 
 // Bass detection tuning — covers ~0–185Hz with default 2048 FFT @ 48kHz.
 const BASS_BIN_COUNT = 8;
@@ -85,26 +88,21 @@ export function App() {
       }
     };
 
-    // STEP 1 — muted autoplay. Browsers explicitly allow this on page load,
-    // so the song begins playing immediately, just inaudible.
-    el.muted = true;
+    // Set initial state but DON'T call play() yet — eager play attempts on
+    // iOS Safari can "poison" the element's permission state and block the
+    // subsequent gesture-driven play. Just prep the element and wait.
     el.volume = 0.6;
-    void el.play().catch(() => {
-      // Even muted autoplay can be blocked if the user has globally disabled
-      // autoplay; the gesture handler below will retry from scratch.
-    });
+    el.muted = false;
 
-    // STEP 2 — on the first real user gesture, unmute + rewind to start +
-    // wire the bass analyser. Result: visitor hears the track from the top
-    // the instant they do anything on the page.
+    // On the first real user gesture, play. iOS counts the gesture as user
+    // activation, so a single play() inside the handler is allowed.
     const unmute = () => {
       if (unmuted) return;
       unmuted = true;
-      el.muted = false;
-      el.currentTime = 0;
       void el
         .play()
         .then(() => {
+          el.currentTime = 0;
           if (ctx && ctx.state === "suspended") void ctx.resume();
           wireAnalyser();
         })
@@ -154,10 +152,14 @@ export function App() {
         ref={audioRef}
         src={AUDIO_SRC}
         loop
-        preload="auto"
         playsInline
-        // visually hidden but kept in the DOM so iOS allows audio playback
-        style={{ position: "fixed", width: 1, height: 1, opacity: 0, pointerEvents: "none", top: 0, left: 0 }}
+        preload="auto"
+        muted={false}
+        width={1}
+        height={1}
+        // Visually hidden but in the DOM. opacity:0 + 1×1 fixed; NOT display:none
+        // (display:none would prevent iOS from allowing playback).
+        style={{ position: "fixed", top: 0, left: 0, opacity: 0, pointerEvents: "none" }}
       />
     </>
   );
