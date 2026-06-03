@@ -18,7 +18,7 @@ const BASS_THRESHOLD = 0.72;
 const BASS_COOLDOWN_MS = 360;
 
 export function App() {
-  const [media] = React.useState<MediaItem[]>(manifest);
+  const [media] = React.useState<MediaItem[]>(manifest as MediaItem[]);
   const [loading, setLoading] = React.useState(true);
   const [scareOpen, setScareOpen] = React.useState(false);
   // Using <video playsinline> instead of <audio> so audio plays even when
@@ -43,9 +43,7 @@ export function App() {
     const wireAnalyser = () => {
       if (analyserWired) return;
       try {
-        const Ctor =
-          window.AudioContext ||
-          (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+        const Ctor = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
         ctx = new Ctor();
         const src = ctx.createMediaElementSource(el);
         const analyser = ctx.createAnalyser();
@@ -112,14 +110,7 @@ export function App() {
     };
 
     // Events that COUNT as user activation (per browser autoplay policy).
-    const events: (keyof DocumentEventMap)[] = [
-      "click",
-      "pointerdown",
-      "pointerup",
-      "keydown",
-      "touchstart",
-      "touchend",
-    ];
+    const events: (keyof DocumentEventMap)[] = ["click", "pointerdown", "pointerup", "keydown", "touchstart", "touchend"];
     for (const ev of events) document.addEventListener(ev, unmute, { passive: true });
 
     return () => {
