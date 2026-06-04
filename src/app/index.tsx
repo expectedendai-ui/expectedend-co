@@ -1,5 +1,6 @@
 import * as React from "react";
 import manifest from "~/src/artworks/manifest.json";
+import { ColorSwitcher, THEMES, type ThemeKey } from "~/src/color-switcher";
 import { Frame } from "~/src/frame";
 import { InfiniteCanvas } from "~/src/infinite-canvas";
 import type { MediaItem } from "~/src/infinite-canvas/types";
@@ -24,6 +25,7 @@ export function App() {
   const [entered, setEntered] = React.useState(false);
   const [selected, setSelected] = React.useState(0); // default credit = MJ
   const [scareOpen, setScareOpen] = React.useState(false);
+  const [theme, setTheme] = React.useState<ThemeKey>("black");
 
   // Using <video playsinline> instead of <audio> so audio plays even when
   // iOS Safari users have their physical silent switch on.
@@ -32,9 +34,16 @@ export function App() {
   const wiredRef = React.useRef(false);
   const rafRef = React.useRef(0);
   const lastThumpRef = React.useRef(0);
+  const noBassRef = React.useRef(false); // current track opts out of the bass-driven shake
 
   const triggerScare = React.useCallback(() => setScareOpen(true), []);
   useScareTriggers(triggerScare);
+
+  // Drive the <body> palette (black/white/brown) from the chosen theme.
+  React.useEffect(() => {
+    document.body.dataset.theme = theme;
+  }, [theme]);
+  const fogColor = THEMES.find((t) => t.key === theme)?.fog ?? "#0a0a0a";
 
   // Wire the Web Audio analyser ONCE (createMediaElementSource is per-element).
   // The bass loop reacts to whichever track is currently playing.
@@ -61,7 +70,7 @@ export function App() {
         for (let i = 0; i < BASS_BIN_COUNT; i++) sum += bins[i];
         const energy = sum / (BASS_BIN_COUNT * 255);
         const now = performance.now();
-        if (energy > BASS_THRESHOLD && now - lastThumpRef.current > BASS_COOLDOWN_MS) {
+        if (!noBassRef.current && energy > BASS_THRESHOLD && now - lastThumpRef.current > BASS_COOLDOWN_MS) {
           lastThumpRef.current = now;
           document.body.classList.add("thump");
           setTimeout(() => document.body.classList.remove("thump"), 360);
@@ -92,6 +101,15 @@ export function App() {
       el.volume = 0.6;
       el.muted = false;
       el.currentTime = 0;
+      // Some tracks (MJ, Natasha) play WITHOUT the bass shake — clear any lingering jitter.
+      noBassRef.current = !!TRACKS[i].noBass;
+      if (noBassRef.current) {
+        document.body.classList.remove("thump");
+        document.body.style.setProperty("--name-x", "0vw");
+        document.body.style.setProperty("--name-y", "0vh");
+        document.body.style.setProperty("--name-rot", "0deg");
+        document.body.style.setProperty("--name-scale", "1");
+      }
       void el
         .play()
         .then(() => {
@@ -138,10 +156,11 @@ export function App() {
   return (
     <>
       <Frame nowPlaying={TRACKS[selected]} />
-      <InfiniteCanvas media={media} />
+      <InfiniteCanvas media={media} fogColor={fogColor} />
       {loading && <MatrixLoader onDone={onLoaderDone} />}
       {picking && <SongGate leaving={gateLeaving} onPick={onPick} />}
       {entered && <SongSwitcher active={selected} onSwitch={playTrack} />}
+      {entered && <ColorSwitcher active={theme} onChange={setTheme} />}
       <ScareModal open={scareOpen} onClose={() => setScareOpen(false)} />
       <AiNotice />
       {/* biome-ignore lint/a11y/useMediaCaption: instrumental background track, no spoken content to caption */}

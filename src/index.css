@@ -28,6 +28,26 @@ body {
   color: var(--color-text);
   background-color: var(--color-background);
   font-family: "Hammersmith One", sans-serif;
+  transition:
+    background-color 420ms ease,
+    color 420ms ease;
+}
+
+/* User-selectable canvas themes (set via data-theme on <body>).
+   Black is the :root default; white + brown override the palette. */
+body[data-theme="white"] {
+  --color-background: #f4f1ea;
+  --color-text: #2a1e16;
+  --color-link: #2a1e16;
+  --color-link-hover: #6b4f2a;
+  --color-dot: rgba(42, 30, 22, 0.25);
+}
+body[data-theme="brown"] {
+  --color-background: #241a12;
+  --color-text: #ffd700;
+  --color-link: #ffd700;
+  --color-link-hover: #fff4ad;
+  --color-dot: rgba(255, 215, 0, 0.2);
 }
 
 a {
