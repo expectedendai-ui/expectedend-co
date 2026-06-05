@@ -144,3 +144,24 @@
   border-color: #ffd700;
   box-shadow: 0 0 12px -2px rgba(255, 215, 0, 0.7);
 }
+
+/* ===== Phone: keep both columns on-screen (was overflowing ~15% off the right edge) ===== */
+@media (max-width: 520px) {
+  .gate {
+    /* trim side padding + let it scroll instead of clipping if content runs tall */
+    padding: max(env(safe-area-inset-top), 1.4rem) 1rem max(env(safe-area-inset-bottom), 1.4rem);
+    gap: 1.2rem;
+    justify-content: flex-start;
+    padding-top: 8vh;
+    overflow-y: auto;
+  }
+  .grid {
+    /* flex columns instead of fixed 190–250px so two fit within the viewport */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+    max-width: 100%;
+  }
+  .song {
+    padding: 0.8rem 0.85rem;
+  }
+}

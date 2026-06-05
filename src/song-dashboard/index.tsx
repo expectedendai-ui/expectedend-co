@@ -8,6 +8,7 @@ export const TRACKS: Track[] = [
   { name: "Rock With You", artist: "Michael Jackson", src: "/audio/track-mj.mp4", noBass: true },
   { name: "All The Way Turnt Up", artist: "Roscoe Dash", src: "/audio/track.mp4" },
   { name: "These Words", artist: "Natasha Bedingfield", src: "/audio/track-natasha.mp4", noBass: true },
+  { name: "Boogie Oogie", artist: "Brooke Valentine ft. Fabolous & Yo-Yo", src: "/audio/track-brooke.mp4" },
   { name: "WE ON GO", artist: "BIA", src: "/audio/track-bia.mp4" },
   { name: "Candle Flame", artist: "Jungle ft. Erick The Architect", src: "/audio/track-jungle.mp4" },
   { name: "I Met God On The Dancefloor", artist: "Rave Jesus", src: "/audio/track-ravejesus.mp4" },
