@@ -1,6 +1,7 @@
 import * as React from "react";
 import manifest from "~/src/artworks/manifest.json";
 import { ColorSwitcher, THEMES, type ThemeKey } from "~/src/color-switcher";
+import { ServiceMenu } from "~/src/menu";
 import { Frame } from "~/src/frame";
 import { InfiniteCanvas } from "~/src/infinite-canvas";
 import type { MediaItem } from "~/src/infinite-canvas/types";
@@ -20,6 +21,8 @@ const BASS_COOLDOWN_MS = 360;
 export function App() {
   const [media] = React.useState<MediaItem[]>(manifest as MediaItem[]);
   const [loading, setLoading] = React.useState(true);
+  const [covered, setCovered] = React.useState(true);
+  const [eggLeaving, setEggLeaving] = React.useState(false);
   const [picking, setPicking] = React.useState(false);
   const [gateLeaving, setGateLeaving] = React.useState(false);
   const [entered, setEntered] = React.useState(false);
@@ -122,10 +125,17 @@ export function App() {
     [wireAnalyser]
   );
 
-  // Loader finished → show the song gate (NOT the canvas entrance yet).
+  // Loader finished → land on the black idle cover. The song gate (and
+  // everything after it) stays hidden behind the bottom-right easter egg.
   const onLoaderDone = React.useCallback(() => {
     setLoading(false);
+  }, []);
+
+  // Easter egg clicked → fade the cover and reveal the song gate.
+  const onEggOpen = React.useCallback(() => {
     setPicking(true);
+    setEggLeaving(true);
+    window.setTimeout(() => setCovered(false), 650);
   }, []);
 
   // A song was picked at the gate → play it, fade the gate, and dolly the
@@ -158,6 +168,7 @@ export function App() {
       <Frame nowPlaying={TRACKS[selected]} />
       <InfiniteCanvas media={media} fogColor={fogColor} />
       {loading && <MatrixLoader onDone={onLoaderDone} />}
+      {!loading && covered && <ServiceMenu leaving={eggLeaving} onOpen={onEggOpen} />}
       {picking && <SongGate leaving={gateLeaving} onPick={onPick} />}
       {entered && <SongSwitcher active={selected} onSwitch={playTrack} />}
       {entered && <ColorSwitcher active={theme} onChange={setTheme} />}
