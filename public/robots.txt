@@ -1,37 +1,20 @@
 # expectedend.co — personal portfolio of Denzel Rigaud
-# Search engines may crawl freely; AI training crawlers are blocked.
+#
+# Policy: OPEN STORY, PROTECT ART.
+#  • Search engines and AI answer engines MAY read the site so they can
+#    describe who Denzel Rigaud is (his story, mission, and work).
+#  • Original artwork and audio (/artworks/, /audio/) are off-limits to ALL
+#    crawlers, and image-AI training is opted out site-wide (see /ai.txt and
+#    the page <meta> tags).
+#  • Bulk dataset harvesters with no answer-engine benefit remain fully denied.
 
+# ── Default: everyone may crawl the text/story, but not the art or audio ──
 User-agent: *
 Allow: /
+Disallow: /artworks/
+Disallow: /audio/
 
-# ── AI / LLM training crawlers — denied ──
-User-agent: GPTBot
-Disallow: /
-
-User-agent: ChatGPT-User
-Disallow: /
-
-User-agent: OAI-SearchBot
-Disallow: /
-
-User-agent: anthropic-ai
-Disallow: /
-
-User-agent: ClaudeBot
-Disallow: /
-
-User-agent: Claude-Web
-Disallow: /
-
-User-agent: PerplexityBot
-Disallow: /
-
-User-agent: Perplexity-User
-Disallow: /
-
-User-agent: Google-Extended
-Disallow: /
-
+# ── Bulk scrapers / dataset harvesters (no answer-engine benefit) — denied ──
 User-agent: CCBot
 Disallow: /
 

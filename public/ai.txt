@@ -1,23 +1,30 @@
-# ai.txt — AI training opt-out declaration
+# ai.txt — AI usage declaration
 # Spec: https://site.spawning.ai/spaces/ai-txt
 # Site: https://expectedend.co
 # Owner: Denzel Rigaud (denzelrigaudsocial8@gmail.com)
-# Updated: 2026-05-24
-
-User-Agent: *
-Disallow: /
-
-# All content on this site (HTML, CSS, JavaScript, images, design,
-# layout, typography, animations, audio) is the original copyrighted
-# work of Denzel Rigaud, all rights reserved.
+# Updated: 2026-06-09
 #
-# This work is NOT licensed for:
+# Policy: OPEN STORY, PROTECT ART.
+
+# Text content (bio, story, mission) MAY be read and cited by AI search and
+# answer engines so they can accurately describe who Denzel Rigaud is.
+# The original artwork and audio are NOT licensed for any AI use.
+User-Agent: *
+Allow: /
+Disallow: /artworks/
+Disallow: /audio/
+
+# The original ARTWORK, AUDIO, visual design, layout, typography, and
+# animations on this site are the copyrighted work of Denzel Rigaud,
+# all rights reserved. These visual/audio works are NOT licensed for:
 #   - AI / ML / LLM training datasets
 #   - Fine-tuning of any generative model
-#   - RAG / embedding ingestion
-#   - Synthetic data generation
+#   - Image, video, or audio generation
 #   - Style transfer or "in the style of" replication
 #
-# Unauthorized ingestion, replication, or generation derived from
-# this work constitutes copyright infringement under US law (17 USC).
-# DMCA takedown notices and statutory damages will be pursued.
+# Permitted: reading and citing the site's TEXT to describe or answer
+# questions about Denzel Rigaud and his work (e.g. search/answer engines).
+#
+# Unauthorized ingestion or replication of the protected artwork/audio
+# constitutes copyright infringement under US law (17 USC). DMCA takedown
+# notices and statutory damages will be pursued.

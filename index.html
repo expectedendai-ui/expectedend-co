@@ -11,13 +11,10 @@
   <meta name="keywords" content="Denzel Rigaud, MyBibleLens, Scriptorium Digital, founder, Christian developer" />
   <meta name="author" content="Denzel Rigaud" />
   <meta name="copyright" content="© 2026 Denzel Rigaud. All rights reserved." />
-  <!-- AI training opt-out signals — see /ai.txt and /robots.txt -->
-  <meta name="robots" content="noai, noimageai, notranslate" />
-  <meta name="googlebot" content="noai, noimageai" />
-  <meta name="GPTBot" content="noindex, nofollow" />
-  <meta name="ChatGPT-User" content="noindex, nofollow" />
-  <meta name="anthropic-ai" content="noindex, nofollow" />
-  <meta name="ClaudeBot" content="noindex, nofollow" />
+  <!-- Open story, protect art: indexable for search + AI answers; original
+       artwork opted out of image-AI training. See /ai.txt and /robots.txt. -->
+  <meta name="robots" content="index, follow, noimageai" />
+  <meta name="googlebot" content="index, follow, noimageai" />
   <meta property="og:title" content="Denzel Rigaud — ExpectedEnd" />
   <meta property="og:description" content="An infinite canvas of who I am." />
   <meta property="og:type" content="website" />
@@ -32,6 +29,33 @@
   <link href="https://fonts.googleapis.com/css2?family=Hammersmith+One&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script>
     document.documentElement.className = 'js';
+  </script>
+
+  <!-- Structured data — the canonical "Denzel Rigaud" entity. This is static in
+       the HTML (not React-rendered) so search crawlers read it without running JS. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": "https://expectedend.co/#denzel",
+    "name": "Denzel Rigaud",
+    "jobTitle": ["Founder", "Full-Stack Developer"],
+    "url": "https://expectedend.co/",
+    "image": "https://expectedend.co/apple-touch-icon.png",
+    "description": "Builder, believer, and self-taught full-stack developer. Founder and sole architect of MyBibleLens — the world's first Bible Sanctuary App.",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "MyBibleLens",
+      "legalName": "Scriptorium Digital Productions",
+      "url": "https://mybiblelens.us/"
+    },
+    "sameAs": [
+      "https://www.instagram.com/smiledenzel/",
+      "https://www.linkedin.com/in/denzel-rigaud-2b0200210",
+      "https://www.instagram.com/mybiblelens/",
+      "https://mybiblelens.us/"
+    ]
+  }
   </script>
 </head>
 
