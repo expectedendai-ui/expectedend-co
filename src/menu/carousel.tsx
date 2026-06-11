@@ -6,13 +6,13 @@ import styles from "./style.module.css";
 // flat, neighbors rotated away in 3D). Wheel, swipe, arrow keys, and the
 // ‹ › buttons all step through; no play button.
 
-// Giant code rendered as SVG <text> so the turbulence filter works in every
+// Giant icon rendered as SVG <text> so the turbulence filter works in every
 // browser (Safari won't apply SVG filters to plain HTML reliably).
-function DistortCode({ code }: { code: string }) {
+function DistortIcon({ icon }: { icon: string }) {
   return (
     <svg className={styles.flowCode} viewBox="0 0 320 200" aria-hidden="true">
       <text x="50%" y="54%" textAnchor="middle" dominantBaseline="central" filter="url(#ee-liquid)">
-        {code}
+        {icon}
       </text>
     </svg>
   );
@@ -110,7 +110,8 @@ export function Coverflow({ onOrder }: { onOrder: (code: string) => void }) {
               }}
               onClick={() => (off === 0 ? onOrder(s.code) : go(i))}
             >
-              <DistortCode code={s.code} />
+              <DistortIcon icon={s.icon} />
+              <span className={styles.flowExample}>{s.example}</span>
             </button>
           );
         })}

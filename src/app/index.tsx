@@ -168,7 +168,9 @@ export function App() {
       <Frame nowPlaying={TRACKS[selected]} />
       <InfiniteCanvas media={media} fogColor={fogColor} />
       {loading && <MatrixLoader onDone={onLoaderDone} />}
-      {!loading && covered && <ServiceMenu leaving={eggLeaving} onOpen={onEggOpen} />}
+      {/* Mounted while the loader is still up (under it, 1950 < 9999) so the
+          loader's fade reveals the menu — not a flash of the image canvas. */}
+      {covered && <ServiceMenu leaving={eggLeaving} onOpen={onEggOpen} />}
       {picking && <SongGate leaving={gateLeaving} onPick={onPick} />}
       {entered && <SongSwitcher active={selected} onSwitch={playTrack} />}
       {entered && <ColorSwitcher active={theme} onChange={setTheme} />}
