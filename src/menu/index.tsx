@@ -4,11 +4,21 @@ import { IntakeModal } from "./intake";
 import { INSTAGRAM } from "./services";
 import styles from "./style.module.css";
 
-// THE MENU — front-of-house services page shown after the binary loader.
+// THE MENU — front-of-house services page, shown immediately on load.
 // Codrops "Text Distortion Effects" energy (big tiles, giant codes that
 // liquefy with scroll speed) rebuilt with SVG turbulence instead of
 // Blotter.js so it runs fast on phones. The art world (song gate → infinite
 // canvas) stays hidden behind the 🥚 easter egg in the bottom-right corner.
+
+const PRICING = [
+  { name: "Landing Page Websites", starts: "$250" },
+  { name: "iOS & Android Apps", starts: "$1,500" },
+  { name: "Shopify E-commerce Stores", starts: "$400" },
+  { name: "AI Automations & Webhooks", starts: "$150" },
+  { name: "Icons & Logos", starts: "$100" },
+  { name: "Canva Art Content & Social Assets", starts: "$50" },
+  { name: "Mentorship & Consulting", starts: "$75 / session" },
+];
 
 const RECEIPTS = [
   "plumbing companies",
@@ -80,13 +90,11 @@ export function ServiceMenu({ leaving, onOpen }: { leaving: boolean; onOpen: () 
       <section className={styles.hero}>
         <div className={styles.eyebrow}>Denzel Rigaud — builder for hire</div>
         <h1 className={styles.headline}>
-          AN IDEA
-          <span className={styles.arrow}> ⟶ </span>
-          REALITY<span className={styles.blink}>_</span>
+          YOU DREAM IT
+          <span className={styles.arrow}> ⟶ </span>I BUILD IT<span className={styles.blink}>_</span>
         </h1>
         <p className={styles.sub}>
-          You dream it. I build it. Apps, websites, AI automation — and everything in between, across every platform from Shopify
-          to the App Store.
+          Apps, websites, AI automation — and everything in between, across every platform from Shopify to the App Store.
         </p>
         <div className={styles.heroKeywords}>
           website · app · online store · AI that texts your customers · logos · “can you automate this?” — yes.
@@ -184,6 +192,33 @@ export function ServiceMenu({ leaving, onOpen }: { leaving: boolean; onOpen: () 
         <a className={styles.cta} href="https://mybiblelens.us" target="_blank" rel="noopener noreferrer">
           See the proof →
         </a>
+      </section>
+
+      {/* ===== Transparent Pricing ===== */}
+      <section className={styles.section}>
+        <div className={styles.eyebrow}>The damage</div>
+        <h2 className={styles.title}>
+          Transparent <em>Pricing</em>
+        </h2>
+        <p className={styles.pricingMission}>
+          My mission is to help you <em>build, launch, and succeed</em> — not to drain your startup funds. I know how hard it is
+          to get a business off the ground. That’s why Expected End uses transparent pricing. You will always know your exact
+          starting price — no surprises, no games. <em>Let’s get to work.</em>
+        </p>
+        <div className={styles.priceGrid}>
+          {PRICING.map((tier) => (
+            <article key={tier.name} className={styles.priceCard}>
+              <h3 className={styles.priceName}>{tier.name}</h3>
+              <div className={styles.priceStarts}>
+                <span className={styles.priceLabel}>Starts at</span>
+                <span className={styles.priceValue}>{tier.starts}</span>
+              </div>
+            </article>
+          ))}
+        </div>
+        <button type="button" className={styles.cta} onClick={() => openIntake()}>
+          Get Started →
+        </button>
       </section>
 
       {/* ===== Mentorship callout ===== */}

@@ -1,11 +1,11 @@
 import * as React from "react";
 import manifest from "~/src/artworks/manifest.json";
 import { ColorSwitcher, THEMES, type ThemeKey } from "~/src/color-switcher";
-import { ServiceMenu } from "~/src/menu";
 import { Frame } from "~/src/frame";
 import { InfiniteCanvas } from "~/src/infinite-canvas";
 import type { MediaItem } from "~/src/infinite-canvas/types";
 import { MatrixLoader } from "~/src/loader";
+import { ServiceMenu } from "~/src/menu";
 import { AiNotice, ScareModal, useScareTriggers } from "~/src/scare";
 import { SongGate, SongSwitcher, TRACKS } from "~/src/song-dashboard";
 
@@ -20,7 +20,7 @@ const BASS_COOLDOWN_MS = 360;
 
 export function App() {
   const [media] = React.useState<MediaItem[]>(manifest as MediaItem[]);
-  const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = React.useState(false); // binary takeover — plays on egg tap, not on page load
   const [covered, setCovered] = React.useState(true);
   const [eggLeaving, setEggLeaving] = React.useState(false);
   const [picking, setPicking] = React.useState(false);
@@ -125,17 +125,22 @@ export function App() {
     [wireAnalyser]
   );
 
-  // Loader finished → land on the black idle cover. The song gate (and
-  // everything after it) stays hidden behind the bottom-right easter egg.
+  // Binary takeover finished its self-fade → unmount it, revealing the song
+  // gate that was swapped in underneath while the screen was covered.
   const onLoaderDone = React.useCallback(() => {
     setLoading(false);
   }, []);
 
-  // Easter egg clicked → fade the cover and reveal the song gate.
+  // Easter egg clicked → binary rain slams over the menu (opaque from frame
+  // one, z 9999). Under its cover, swap the menu out and the song gate in;
+  // the loader's fade then reveals the gate.
   const onEggOpen = React.useCallback(() => {
-    setPicking(true);
+    setLoading(true);
     setEggLeaving(true);
-    window.setTimeout(() => setCovered(false), 650);
+    window.setTimeout(() => {
+      setCovered(false);
+      setPicking(true);
+    }, 400);
   }, []);
 
   // A song was picked at the gate → play it, fade the gate, and dolly the
@@ -168,8 +173,8 @@ export function App() {
       <Frame nowPlaying={TRACKS[selected]} />
       <InfiniteCanvas media={media} fogColor={fogColor} />
       {loading && <MatrixLoader onDone={onLoaderDone} />}
-      {/* Mounted while the loader is still up (under it, 1950 < 9999) so the
-          loader's fade reveals the menu — not a flash of the image canvas. */}
+      {/* The menu IS the landing page now — no loader in front of it. The
+          binary takeover only runs on egg tap, as the door to the art world. */}
       {covered && <ServiceMenu leaving={eggLeaving} onOpen={onEggOpen} />}
       {picking && <SongGate leaving={gateLeaving} onPick={onPick} />}
       {entered && <SongSwitcher active={selected} onSwitch={playTrack} />}
