@@ -22,11 +22,18 @@
   box-sizing: border-box;
 }
 
+html {
+  background-color: var(--color-background);
+  overscroll-behavior: none;
+}
+
 body {
   margin: 0;
   padding: 0;
+  min-height: 100svh;
   color: var(--color-text);
   background-color: var(--color-background);
+  overscroll-behavior: none;
   font-family: "Hammersmith One", sans-serif;
   transition:
     background-color 420ms ease,
