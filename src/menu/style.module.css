@@ -638,6 +638,65 @@
   margin-top: 0.3rem;
 }
 
+/* Wider, taller shell just for the watercheck story (holds the video) */
+.waterModal {
+  width: min(640px, 100%);
+  max-height: min(92vh, 900px);
+}
+
+/* ===== "So what was it?" block + phone-framed demo ===== */
+.waterWhat {
+  margin-top: 2rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid rgba(255, 215, 0, 0.2);
+}
+.waterWhat .intakeEyebrow {
+  margin-bottom: 1rem;
+}
+.waterPhone {
+  position: relative;
+  width: min(300px, 82%);
+  margin: 1.8rem auto 0.4rem;
+  padding: 12px;
+  border-radius: 42px;
+  background: linear-gradient(160deg, #2a2a2a, #121212);
+  border: 1px solid rgba(255, 215, 0, 0.28);
+  box-shadow:
+    0 24px 60px -20px rgba(0, 0, 0, 0.9),
+    0 0 40px -10px rgba(255, 215, 0, 0.25),
+    inset 0 0 0 2px rgba(0, 0, 0, 0.6);
+}
+.waterPhoneNotch {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 34%;
+  height: 20px;
+  background: #050505;
+  border-radius: 0 0 14px 14px;
+  z-index: 2;
+  pointer-events: none;
+}
+.waterVideo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1170 / 2532;
+  border-radius: 30px;
+  background: #000;
+  object-fit: cover;
+}
+.waterVideoCaption {
+  text-align: center;
+  font-family: ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #ffd700;
+  opacity: 0.65;
+  margin-top: 0.9rem;
+}
+
 /* ===== Intake modal ("Start your build") ===== */
 .intakeWrap {
   position: fixed;

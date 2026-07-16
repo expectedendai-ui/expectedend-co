@@ -291,7 +291,7 @@ function WaterCheckModal({ open, onClose }: { open: boolean; onClose: () => void
   return (
     <div className={styles.intakeWrap}>
       <button type="button" className={styles.intakeBackdrop} aria-label="Close" onClick={onClose} />
-      <div className={styles.intake}>
+      <div className={`${styles.intake} ${styles.waterModal}`}>
         <button type="button" className={styles.intakeClose} aria-label="Close" onClick={onClose}>
           ×
         </button>
@@ -339,6 +339,35 @@ function WaterCheckModal({ open, onClose }: { open: boolean; onClose: () => void
           <span className={styles.waterStatArrow}>⟶</span>
           <span className={styles.waterStatTo}>7,000</span>
           <span className={styles.waterStatCaption}>that’s where it’s at now.</span>
+        </div>
+
+        {/* ===== What was theWaterCheck? ===== */}
+        <div className={styles.waterWhat}>
+          <div className={styles.intakeEyebrow}>So what was it?</div>
+          <div className={styles.waterStory}>
+            <p>
+              What was theWaterCheck? It was simply this: I posted a picture every single day to remind people to drink water — and
+              it actually helped them drink water. The comments were <em>flooded</em> with people. That’s all it did — remind people
+              to drink water — and people loved it.
+            </p>
+            <p>
+              Then I had a bot erase everything off the page… and life happened from there.
+            </p>
+          </div>
+
+          <div className={styles.waterPhone}>
+            <div className={styles.waterPhoneNotch} />
+            {/* biome-ignore lint/a11y/useMediaCaption: silent screen-recording of IG comments, no spoken content */}
+            <video
+              className={styles.waterVideo}
+              src="/watercheck-demo.mp4"
+              poster="/watercheck-poster.jpg"
+              controls
+              playsInline
+              preload="metadata"
+            />
+          </div>
+          <p className={styles.waterVideoCaption}>look how many people loved it.</p>
         </div>
       </div>
     </div>
