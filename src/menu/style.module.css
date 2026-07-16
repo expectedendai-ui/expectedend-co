@@ -554,8 +554,88 @@
   border-top: 1px solid rgba(255, 215, 0, 0.15);
 }
 .about {
+  border-top: 1px solid rgba(255, 215, 0, 0.15);
+}
+.watercheck {
   padding-bottom: 9rem; /* room for the egg */
   border-top: 1px solid rgba(255, 215, 0, 0.15);
+}
+
+/* ===== @thewatercheck story modal ===== */
+.waterStory {
+  text-align: left;
+}
+.waterStory p {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  opacity: 0.88;
+  margin-bottom: 1rem;
+}
+.waterStory em {
+  font-style: italic;
+  color: #ffd700;
+}
+.waterStory strong {
+  color: #ffd700;
+  font-weight: 700;
+}
+.waterSource {
+  display: inline-block;
+  font-family: ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  opacity: 0.5;
+}
+.waterLink {
+  color: #ffd700;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.5);
+  transition:
+    text-shadow 180ms ease,
+    border-color 180ms ease;
+}
+.waterLink:hover {
+  text-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+  border-color: #ffd700;
+}
+.waterStat {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.5rem 0.7rem;
+  margin-top: 1.6rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid rgba(255, 215, 0, 0.2);
+  text-align: center;
+}
+.waterStatFrom {
+  font-family: "Courier Prime", ui-monospace, monospace;
+  font-weight: 700;
+  font-size: 1.1rem;
+  opacity: 0.55;
+  text-decoration: line-through;
+  text-decoration-color: rgba(244, 239, 226, 0.4);
+}
+.waterStatArrow {
+  color: #ffd700;
+  opacity: 0.8;
+}
+.waterStatTo {
+  font-family: "Courier Prime", ui-monospace, monospace;
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: #ffd700;
+  text-shadow: 0 0 16px rgba(255, 215, 0, 0.45);
+}
+.waterStatCaption {
+  flex-basis: 100%;
+  font-family: ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-top: 0.3rem;
 }
 
 /* ===== Intake modal ("Start your build") ===== */

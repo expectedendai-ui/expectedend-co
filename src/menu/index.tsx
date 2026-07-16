@@ -39,6 +39,7 @@ export function ServiceMenu({ leaving, onOpen }: { leaving: boolean; onOpen: () 
   const dispRef = React.useRef<SVGFEDisplacementMapElement>(null);
   const [cut, setCut] = React.useState(50); // before/after slider %
   const [intake, setIntake] = React.useState<{ open: boolean; pre?: string }>({ open: false });
+  const [water, setWater] = React.useState(false);
   const openIntake = (pre?: string) => setIntake({ open: true, pre });
 
   // Scroll velocity → displacement scale. Idle wobble is ~6; fast scrolling
@@ -247,12 +248,99 @@ export function ServiceMenu({ leaving, onOpen }: { leaving: boolean; onOpen: () 
         </a>
       </section>
 
+      {/* ===== What happened to @thewatercheck ===== */}
+      <section className={`${styles.section} ${styles.watercheck}`}>
+        <div className={styles.eyebrow}>The one that got away</div>
+        <h2 className={styles.title}>
+          What happened to <em>@thewatercheck?</em>
+        </h2>
+        <p className={styles.tagline}>the honest answer — tap to read</p>
+        <button type="button" className={styles.cta} onClick={() => setWater(true)}>
+          @thewatercheck →
+        </button>
+      </section>
+
       <IntakeModal open={intake.open} preselect={intake.pre} onClose={() => setIntake({ open: false })} />
+      <WaterCheckModal open={water} onClose={() => setWater(false)} />
 
       {/* The speakeasy door — everything else on this site lives behind it. */}
       <button type="button" className={styles.egg} aria-label="Enter" onClick={onOpen}>
         🥚
       </button>
+    </div>
+  );
+}
+
+const APP_STORE = "https://apps.apple.com/us/app/mybiblelens/id6764069602";
+const MBL_ABOUT = "https://mybiblelens.us/legal.html#about";
+
+// The @thewatercheck story — the honest post-mortem of the account, shown in a
+// scrollable card that mirrors the intake modal's shell.
+function WaterCheckModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  React.useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  return (
+    <div className={styles.intakeWrap}>
+      <button type="button" className={styles.intakeBackdrop} aria-label="Close" onClick={onClose} />
+      <div className={styles.intake}>
+        <button type="button" className={styles.intakeClose} aria-label="Close" onClick={onClose}>
+          ×
+        </button>
+        <div className={styles.intakeEyebrow}>The one that got away</div>
+        <div className={styles.intakeTitle}>What happened to @thewatercheck</div>
+
+        <div className={styles.waterStory}>
+          <p>
+            I bought the account when I was 16. At the time I was still scaling Influencers, makeup accounts, etc.
+          </p>
+          <p>
+            I later moved in with my dad. The account was dying — because <em>“if you chase two rabbits, you will not catch
+            either one.”</em> <span className={styles.waterSource}>— Russian proverb</span>
+          </p>
+          <p>
+            And as of now I realize that your brain seriously cannot focus on almost two things at a time, because you’ll create
+            newer pathways over the pathways you originally had — and the one big plan you wanted to do would disappear. As a kid I
+            just wanted to make money. I wasn’t thinking long-term, because I thought hustling was the way to go.
+          </p>
+          <p>
+            Then my father passed away unexpectedly <strong>July 10th, 2021.</strong> So I went into survival mode over where my
+            life was going to go… and to deal with the pain of his death, I shut the door on being the web wizard my father once
+            taught me to be — to heal the pain… until <strong>January 2026.</strong>
+          </p>
+          <p>
+            And yeah! Will I ever go back to theWaterCheck now? I want to sell it — <strong>minimum $100k.</strong> Why? Because
+            you’d be surprised how much people make selling domain names and an Instagram name. As simple as it is — why not? It’s
+            the world of opportunities. I want to focus on{" "}
+            <a className={styles.waterLink} href={APP_STORE} target="_blank" rel="noopener noreferrer">
+              @mybiblelens
+            </a>
+            .
+          </p>
+          <p>
+            So if I do sell it, all the money is going to go to building{" "}
+            <a className={styles.waterLink} href={MBL_ABOUT} target="_blank" rel="noopener noreferrer">
+              @mybiblelens
+            </a>
+            .
+          </p>
+        </div>
+
+        <div className={styles.waterStat}>
+          <span className={styles.waterStatFrom}>200,000 followers</span>
+          <span className={styles.waterStatArrow}>⟶</span>
+          <span className={styles.waterStatTo}>7,000</span>
+          <span className={styles.waterStatCaption}>that’s where it’s at now.</span>
+        </div>
+      </div>
     </div>
   );
 }
