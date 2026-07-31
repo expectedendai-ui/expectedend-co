@@ -167,10 +167,13 @@
 
 .projectsSection { padding-top: 1rem; }
 .projectGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.5rem, 5vw, 5rem); }
-.project { min-width: 0; text-align: center; }
+.project { min-width: 0; text-align: center; perspective: 900px; }
 .projectArt {
   --shine-edge: rgba(255, 214, 84, .08);
   --shine-center: rgba(255, 248, 215, .9);
+  --art-rim: #8b6219;
+  --art-shadow: rgba(67, 39, 4, .3);
+  --art-shade: rgba(32, 16, 2, .2);
   position: relative;
   isolation: isolate;
   display: block;
@@ -179,16 +182,38 @@
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: clamp(30px, 5vw, 58px);
-  box-shadow: var(--shadow);
-  transition: transform 240ms ease, box-shadow 240ms ease;
+  box-shadow:
+    0 8px 0 var(--art-rim),
+    0 24px 34px var(--art-shadow),
+    0 44px 90px rgba(0, 8, 36, .18);
+  transform: rotateX(1.5deg) rotateY(-1.5deg) translateY(0);
+  transform-style: preserve-3d;
+  transition: transform 420ms cubic-bezier(.2, .8, .2, 1), box-shadow 420ms cubic-bezier(.2, .8, .2, 1);
 }
 .projectArt[data-art-variant="watercheck"] {
   --shine-edge: rgba(31, 126, 255, .28);
   --shine-center: rgba(82, 193, 255, .72);
+  --art-rim: #0d55ba;
+  --art-shadow: rgba(14, 79, 179, .25);
+  --art-shade: rgba(4, 50, 126, .18);
+  transform: rotateX(1.5deg) rotateY(1.5deg) translateY(0);
+}
+.projectArt::before {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 2px 1px rgba(255, 255, 255, .72),
+    inset 1px 0 0 rgba(255, 255, 255, .2),
+    inset 0 -12px 22px var(--art-shade),
+    inset 0 -2px 1px rgba(0, 0, 0, .18);
+  content: "";
+  pointer-events: none;
 }
 .projectArt::after {
   position: absolute;
-  z-index: 1;
+  z-index: 3;
   top: -20%;
   bottom: -20%;
   left: -70%;
@@ -205,7 +230,22 @@
   background: linear-gradient(100deg, transparent 0%, rgba(31, 126, 255, .08) 24%, var(--shine-edge) 40%, rgba(225, 249, 255, .92) 50%, var(--shine-center) 59%, transparent 78%);
   mix-blend-mode: normal;
 }
-.projectArt:hover { transform: translateY(-6px) rotate(-.5deg); box-shadow: 0 34px 90px rgba(0, 8, 36, .4); }
+.projectArt:hover {
+  box-shadow:
+    0 11px 0 var(--art-rim),
+    0 30px 42px var(--art-shadow),
+    0 52px 100px rgba(0, 8, 36, .24);
+  transform: rotateX(-2deg) rotateY(-3deg) translateY(-9px) scale(1.018);
+}
+.projectArt[data-art-variant="watercheck"]:hover { transform: rotateX(-2deg) rotateY(3deg) translateY(-9px) scale(1.018); }
+.projectArt:active {
+  box-shadow:
+    0 3px 0 var(--art-rim),
+    0 14px 24px var(--art-shadow),
+    0 24px 55px rgba(0, 8, 36, .18);
+  transform: rotateX(0) rotateY(0) translateY(4px) scale(.995);
+  transition-duration: 120ms;
+}
 .projectArt img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
 .projectArt[data-art-variant="mybiblelens"] img { transform: scale(1.075); }
 
