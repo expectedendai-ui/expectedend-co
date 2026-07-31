@@ -62,8 +62,9 @@ export function ScareModal({ open, onClose }: { open: boolean; onClose: () => vo
 }
 
 /** Hook that wires up all the "they tried to copy" triggers. */
-export function useScareTriggers(trigger: () => void) {
+export function useScareTriggers(trigger: () => void, enabled = true) {
   React.useEffect(() => {
+    if (!enabled) return;
     const fire = (e?: Event) => {
       e?.preventDefault();
       trigger();
@@ -121,5 +122,5 @@ export function useScareTriggers(trigger: () => void) {
       clearInterval(devtoolsInterval);
       if (selectionTimer) clearTimeout(selectionTimer);
     };
-  }, [trigger]);
+  }, [enabled, trigger]);
 }

@@ -1,12 +1,12 @@
-import type { MouseEvent as ReactMouseEvent } from "react";
+import * as React from "react";
 import styles from "./style.module.css";
 
 // Secret door: the blinking underscore after "select your track" opens the HUD,
 // but ONLY when it is lit (opacity > 0). Looks like an ordinary blinking cursor.
 // TODO: before deploying, set this to the hosted Cloudflare HUD URL.
 const HUD_URL = "https://andre-hud.pages.dev";
-function secretDoor(e: ReactMouseEvent<HTMLSpanElement>) {
-  const lit = parseFloat(getComputedStyle(e.currentTarget).opacity) > 0;
+function secretDoor(e: React.MouseEvent<HTMLSpanElement>) {
+  const lit = Number.parseFloat(getComputedStyle(e.currentTarget).opacity) > 0;
   if (lit) window.location.href = HUD_URL;
 }
 
@@ -32,7 +32,7 @@ export function SongGate({ leaving, onPick }: { leaving: boolean; onPick: (i: nu
       <div className={styles.eyebrow}>Authentic</div>
       <h1 className={styles.title}>
         select your track
-        {/* biome-ignore lint/a11y/useKeyWithClickEvents: intentional hidden door, not a public control */}
+        {/* biome-ignore lint/a11y: intentional hidden door, not a public control */}
         <span className={styles.blink} onClick={secretDoor}>
           _
         </span>
