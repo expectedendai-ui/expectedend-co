@@ -1,5 +1,4 @@
-export const CONTACT_EMAIL = "denzelrigaudsocial8@gmail.com";
-export const CONTACT_HREF = `mailto:${CONTACT_EMAIL}`;
+export const CONTACT_HREF = "/about#contact";
 
 export const PUBLIC_CONTENT_APPROVED = false;
 

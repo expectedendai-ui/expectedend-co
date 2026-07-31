@@ -17,7 +17,7 @@ export function Footer({ onNavigate }: FooterProps) {
           <a href="/terms" onClick={onNavigate}>Terms of Service</a>
           <a href="/privacy" onClick={onNavigate}>Privacy Statement</a>
           <a href="/accessibility" onClick={onNavigate}>Accessibility</a>
-          <a href={CONTACT_HREF}>Contact</a>
+          <a href={CONTACT_HREF} onClick={onNavigate}>Contact</a>
         </nav>
       </div>
       <div className={styles.footerBottom}>

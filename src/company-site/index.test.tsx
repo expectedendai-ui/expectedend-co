@@ -81,4 +81,15 @@ describe("Expected End company homepage", () => {
     expect(container.firstElementChild).toHaveAttribute("data-site-theme", "white");
     expect(document.body).not.toHaveAttribute("data-theme", "white");
   });
+
+  it("routes the footer Contact link to the guided About form", async () => {
+    const user = userEvent.setup();
+    vi.spyOn(window, "scrollTo").mockImplementation(() => undefined);
+    render(<CompanySite leaving={false} onOpenArtWorld={vi.fn()} />);
+
+    await user.click(screen.getByRole("link", { name: "Contact" }));
+    expect(window.location.pathname).toBe("/about");
+    expect(window.location.hash).toBe("#contact");
+    expect(screen.getByRole("heading", { level: 2, name: "Start with a little context." })).toBeInTheDocument();
+  });
 });

@@ -27,7 +27,7 @@ export const LEGAL_CONTENT = {
     title: "Privacy Statement",
     intro: "Expected End aims to collect as little personal information as this public website needs.",
     sections: [
-      { heading: "Information this site uses", paragraphs: ["This website currently has no public accounts, payment flow, or contact form. Your selected blue or white theme is stored in your browser so the site can remember your preference."] },
+      { heading: "Information this site uses", paragraphs: ["This website has no public accounts or payment flow. Your selected blue or white theme is stored in your browser so the site can remember your preference. The guided Contact form prepares a message in your own email app; the website does not receive those details unless you choose to send the email."] },
       { heading: "Technical information", paragraphs: ["Our website host may process standard technical information, such as IP address, browser type, requested pages, and security logs, to deliver and protect the site."] },
       { heading: "Third-party services", paragraphs: ["The site may request fonts from Google Fonts and links to external projects and social platforms. Those providers handle information under their own privacy policies when you use their services."] },
       { heading: "Your choices", paragraphs: ["You can clear the saved theme through your browser storage settings. Privacy questions may be sent through the Contact link below."] },

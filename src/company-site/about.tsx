@@ -1,3 +1,4 @@
+import { ContactForm } from "./contact-form";
 import { GoldenEggButton } from "./golden-egg-button";
 import styles from "./style.module.css";
 
@@ -17,6 +18,7 @@ export function AboutPage({ onOpenArtWorld }: AboutPageProps) {
           <p>This page will eventually hold the full story—how the name was chosen, what came before, and where the company is going. For now, the work tells the first chapter.</p>
         </div>
       </section>
+      <ContactForm />
       <GoldenEggButton onActivate={onOpenArtWorld} />
     </main>
   );

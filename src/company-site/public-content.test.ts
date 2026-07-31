@@ -13,7 +13,7 @@ describe("public-content deployment guard", () => {
 
 describe.skipIf(process.env.RELEASE_CHECK !== "1")("public-content release gate", () => {
   it("requires explicit owner approval before production release", () => {
-    expect(CONTACT_HREF).toMatch(/^mailto:[^@\s]+@[^@\s]+\.[^@\s]+$/);
+    expect(CONTACT_HREF).toBe("/about#contact");
     expect(PUBLIC_CONTENT_APPROVED).toBe(true);
   });
 });
