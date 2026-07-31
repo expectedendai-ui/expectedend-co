@@ -167,7 +167,7 @@
 
 .projectsSection { padding-top: 1rem; }
 .projectGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.5rem, 5vw, 5rem); }
-.project { min-width: 0; text-align: center; perspective: 900px; }
+.project { min-width: 0; text-align: center; }
 .projectArt {
   --shine-edge: rgba(255, 214, 84, .08);
   --shine-center: rgba(255, 248, 215, .9);
@@ -183,11 +183,10 @@
   border: 1px solid var(--line);
   border-radius: clamp(30px, 5vw, 58px);
   box-shadow:
-    0 8px 0 var(--art-rim),
-    0 24px 34px var(--art-shadow),
-    0 44px 90px rgba(0, 8, 36, .18);
-  transform: rotateX(1.5deg) rotateY(-1.5deg) translateY(0);
-  transform-style: preserve-3d;
+    0 3px 0 color-mix(in srgb, var(--art-rim) 72%, transparent),
+    0 18px 30px var(--art-shadow),
+    0 38px 80px rgba(0, 8, 36, .16);
+  transform: translateY(0) scale(1);
   transition: transform 420ms cubic-bezier(.2, .8, .2, 1), box-shadow 420ms cubic-bezier(.2, .8, .2, 1);
 }
 .projectArt[data-art-variant="watercheck"] {
@@ -196,7 +195,6 @@
   --art-rim: #0d55ba;
   --art-shadow: rgba(14, 79, 179, .25);
   --art-shade: rgba(4, 50, 126, .18);
-  transform: rotateX(1.5deg) rotateY(1.5deg) translateY(0);
 }
 .projectArt::before {
   position: absolute;
@@ -204,10 +202,11 @@
   inset: 0;
   border-radius: inherit;
   box-shadow:
-    inset 0 2px 1px rgba(255, 255, 255, .72),
-    inset 1px 0 0 rgba(255, 255, 255, .2),
-    inset 0 -12px 22px var(--art-shade),
-    inset 0 -2px 1px rgba(0, 0, 0, .18);
+    inset 0 1px 0 rgba(255, 255, 255, .36),
+    inset 1px 0 0 rgba(255, 255, 255, .12),
+    inset -1px 0 0 rgba(0, 0, 0, .08),
+    inset 0 -8px 16px var(--art-shade),
+    inset 0 -1px 0 rgba(0, 0, 0, .18);
   content: "";
   pointer-events: none;
 }
@@ -232,18 +231,17 @@
 }
 .projectArt:hover {
   box-shadow:
-    0 11px 0 var(--art-rim),
-    0 30px 42px var(--art-shadow),
-    0 52px 100px rgba(0, 8, 36, .24);
-  transform: rotateX(-2deg) rotateY(-3deg) translateY(-9px) scale(1.018);
+    0 5px 0 color-mix(in srgb, var(--art-rim) 76%, transparent),
+    0 25px 38px var(--art-shadow),
+    0 48px 92px rgba(0, 8, 36, .2);
+  transform: translateY(-7px) scale(1.012);
 }
-.projectArt[data-art-variant="watercheck"]:hover { transform: rotateX(-2deg) rotateY(3deg) translateY(-9px) scale(1.018); }
 .projectArt:active {
   box-shadow:
-    0 3px 0 var(--art-rim),
-    0 14px 24px var(--art-shadow),
-    0 24px 55px rgba(0, 8, 36, .18);
-  transform: rotateX(0) rotateY(0) translateY(4px) scale(.995);
+    0 1px 0 color-mix(in srgb, var(--art-rim) 72%, transparent),
+    0 12px 22px var(--art-shadow),
+    0 22px 50px rgba(0, 8, 36, .16);
+  transform: translateY(2px) scale(.997);
   transition-duration: 120ms;
 }
 .projectArt img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
