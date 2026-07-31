@@ -4,7 +4,7 @@ import { CompanySite } from ".";
 
 describe("Expected End information pages", () => {
   it.each([
-    ["/terms", "Terms of Service"],
+    ["/terms", "Website Terms of Use"],
     ["/privacy", "Privacy Statement"],
     ["/accessibility", "Accessibility"],
   ])("renders %s as a direct route", (path, heading) => {

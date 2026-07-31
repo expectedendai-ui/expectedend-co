@@ -56,7 +56,7 @@ const scrollToHash = (hash: string) => {
     window.scrollTo({ top: 0 });
     return;
   }
-  window.requestAnimationFrame(() => document.getElementById(hash.slice(1))?.scrollIntoView({ block: "start" }));
+  window.requestAnimationFrame(() => document.getElementById(hash.slice(1))?.scrollIntoView?.({ block: "start" }));
 };
 
 export function CompanySite({ leaving, onOpenArtWorld }: CompanySiteProps) {

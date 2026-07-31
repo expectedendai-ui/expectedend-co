@@ -13,6 +13,21 @@ type ContactDetails = {
 
 const CONTACT_ADDRESS = ["info", "expectedend.co"].join("@");
 
+const CONTACT_SOURCE_PARAMETERS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "ref"];
+
+export const getContactSource = (href: string) => {
+  const source = new URL(href);
+  const safeParameters = new URLSearchParams();
+
+  for (const parameter of CONTACT_SOURCE_PARAMETERS) {
+    const value = source.searchParams.get(parameter);
+    if (value) safeParameters.set(parameter, value.slice(0, 160));
+  }
+
+  source.search = safeParameters.toString();
+  return source.toString();
+};
+
 export const buildContactMailto = (details: ContactDetails, source: string) => {
   const subject = `Expected End inquiry — ${details.reason}`;
   const body = [
@@ -49,7 +64,7 @@ export function ContactForm() {
         discovery: readField(formData, "discovery"),
         message: readField(formData, "message"),
       },
-      window.location.href,
+      getContactSource(window.location.href),
     );
 
     const emailLink = document.createElement("a");

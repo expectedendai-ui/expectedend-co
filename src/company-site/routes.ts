@@ -23,8 +23,8 @@ const ROUTES: CompanyRoute[] = [
   {
     key: "terms",
     path: "/terms",
-    title: "Terms of Service — Expected End",
-    description: "Terms for using the Expected End website.",
+    title: "Website Terms of Use — Expected End",
+    description: "Terms governing use of the Expected End website.",
   },
   {
     key: "privacy",
@@ -76,4 +76,3 @@ export const isInternalHref = (href: string, origin = window.location.origin) =>
     return false;
   }
 };
-

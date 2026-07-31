@@ -12,7 +12,7 @@ describe("Expected End contact composer", () => {
     vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(function capturePreparedEmail(this: HTMLAnchorElement) {
       preparedHref = this.href;
     });
-    window.history.replaceState({}, "", "/about?utm_source=instagram#contact");
+    window.history.replaceState({}, "", "/about?utm_source=instagram&token=do-not-forward#contact");
 
     render(<ContactForm />);
 
@@ -31,5 +31,6 @@ describe("Expected End contact composer", () => {
     expect(preparedEmail).toContain("Reply email: visitor@example.com");
     expect(preparedEmail).toContain("Found Expected End through: Instagram");
     expect(preparedEmail).toContain("utm_source=instagram");
+    expect(preparedEmail).not.toContain("do-not-forward");
   });
 });

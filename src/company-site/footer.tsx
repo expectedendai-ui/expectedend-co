@@ -14,7 +14,7 @@ export function Footer({ onNavigate }: FooterProps) {
         <nav className={styles.footerLinks} aria-label="Footer navigation">
           <a href="/" onClick={onNavigate}>Home</a>
           <a href="/about" onClick={onNavigate}>About</a>
-          <a href="/terms" onClick={onNavigate}>Terms of Service</a>
+          <a href="/terms" onClick={onNavigate}>Terms of Use</a>
           <a href="/privacy" onClick={onNavigate}>Privacy Statement</a>
           <a href="/accessibility" onClick={onNavigate}>Accessibility</a>
           <a href={CONTACT_HREF} onClick={onNavigate}>Contact</a>
