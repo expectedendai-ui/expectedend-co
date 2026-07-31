@@ -9,6 +9,7 @@ export const PROJECTS = [
     category: "Christianity app",
     href: "https://mybiblelens.us/",
     image: "/brand/mybiblelens.png",
+    artVariant: "mybiblelens",
     titleClassName: "mblTitle",
   },
   {
@@ -16,6 +17,7 @@ export const PROJECTS = [
     category: "Instagram community",
     href: "https://www.instagram.com/thewatercheck/",
     image: "/brand/thewatercheck.png",
+    artVariant: "watercheck",
     titleClassName: "",
   },
 ] as const;

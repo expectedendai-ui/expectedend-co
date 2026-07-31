@@ -27,6 +27,7 @@ export function HomePage() {
             <article className={styles.project} key={project.name}>
               <a
                 className={styles.projectArt}
+                data-art-variant={project.artVariant}
                 href={project.href}
                 target="_blank"
                 rel="noreferrer"
