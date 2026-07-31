@@ -83,6 +83,9 @@
 .navLinks { gap: 24px; }
 .nav a { color: var(--muted); font-size: 13px; font-weight: 600; letter-spacing: .01em; transition: color 180ms ease; }
 .nav a:hover { color: var(--ink); }
+.nav .companyNav { padding: 9px 13px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
+.nav .contactNav { padding: 10px 15px; border-radius: 999px; color: #15285d; background: var(--gold-soft); font-size: 11px; font-weight: 800; }
+.nav .contactNav:hover { color: #071b51; }
 .theme { min-width: 0; margin: 0; gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
 .theme button {
   min-height: 32px;
@@ -357,6 +360,8 @@
   .nav { width: calc(100% - 24px); padding-left: 14px; }
   .navLinks { gap: 0; }
   .navLinks .sectionLink { display: none; }
+  .nav .companyNav { padding-inline: 9px; font-size: 11px; }
+  .nav .contactNav { padding-inline: 10px; }
   .theme button { padding-inline: 10px; }
   .hero { min-height: 88svh; padding-top: 8rem; }
   .heroTitle { font-size: clamp(4rem, 20vw, 6.7rem); }

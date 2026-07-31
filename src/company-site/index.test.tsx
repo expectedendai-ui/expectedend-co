@@ -60,7 +60,7 @@ describe("Expected End company homepage", () => {
     render(<CompanySite leaving={false} onOpenArtWorld={vi.fn()} />);
 
     const mainNavigation = screen.getByRole("navigation", { name: "Main navigation" });
-    await user.click(within(mainNavigation).getByRole("link", { name: "About" }));
+    await user.click(within(mainNavigation).getByRole("link", { name: "Mission · About · Press" }));
     expect(window.location.pathname).toBe("/about");
     expect(screen.getByRole("heading", { level: 1, name: "Why Expected End?" })).toBeInTheDocument();
     expect(document.title).toBe("About — Expected End");
@@ -87,7 +87,8 @@ describe("Expected End company homepage", () => {
     vi.spyOn(window, "scrollTo").mockImplementation(() => undefined);
     render(<CompanySite leaving={false} onOpenArtWorld={vi.fn()} />);
 
-    await user.click(screen.getByRole("link", { name: "Contact" }));
+    const footerNavigation = screen.getByRole("navigation", { name: "Footer navigation" });
+    await user.click(within(footerNavigation).getByRole("link", { name: "Contact" }));
     expect(window.location.pathname).toBe("/about");
     expect(window.location.hash).toBe("#contact");
     expect(screen.getByRole("heading", { level: 2, name: "Start with a little context." })).toBeInTheDocument();

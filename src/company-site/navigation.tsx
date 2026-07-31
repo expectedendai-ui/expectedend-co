@@ -16,9 +16,10 @@ export function Navigation({ isHome, theme, onNavigate, onThemeChange }: Navigat
     <nav className={styles.nav} aria-label="Main navigation">
       <div className={styles.navLinks}>
         <a className={styles.sectionLink} href={`${sectionRoot}#projects`} onClick={onNavigate}>Projects</a>
-        <a className={styles.sectionLink} href={`${sectionRoot}#mission`} onClick={onNavigate}>Mission</a>
         <a className={styles.sectionLink} href={`${sectionRoot}#services`} onClick={onNavigate}>Services</a>
-        <a href="/about" onClick={onNavigate}>About</a>
+        <a className={styles.companyNav} href="/about" onClick={onNavigate}>Mission · About · Press</a>
+        {/* biome-ignore lint/a11y/useValidAnchor: this is an addressable cross-route section link */}
+        <a className={styles.contactNav} href="/about#contact" onClick={onNavigate}>Contact</a>
       </div>
       <fieldset className={styles.theme} aria-label="Color theme">
         {(["white", "blue"] as const).map((option) => (
