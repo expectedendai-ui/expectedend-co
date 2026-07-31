@@ -1,6 +1,6 @@
 export const CONTACT_HREF = "/about#contact";
 
-export const PUBLIC_CONTENT_APPROVED = false;
+export const PUBLIC_CONTENT_APPROVED = true;
 
 export const PROJECTS = [
   {
