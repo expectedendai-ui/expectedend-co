@@ -18,7 +18,7 @@ const ROUTES: CompanyRoute[] = [
     key: "about",
     path: "/about",
     title: "About — Expected End",
-    description: "The story and purpose behind Expected End.",
+    description: "Denzel Rigaud's founder story, the mission behind Expected End, and the projects built from faith and purpose.",
   },
   {
     key: "terms",

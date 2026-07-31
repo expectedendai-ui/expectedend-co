@@ -295,9 +295,81 @@
 .aboutMain, .infoMain, .notFound { min-height: 78svh; padding: 10rem 1.5rem 7rem; }
 .aboutLayout { width: min(940px, 100%); margin: 5vh auto 0; }
 .aboutLayout h1, .infoHeader h1, .notFound h1 { margin: 0; font-family: "Instrument Serif", Georgia, serif; font-size: clamp(4rem, 9vw, 8rem); font-weight: 400; letter-spacing: -.05em; line-height: .9; }
+.aboutLayout h1 { max-width: 900px; font-size: clamp(3.8rem, 8vw, 7.3rem); }
 .aboutCopy { display: grid; max-width: 680px; gap: 1.15rem; margin: 3rem 0 0 auto; color: var(--muted); font-size: 1.05rem; line-height: 1.75; }
 .aboutCopy p { margin: 0; }
 .aboutCopy .aboutLead { color: var(--ink); font-family: "Instrument Serif", Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.7rem); line-height: 1.15; }
+
+.aboutStory { display: grid; width: min(940px, 100%); gap: clamp(6rem, 12vw, 10rem); margin: clamp(7rem, 14vw, 11rem) auto 0; }
+.storyChapter { display: grid; grid-template-columns: minmax(220px, .8fr) minmax(0, 1.2fr); gap: clamp(2rem, 7vw, 6rem); align-items: start; }
+.storyHeading { position: sticky; top: 8rem; }
+.storyHeading h2, .missionStory h2, .pressSection h2, .expectedEnding h2 {
+  margin: .6rem 0 0;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(2.8rem, 5.5vw, 5rem);
+  font-weight: 400;
+  letter-spacing: -.04em;
+  line-height: .96;
+}
+.storyCopy { display: grid; gap: 1.35rem; color: var(--muted); font-size: 1.03rem; line-height: 1.8; }
+.storyCopy p { margin: 0; }
+
+.missionStory {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  gap: clamp(2rem, 7vw, 6rem);
+  padding: clamp(2rem, 6vw, 5rem);
+  scroll-margin-top: 7rem;
+  border: 1px solid var(--line);
+  border-radius: 38px;
+  background: linear-gradient(140deg, var(--surface), color-mix(in srgb, var(--surface) 45%, transparent));
+  box-shadow: var(--shadow);
+}
+.missionCopy { display: grid; gap: 1.35rem; color: var(--muted); line-height: 1.8; }
+.missionCopy p { margin: 0; }
+.missionCopy .missionLine { color: var(--ink); font-family: "Instrument Serif", Georgia, serif; font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.2; }
+
+.projectOrigins { display: grid; gap: 3rem; }
+.projectOrigins .storyHeading { position: static; max-width: 580px; }
+.originGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; overflow: hidden; border: 1px solid var(--line); border-radius: 30px; background: var(--line); }
+.originGrid article { min-height: 330px; padding: clamp(1.5rem, 4vw, 2.6rem); background: var(--paper); }
+.originGrid article > span { color: var(--gold-soft); font-size: 10px; font-weight: 800; letter-spacing: .16em; }
+.site[data-site-theme="white"] .originGrid article > span { color: #987126; }
+.originGrid h3 { margin: 4rem 0 1rem; font-family: "Instrument Serif", Georgia, serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 400; }
+.originGrid p { margin: 0; color: var(--muted); line-height: 1.7; }
+.originGrid a { display: inline-block; margin-top: 1.5rem; color: var(--gold-soft); font-size: .78rem; font-weight: 800; }
+.site[data-site-theme="white"] .originGrid a { color: #8d651d; }
+
+.pressSection {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, .8fr);
+  gap: clamp(2rem, 7vw, 6rem);
+  align-items: end;
+  padding-block: 4rem;
+  scroll-margin-top: 7rem;
+  border-block: 1px solid var(--line);
+}
+.pressSection div:last-child { color: var(--muted); line-height: 1.75; }
+.pressSection div:last-child p { margin: 0; }
+.pressSection a { display: inline-flex; align-items: center; gap: .7rem; margin-top: 1.4rem; color: var(--ink); font-size: .78rem; font-weight: 800; }
+
+.expectedEnding { max-width: 760px; margin-inline: auto; text-align: center; }
+.expectedEnding h2 { font-size: clamp(3.5rem, 8vw, 7rem); }
+.expectedEnding > p:not(.kicker) { max-width: 660px; margin: 1.4rem auto 0; color: var(--muted); font-size: 1.03rem; line-height: 1.8; }
+.expectedEnding button {
+  min-height: 52px;
+  margin-top: 2.2rem;
+  padding: 0 1.3rem;
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  color: #15285d;
+  background: var(--gold-soft);
+  box-shadow: 0 14px 36px rgba(0, 8, 36, .16);
+  cursor: pointer;
+  font: 800 12px/1 "DM Sans", sans-serif;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.expectedEnding button:hover { box-shadow: 0 19px 42px rgba(0, 8, 36, .24); transform: translateY(-3px); }
 
 .contactSection {
   width: min(940px, 100%);
@@ -394,6 +466,26 @@
 .bioDialogHead button { display: grid; width: 44px; height: 44px; place-items: center; border: 1px solid var(--line); border-radius: 50%; color: var(--ink); background: transparent; cursor: pointer; font-size: 1.5rem; }
 .bioBlank { min-height: 150px; }
 
+.verseDialog {
+  width: min(620px, calc(100% - 32px));
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--gold) 72%, var(--line));
+  border-radius: 30px;
+  color: var(--ink);
+  background: var(--surface-solid);
+  box-shadow: 0 40px 120px rgba(0, 5, 30, .58);
+}
+.verseDialog::backdrop { background: rgba(3, 10, 31, .72); backdrop-filter: blur(12px); }
+.verseDialogInner { padding: clamp(1.5rem, 6vw, 3.2rem); background: radial-gradient(circle at 88% 5%, color-mix(in srgb, var(--gold-soft) 16%, transparent), transparent 15rem); }
+.verseDialogHead { display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem; }
+.verseDialogHead p { margin: 0 0 .5rem; color: var(--gold-soft); font-size: .65rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+.site[data-site-theme="white"] .verseDialogHead p { color: #8d651d; }
+.verseDialogHead h2 { margin: 0; font-family: "Instrument Serif", Georgia, serif; font-size: clamp(2.3rem, 6vw, 3.6rem); font-weight: 400; letter-spacing: -.03em; }
+.verseDialogHead button { display: grid; flex: 0 0 auto; width: 44px; height: 44px; place-items: center; border: 1px solid var(--line); border-radius: 50%; color: var(--ink); background: transparent; cursor: pointer; font-size: 1.5rem; }
+.verseDialog blockquote { margin: 2.8rem 0 0; color: var(--ink); font-family: "Instrument Serif", Georgia, serif; font-size: clamp(1.55rem, 4vw, 2.25rem); line-height: 1.4; }
+.verseDialog blockquote sup { margin-right: .35rem; color: var(--gold-soft); font: 800 .72rem/1 "DM Sans", sans-serif; }
+
 @media (max-width: 780px) {
   .nav { width: calc(100% - 24px); padding-left: 14px; }
   .navLinks { gap: 0; }
@@ -413,6 +505,11 @@
   .service { min-height: 200px; }
   .service h3 { margin-top: 3rem; }
   .aboutMain, .infoMain { padding-inline: 1rem; }
+  .storyChapter, .missionStory, .pressSection { grid-template-columns: 1fr; }
+  .storyHeading { position: static; }
+  .originGrid { grid-template-columns: 1fr; }
+  .originGrid article { min-height: 280px; }
+  .originGrid h3 { margin-top: 2.8rem; }
   .contactSection { margin-top: 6rem; border-radius: 28px; }
   .contactHeader { grid-template-columns: 1fr; align-items: start; }
   .footer { width: calc(100% - 30px); }

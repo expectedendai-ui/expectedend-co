@@ -62,7 +62,7 @@ describe("Expected End company homepage", () => {
     const mainNavigation = screen.getByRole("navigation", { name: "Main navigation" });
     await user.click(within(mainNavigation).getByRole("link", { name: "Mission · About · Press" }));
     expect(window.location.pathname).toBe("/about");
-    expect(screen.getByRole("heading", { level: 1, name: "Why Expected End?" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: "Hi, my name is Denzel Rigaud." })).toBeInTheDocument();
     expect(document.title).toBe("About — Expected End");
     expect(document.querySelector('link[rel="canonical"]')).toHaveAttribute("href", "https://expectedend.co/about");
 
