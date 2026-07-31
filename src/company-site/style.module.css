@@ -300,10 +300,10 @@
 .aboutCopy p { margin: 0; }
 .aboutCopy .aboutLead { color: var(--ink); font-family: "Instrument Serif", Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.7rem); line-height: 1.15; }
 
-.aboutStory { display: grid; width: min(940px, 100%); gap: clamp(6rem, 12vw, 10rem); margin: clamp(7rem, 14vw, 11rem) auto 0; }
+.aboutStory { display: grid; width: min(940px, 100%); gap: clamp(3.5rem, 7vw, 6rem); margin: clamp(5rem, 9vw, 7rem) auto 0; }
 .storyChapter { display: grid; grid-template-columns: minmax(220px, .8fr) minmax(0, 1.2fr); gap: clamp(2rem, 7vw, 6rem); align-items: start; }
 .storyHeading { position: sticky; top: 8rem; }
-.storyHeading h2, .missionStory h2, .pressSection h2, .expectedEnding h2 {
+.storyHeading h2, .storyHeading h3, .missionStory h2, .pressSection h2, .expectedEnding h2 {
   margin: .6rem 0 0;
   font-family: "Instrument Serif", Georgia, serif;
   font-size: clamp(2.8rem, 5.5vw, 5rem);
@@ -353,6 +353,52 @@
 .pressSection div:last-child p { margin: 0; }
 .pressSection a { display: inline-flex; align-items: center; gap: .7rem; margin-top: 1.4rem; color: var(--ink); font-size: .78rem; font-weight: 800; }
 
+.founderReveal {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 34px;
+  background: linear-gradient(140deg, var(--surface), color-mix(in srgb, var(--surface) 48%, transparent));
+  box-shadow: var(--shadow);
+}
+.founderRevealIntro { max-width: 700px; padding: clamp(2rem, 5vw, 4rem); padding-bottom: 2rem; }
+.founderRevealIntro h2, .founderIntro h2 {
+  margin: .6rem 0 0;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(2.8rem, 6vw, 5.2rem);
+  font-weight: 400;
+  letter-spacing: -.04em;
+  line-height: .96;
+}
+.founderRevealIntro > p:last-child { max-width: 600px; margin: 1.25rem 0 0; color: var(--muted); line-height: 1.7; }
+.founderToggle {
+  display: flex;
+  width: auto;
+  min-height: 64px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  margin: 0 clamp(2rem, 5vw, 4rem) clamp(2rem, 5vw, 4rem);
+  padding: 0 1.25rem;
+  border: 1px solid var(--gold);
+  border-radius: 18px;
+  color: #15285d;
+  background: var(--gold-soft);
+  cursor: pointer;
+  font: 800 13px/1 "DM Sans", sans-serif;
+  text-align: left;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.founderToggle:hover { box-shadow: 0 14px 35px rgba(0, 5, 30, .2); transform: translateY(-2px); }
+.founderToggle span:last-child { font-size: 1.6rem; font-weight: 400; }
+.founderPanel { display: grid; gap: clamp(3.5rem, 7vw, 5.5rem); padding: clamp(2rem, 5vw, 4rem); border-top: 1px solid var(--line); }
+.founderPanel .storyHeading { position: static; }
+.founderIntro { display: grid; max-width: 730px; gap: 1.15rem; }
+.founderIntro h2 { margin-bottom: .5rem; }
+.founderIntro p { margin: 0; color: var(--muted); font-size: 1.02rem; line-height: 1.75; }
+.founderIntro .founderLead { color: var(--ink); font-family: "Instrument Serif", Georgia, serif; font-size: clamp(1.7rem, 4vw, 2.5rem); line-height: 1.2; }
+.founderValues { max-width: 680px; margin-inline: auto; padding: 1.5rem 0 1.5rem 1.5rem; border-left: 2px solid var(--gold); }
+.founderValues p { margin: 0; color: var(--muted); font-size: 1.03rem; line-height: 1.8; }
+
 .expectedEnding { max-width: 760px; margin-inline: auto; text-align: center; }
 .expectedEnding h2 { font-size: clamp(3.5rem, 8vw, 7rem); }
 .expectedEnding > p:not(.kicker) { max-width: 660px; margin: 1.4rem auto 0; color: var(--muted); font-size: 1.03rem; line-height: 1.8; }
@@ -370,6 +416,7 @@
   transition: transform 180ms ease, box-shadow 180ms ease;
 }
 .expectedEnding button:hover { box-shadow: 0 19px 42px rgba(0, 8, 36, .24); transform: translateY(-3px); }
+.aboutMain .contactSection { margin-top: clamp(4rem, 8vw, 6rem); }
 
 .contactSection {
   width: min(940px, 100%);
@@ -507,6 +554,8 @@
   .aboutMain, .infoMain { padding-inline: 1rem; }
   .storyChapter, .missionStory, .pressSection { grid-template-columns: 1fr; }
   .storyHeading { position: static; }
+  .founderReveal { border-radius: 28px; }
+  .founderToggle { margin-inline: 2rem; }
   .originGrid { grid-template-columns: 1fr; }
   .originGrid article { min-height: 280px; }
   .originGrid h3 { margin-top: 2.8rem; }
