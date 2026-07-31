@@ -196,7 +196,7 @@
   filter: blur(1px);
   mix-blend-mode: screen;
   transform: skewX(-17deg);
-  animation: project-shine 4s ease-in-out infinite;
+  animation: project-shine 5s ease-in-out infinite;
 }
 .projectArt[data-art-variant="watercheck"]::after {
   background: linear-gradient(100deg, transparent 0%, rgba(31, 126, 255, .08) 24%, var(--shine-edge) 40%, rgba(225, 249, 255, .92) 50%, var(--shine-center) 59%, transparent 78%);
