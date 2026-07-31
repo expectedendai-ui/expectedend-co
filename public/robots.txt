@@ -1,20 +1,13 @@
-# expectedend.co — personal portfolio of Denzel Rigaud
-#
-# Policy: OPEN STORY, PROTECT ART.
-#  • Search engines and AI answer engines MAY read the site so they can
-#    describe who Denzel Rigaud is (his story, mission, and work).
-#  • Original artwork and audio (/artworks/, /audio/) are off-limits to ALL
-#    crawlers, and image-AI training is opted out site-wide (see /ai.txt and
-#    the page <meta> tags).
-#  • Bulk dataset harvesters with no answer-engine benefit remain fully denied.
+# expectedend.co — public company website for Expected End
+# Public pages may be indexed. Original artwork and audio remain protected.
 
-# ── Default: everyone may crawl the text/story, but not the art or audio ──
 User-agent: *
 Allow: /
 Disallow: /artworks/
 Disallow: /audio/
 
-# ── Bulk scrapers / dataset harvesters (no answer-engine benefit) — denied ──
+Sitemap: https://expectedend.co/sitemap.xml
+
 User-agent: CCBot
 Disallow: /
 

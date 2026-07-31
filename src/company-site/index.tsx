@@ -1,4 +1,10 @@
 import * as React from "react";
+import { AboutPage } from "./about";
+import { Footer } from "./footer";
+import { HomePage } from "./home";
+import { InfoPage } from "./info-page";
+import { LEGAL_CONTENT } from "./legal-content";
+import { Navigation } from "./navigation";
 import { getRoute, getRouteMetadata, isInternalHref } from "./routes";
 import styles from "./style.module.css";
 import { readSiteTheme, type SiteTheme, writeSiteTheme } from "./theme";
@@ -27,6 +33,22 @@ const updateDocumentMetadata = (pathname: string) => {
     document.head.append(canonical);
   }
   canonical.href = metadata.canonical;
+
+  const socialMetadata = [
+    ["meta[property='og:title']", "property", "og:title", metadata.title],
+    ["meta[property='og:description']", "property", "og:description", metadata.description],
+    ["meta[property='og:url']", "property", "og:url", metadata.canonical],
+  ] as const;
+
+  for (const [selector, attribute, name, content] of socialMetadata) {
+    let meta = document.querySelector<HTMLMetaElement>(selector);
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.setAttribute(attribute, name);
+      document.head.append(meta);
+    }
+    meta.content = content;
+  }
 };
 
 const scrollToHash = (hash: string) => {
@@ -65,41 +87,32 @@ export function CompanySite({ leaving, onOpenArtWorld }: CompanySiteProps) {
     if (!href || !isInternalHref(href)) return;
     event.preventDefault();
     const url = new URL(href, window.location.href);
-    window.history.pushState({}, "", `${url.pathname}${url.hash}`);
+    const destination = `${url.pathname}${url.hash}`;
+    if (`${window.location.pathname}${window.location.hash}` !== destination) window.history.pushState({}, "", destination);
     setRoute(getRoute(url.pathname));
     scrollToHash(url.hash);
   };
 
+  const renderRoute = () => {
+    if (route.key === "home") return <HomePage />;
+    if (route.key === "about") return <AboutPage onOpenArtWorld={onOpenArtWorld} />;
+    if (route.key === "terms" || route.key === "privacy" || route.key === "accessibility") {
+      return <InfoPage content={LEGAL_CONTENT[route.key]} />;
+    }
+    return (
+      <main className={styles.notFound}>
+        <p className={styles.kicker}>404</p>
+        <h1>That page isn’t here.</h1>
+        <a href="/" onClick={onNavigate}>Return home</a>
+      </main>
+    );
+  };
+
   return (
     <div className={`${styles.site} ${leaving ? styles.leaving : ""}`} data-site-theme={theme}>
-      <nav className={styles.nav} aria-label="Main navigation">
-        <div className={styles.navLinks}>
-          <a href="/#projects" onClick={onNavigate}>Projects</a>
-          <a href="/#mission" onClick={onNavigate}>Mission</a>
-          <a href="/#services" onClick={onNavigate}>Services</a>
-          <a href="/about" onClick={onNavigate}>About</a>
-        </div>
-        <div className={styles.theme} aria-label="Color theme">
-          {(["white", "blue"] as const).map((option) => (
-            <button
-              key={option}
-              type="button"
-              aria-pressed={theme === option}
-              className={theme === option ? styles.themeActive : ""}
-              onClick={() => selectTheme(option)}
-            >
-              {option === "white" ? "White" : "Blue"}
-            </button>
-          ))}
-        </div>
-      </nav>
-      <main className={styles.placeholder}>
-        <h1>{route.title}</h1>
-        {route.key === "about" && (
-          <button type="button" onClick={onOpenArtWorld}>Open art world</button>
-        )}
-      </main>
+      <Navigation isHome={route.key === "home"} theme={theme} onNavigate={onNavigate} onThemeChange={selectTheme} />
+      {renderRoute()}
+      <Footer onNavigate={onNavigate} />
     </div>
   );
 }
-
