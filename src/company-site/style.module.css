@@ -1,0 +1,118 @@
+.site {
+  --site-blue: #102f80;
+  --site-blue-bright: #1747b5;
+  --site-gold: #c89a3d;
+  --site-ink: #ffffff;
+  --site-muted: #c8d5ff;
+  --site-paper: #0b2466;
+  --site-surface: rgba(15, 48, 132, 0.72);
+  --site-line: rgba(255, 255, 255, 0.14);
+  position: relative;
+  z-index: 100;
+  min-height: 100svh;
+  overflow-x: clip;
+  color: var(--site-ink);
+  background: var(--site-paper);
+  font-family: "DM Sans", system-ui, sans-serif;
+  transition: opacity 400ms ease, background-color 350ms ease, color 350ms ease;
+}
+
+.site[data-site-theme="white"] {
+  --site-ink: #13204a;
+  --site-muted: #667094;
+  --site-paper: #fbfcff;
+  --site-surface: rgba(255, 255, 255, 0.78);
+  --site-line: rgba(16, 47, 128, 0.12);
+}
+
+.leaving {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.nav {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  z-index: 20;
+  display: flex;
+  width: min(1180px, calc(100% - 40px));
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 8px 10px 8px 18px;
+  border: 1px solid var(--site-line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--site-paper) 82%, transparent);
+  backdrop-filter: blur(18px);
+  transform: translateX(-50%);
+}
+
+.navLinks,
+.theme {
+  display: flex;
+  align-items: center;
+}
+
+.navLinks {
+  gap: 22px;
+}
+
+.nav a {
+  color: var(--site-muted);
+  font-size: 13px;
+}
+
+.theme {
+  gap: 6px;
+  padding: 5px;
+  border: 1px solid var(--site-line);
+  border-radius: 999px;
+  background: var(--site-surface);
+}
+
+.theme button {
+  padding: 7px 11px;
+  border: 0;
+  border-radius: 999px;
+  color: var(--site-muted);
+  background: transparent;
+  cursor: pointer;
+  font: 600 11px/1 "DM Sans", system-ui, sans-serif;
+}
+
+.theme .themeActive {
+  color: #ffffff;
+  background: var(--site-blue-bright);
+}
+
+.placeholder {
+  display: grid;
+  min-height: 100svh;
+  place-items: center;
+  padding: 7rem 2rem;
+  text-align: center;
+}
+
+@media (max-width: 780px) {
+  .nav {
+    width: calc(100% - 24px);
+    padding-left: 14px;
+  }
+
+  .navLinks a:not(:last-child) {
+    display: none;
+  }
+
+  .theme button {
+    padding-inline: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site {
+    scroll-behavior: auto;
+    transition-duration: 1ms;
+  }
+}
+

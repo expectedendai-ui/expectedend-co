@@ -5,7 +5,7 @@ import { Frame } from "~/src/frame";
 import { InfiniteCanvas } from "~/src/infinite-canvas";
 import type { MediaItem } from "~/src/infinite-canvas/types";
 import { MatrixLoader } from "~/src/loader";
-import { ServiceMenu } from "~/src/menu";
+import { CompanySite } from "~/src/company-site";
 import { AiNotice, ScareModal, useScareTriggers } from "~/src/scare";
 import { SongGate, SongSwitcher, TRACKS } from "~/src/song-dashboard";
 
@@ -29,6 +29,7 @@ export function App() {
   const [selected, setSelected] = React.useState(0); // default credit = MJ
   const [scareOpen, setScareOpen] = React.useState(false);
   const [theme, setTheme] = React.useState<ThemeKey>("black");
+  const artActive = loading || !covered || picking || entered;
 
   // Using <video playsinline> instead of <audio> so audio plays even when
   // iOS Safari users have their physical silent switch on.
@@ -40,12 +41,12 @@ export function App() {
   const noBassRef = React.useRef(false); // current track opts out of the bass-driven shake
 
   const triggerScare = React.useCallback(() => setScareOpen(true), []);
-  useScareTriggers(triggerScare);
+  useScareTriggers(triggerScare, entered);
 
   // Drive the <body> palette (black/white/brown) from the chosen theme.
   React.useEffect(() => {
-    document.body.dataset.theme = theme;
-  }, [theme]);
+    if (artActive) document.body.dataset.theme = theme;
+  }, [artActive, theme]);
   const fogColor = THEMES.find((t) => t.key === theme)?.fog ?? "#0a0a0a";
 
   // Wire the Web Audio analyser ONCE (createMediaElementSource is per-element).
@@ -170,17 +171,17 @@ export function App() {
 
   return (
     <>
-      <Frame nowPlaying={TRACKS[selected]} />
-      <InfiniteCanvas media={media} fogColor={fogColor} />
+      {artActive && <Frame nowPlaying={TRACKS[selected]} />}
+      {artActive && <InfiniteCanvas media={media} fogColor={fogColor} />}
       {loading && <MatrixLoader onDone={onLoaderDone} />}
       {/* The menu IS the landing page now — no loader in front of it. The
           binary takeover only runs on egg tap, as the door to the art world. */}
-      {covered && <ServiceMenu leaving={eggLeaving} onOpen={onEggOpen} />}
+      {covered && <CompanySite leaving={eggLeaving} onOpenArtWorld={onEggOpen} />}
       {picking && <SongGate leaving={gateLeaving} onPick={onPick} />}
       {entered && <SongSwitcher active={selected} onSwitch={playTrack} />}
       {entered && <ColorSwitcher active={theme} onChange={setTheme} />}
-      <ScareModal open={scareOpen} onClose={() => setScareOpen(false)} />
-      <AiNotice />
+      {entered && <ScareModal open={scareOpen} onClose={() => setScareOpen(false)} />}
+      {entered && <AiNotice />}
       {/* biome-ignore lint/a11y/useMediaCaption: instrumental background track, no spoken content to caption */}
       <video
         ref={audioRef}
