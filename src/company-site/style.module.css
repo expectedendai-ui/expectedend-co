@@ -478,7 +478,7 @@
   border-radius: 50%;
   background: transparent;
   cursor: pointer;
-  opacity: .04;
+  opacity: .01;
   transition: opacity 180ms ease, transform 180ms ease;
 }
 .eggButton:hover, .eggButton:focus-visible { opacity: .72; transform: scale(1.08); }
