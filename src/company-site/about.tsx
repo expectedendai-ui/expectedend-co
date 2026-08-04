@@ -37,38 +37,6 @@ export function AboutPage({ onOpenArtWorld }: AboutPageProps) {
           </div>
         </section>
 
-        <section className={styles.projectOrigins} aria-labelledby="projects-origin-title">
-          <div className={styles.storyHeading}>
-            <p className={styles.kicker}>The projects</p>
-            <h2 id="projects-origin-title">Two ideas, one purpose.</h2>
-          </div>
-          <div className={styles.originGrid}>
-            <article>
-              <span>01</span>
-              <h3>MyBibleLens</h3>
-              <p>MyBibleLens helps people make Scripture personal, visual, and easier to carry into daily life.</p>
-              <a href="https://mybiblelens.us/" target="_blank" rel="noreferrer">Visit MyBibleLens <span aria-hidden="true">↗</span></a>
-            </article>
-            <article>
-              <span>02</span>
-              <h3>The Water Check</h3>
-              <p>The Water Check speaks about attention, relationships, self-worth, and the lives we perform online.</p>
-              <a href="https://www.instagram.com/thewatercheck/" target="_blank" rel="noreferrer">Visit Instagram <span aria-hidden="true">↗</span></a>
-            </article>
-          </div>
-        </section>
-
-        <section className={styles.pressSection} id="press" aria-labelledby="press-title">
-          <div>
-            <p className={styles.kicker}>Press</p>
-            <h2 id="press-title">Tell the story with us.</h2>
-          </div>
-          <div>
-            <p>Expected End welcomes conversations about faith-centered technology, digital well-being, founder grief, MyBibleLens, The Water Check, and products that return time to real life.</p>
-            <a href="#contact">Start a press inquiry <span aria-hidden="true">↓</span></a>
-          </div>
-        </section>
-
         <section className={styles.founderReveal} aria-labelledby="founder-reveal-title">
           <div className={styles.founderRevealIntro}>
             <p className={styles.kicker}>Behind the company</p>
@@ -82,7 +50,7 @@ export function AboutPage({ onOpenArtWorld }: AboutPageProps) {
             aria-controls="founder-story"
             onClick={() => setShowFounderStory((isOpen) => !isOpen)}
           >
-            <span>{showFounderStory ? "Close Denzel’s story" : "Read Denzel’s story"}</span>
+            <span>{showFounderStory ? "Close Founder Story" : "The Founder Story"}</span>
             <span aria-hidden="true">{showFounderStory ? "−" : "+"}</span>
           </button>
 
@@ -133,6 +101,17 @@ export function AboutPage({ onOpenArtWorld }: AboutPageProps) {
               </section>
             </div>
           )}
+        </section>
+
+        <section className={styles.pressSection} id="press" aria-labelledby="press-title">
+          <div>
+            <p className={styles.kicker}>Press</p>
+            <h2 id="press-title">Tell the story with us.</h2>
+          </div>
+          <div>
+            <p>Expected End welcomes conversations about faith-centered technology, digital well-being, founder grief, MyBibleLens, The Water Check, and products that return time to real life.</p>
+            <a href="#contact">Start a press inquiry <span aria-hidden="true">↓</span></a>
+          </div>
         </section>
       </div>
 

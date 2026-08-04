@@ -50,7 +50,12 @@ export const buildContactMailto = (details: ContactDetails, source: string) => {
 
 const readField = (formData: FormData, name: string) => String(formData.get(name) ?? "").trim();
 
-export function ContactForm() {
+type ContactFormProps = {
+  initialProject?: string;
+  initialReason?: string;
+};
+
+export function ContactForm({ initialProject = "", initialReason = "" }: ContactFormProps = {}) {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -95,11 +100,12 @@ export function ContactForm() {
 
         <label className={styles.contactField}>
           <span>What is this about?</span>
-          <select name="reason" defaultValue="" required>
+          <select name="reason" defaultValue={initialReason} required>
             <option value="" disabled>Choose one</option>
             <option>Building an app or software idea</option>
             <option>Website or digital experience</option>
             <option>AI system or productivity tool</option>
+            <option>Creative direction or design</option>
             <option>Partnership or collaboration</option>
             <option>Press or media</option>
             <option>General question</option>
@@ -108,7 +114,7 @@ export function ContactForm() {
 
         <label className={styles.contactField}>
           <span>Which project?</span>
-          <select name="project" defaultValue="" required>
+          <select name="project" defaultValue={initialProject} required>
             <option value="" disabled>Choose one</option>
             <option>Expected End</option>
             <option>MyBibleLens</option>

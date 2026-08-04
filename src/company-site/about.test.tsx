@@ -27,15 +27,15 @@ describe("Expected End About page", () => {
     render(<CompanySite leaving={false} onOpenArtWorld={vi.fn()} />);
 
     expect(screen.getByRole("heading", { name: "Technology should help you return to your life." })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Two ideas, one purpose." })).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "Two ideas, one purpose." })).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Tell the story with us." })).toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "Hi, my name is Denzel Rigaud." })).not.toBeInTheDocument();
 
-    const storyToggle = screen.getByRole("button", { name: "Read Denzel’s story" });
+    const storyToggle = screen.getByRole("button", { name: "The Founder Story" });
     expect(storyToggle).toHaveAttribute("aria-expanded", "false");
     await user.click(storyToggle);
     expect(screen.getByRole("heading", { name: "Hi, my name is Denzel Rigaud." })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Close Denzel’s story" })).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByRole("button", { name: "Close Founder Story" })).toHaveAttribute("aria-expanded", "true");
 
     await user.click(screen.getByRole("button", { name: /Jeremiah 29:11/ }));
     expect(screen.getByRole("dialog", { name: "Jeremiah 29:11" })).toHaveTextContent("to give you an expected end");

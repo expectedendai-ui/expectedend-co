@@ -7,6 +7,7 @@ export const PROJECTS = [
     name: "MyBibleLens",
     category: "Christianity app",
     href: "https://mybiblelens.us/",
+    bioHref: "https://mybiblelens.us/legal.html#about",
     image: "/brand/mybiblelens.png",
     artVariant: "mybiblelens",
     titleClassName: "mblTitle",
@@ -15,6 +16,7 @@ export const PROJECTS = [
     name: "The Water Check",
     category: "Instagram community",
     href: "https://www.instagram.com/thewatercheck/",
+    bioHref: null,
     image: "/brand/thewatercheck.png",
     artVariant: "watercheck",
     titleClassName: "",
@@ -22,8 +24,8 @@ export const PROJECTS = [
 ] as const;
 
 export const SERVICES = [
-  ["01", "Apps", "Useful, thoughtful products designed around real people."],
-  ["02", "Websites", "Distinct digital homes that feel clear, alive, and welcoming."],
-  ["03", "AI systems", "Practical intelligence that helps ideas and teams move forward."],
-  ["04", "Creative", "Identity, direction, and experiences with meaning at the center."],
+  ["01", "Apps", "Useful, thoughtful products designed around real people.", "Building an app or software idea"],
+  ["02", "Websites", "Distinct digital homes that feel clear, alive, and welcoming.", "Website or digital experience"],
+  ["03", "AI systems", "Practical intelligence that helps ideas and teams move forward.", "AI system or productivity tool"],
+  ["04", "Creative", "Identity, direction, and experiences with meaning at the center.", "Creative direction or design"],
 ] as const;

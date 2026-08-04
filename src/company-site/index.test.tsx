@@ -16,23 +16,44 @@ describe("Expected End company homepage", () => {
     const approvedMission = "We create thoughtful software, productivity tools, digital experiences, and communities that bring people closer to God in exciting and easy ways!";
     expect(screen.getByText((_, element) => element?.tagName === "P" && element.textContent === approvedMission)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Visit MyBibleLens" })).toHaveAttribute("href", "https://mybiblelens.us/");
+    expect(screen.getByRole("link", { name: "Bio for MyBibleLens" })).toHaveAttribute(
+      "href",
+      "https://mybiblelens.us/legal.html#about"
+    );
     expect(screen.getByRole("link", { name: "Visit The Water Check" })).toHaveAttribute(
       "href",
       "https://www.instagram.com/thewatercheck/"
     );
     expect(screen.queryByText("JARVIS")).not.toBeInTheDocument();
     expect(screen.queryByText("THE MENU")).not.toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "Ideas can feel meaningful and easy to enter." })).not.toBeInTheDocument();
   });
 
-  it("opens an intentionally blank accessible Bio dialog and restores focus", async () => {
+  it("opens the guided contact form from a selected service", async () => {
     const user = userEvent.setup();
     render(<CompanySite leaving={false} onOpenArtWorld={vi.fn()} />);
-    const bioButton = screen.getByRole("button", { name: "Bio for MyBibleLens" });
+
+    await user.click(screen.getByRole("button", { name: /AI systems/ }));
+    const dialog = screen.getByRole("dialog", { name: "Start with a little context." });
+    expect(dialog).toBeInTheDocument();
+    expect(within(dialog).getByLabelText("What is this about?")).toHaveValue("AI system or productivity tool");
+    expect(within(dialog).getByLabelText("Which project?")).toHaveValue("A new idea");
+
+    await user.click(within(dialog).getByRole("button", { name: "Close contact form" }));
+    expect(screen.queryByRole("dialog", { name: "Start with a little context." })).not.toBeInTheDocument();
+  });
+
+  it("opens the Water Check story dialog and restores focus", async () => {
+    const user = userEvent.setup();
+    render(<CompanySite leaving={false} onOpenArtWorld={vi.fn()} />);
+    const bioButton = screen.getByRole("button", { name: "Bio for The Water Check" });
 
     await user.click(bioButton);
-    const dialog = screen.getByRole("dialog", { name: "MyBibleLens bio" });
+    const dialog = screen.getByRole("dialog", { name: "What happened to @thewatercheck?" });
     expect(dialog).toBeInTheDocument();
-    expect(within(dialog).queryByText("Bio coming soon.")).not.toBeInTheDocument();
+    expect(within(dialog).getByText("200,000 followers")).toBeInTheDocument();
+    expect(within(dialog).getByText("A simple reminder people loved.")).toBeInTheDocument();
+    expect(within(dialog).getByText("Look how many people loved it.")).toBeInTheDocument();
     await user.click(within(dialog).getByRole("button", { name: "Close bio" }));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(bioButton).toHaveFocus();
@@ -41,15 +62,15 @@ describe("Expected End company homepage", () => {
   it("dismisses Bio with cancel or backdrop interaction and restores focus", async () => {
     const user = userEvent.setup();
     render(<CompanySite leaving={false} onOpenArtWorld={vi.fn()} />);
-    const bioButton = screen.getByRole("button", { name: "Bio for MyBibleLens" });
+    const bioButton = screen.getByRole("button", { name: "Bio for The Water Check" });
 
     await user.click(bioButton);
-    fireEvent(screen.getByRole("dialog", { name: "MyBibleLens bio" }), new Event("cancel", { cancelable: true }));
+    fireEvent(screen.getByRole("dialog", { name: "What happened to @thewatercheck?" }), new Event("cancel", { cancelable: true }));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(bioButton).toHaveFocus();
 
     await user.click(bioButton);
-    fireEvent.mouseDown(screen.getByRole("dialog", { name: "MyBibleLens bio" }));
+    fireEvent.mouseDown(screen.getByRole("dialog", { name: "What happened to @thewatercheck?" }));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(bioButton).toHaveFocus();
   });

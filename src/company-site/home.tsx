@@ -1,10 +1,12 @@
 import * as React from "react";
 import { BioDialog } from "./bio-dialog";
+import { ContactDialog } from "./contact-dialog";
 import { PROJECTS, SERVICES } from "./content";
 import styles from "./style.module.css";
 
 export function HomePage() {
   const [activeBio, setActiveBio] = React.useState<string | null>(null);
+  const [activeService, setActiveService] = React.useState<string | null>(null);
 
   return (
     <main className={styles.home}>
@@ -33,29 +35,39 @@ export function HomePage() {
                 rel="noreferrer"
                 aria-label={`Visit ${project.name}`}
               >
-                <img src={project.image} alt="" width="640" height="640" loading="lazy" decoding="async" />
+                <span className={styles.projectArtClip}>
+                  <img src={project.image} alt="" width="640" height="640" loading="lazy" decoding="async" />
+                </span>
               </a>
               <div className={styles.projectText}>
                 <p className={styles.status}>{project.category}</p>
                 <h3 className={project.titleClassName ? styles[project.titleClassName] : ""}>{project.name}</h3>
                 <div className={styles.projectActions}>
-                  <button type="button" aria-label={`Bio for ${project.name}`} onClick={() => setActiveBio(project.name)}>Bio</button>
+                  {project.bioHref ? (
+                    <a
+                      className={styles.bioAction}
+                      href={project.bioHref}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`Bio for ${project.name}`}
+                    >
+                      Bio
+                    </a>
+                  ) : (
+                    <button
+                      className={styles.bioAction}
+                      type="button"
+                      aria-label={`Bio for ${project.name}`}
+                      onClick={() => setActiveBio(project.name)}
+                    >
+                      Bio
+                    </button>
+                  )}
                   <a href={project.href} target="_blank" rel="noreferrer">{project.name === "The Water Check" ? "Visit Instagram" : "Visit app"} <span aria-hidden="true">↗</span></a>
                 </div>
               </div>
             </article>
           ))}
-        </div>
-      </section>
-
-      <section className={`${styles.section} ${styles.missionSection}`} id="mission" aria-labelledby="mission-title">
-        <div className={styles.missionCard}>
-          <span className={styles.missionMark} aria-hidden="true">✦</span>
-          <div>
-            <p className={styles.kicker}>Our mission</p>
-            <h2 id="mission-title">Ideas can feel meaningful <em>and</em> easy to enter.</h2>
-            <p>We build technology with care—so useful products can feel human, beautiful, and genuinely welcoming.</p>
-          </div>
         </div>
       </section>
 
@@ -66,17 +78,18 @@ export function HomePage() {
           <p>Our products come first. When the fit is right, we bring the same thoughtfulness to selected work for others.</p>
         </div>
         <div className={styles.services}>
-          {SERVICES.map(([number, title, description]) => (
-            <article className={styles.service} key={number}>
+          {SERVICES.map(([number, title, description, contactReason]) => (
+            <button className={styles.service} type="button" key={number} onClick={() => setActiveService(contactReason)}>
               <span>{number}</span>
               <h3>{title}</h3>
               <p>{description}</p>
-            </article>
+            </button>
           ))}
         </div>
       </section>
 
       {activeBio && <BioDialog projectName={activeBio} onClose={() => setActiveBio(null)} />}
+      {activeService && <ContactDialog initialReason={activeService} onClose={() => setActiveService(null)} />}
     </main>
   );
 }

@@ -175,11 +175,9 @@
   --art-shadow: rgba(67, 39, 4, .3);
   --art-shade: rgba(32, 16, 2, .2);
   position: relative;
-  isolation: isolate;
   display: block;
   width: min(100%, 310px);
   margin: 0 auto;
-  overflow: hidden;
   border: 1px solid var(--line);
   border-radius: clamp(30px, 5vw, 58px);
   box-shadow:
@@ -196,7 +194,15 @@
   --art-shadow: rgba(14, 79, 179, .25);
   --art-shade: rgba(4, 50, 126, .18);
 }
-.projectArt::before {
+.projectArtClip {
+  position: relative;
+  isolation: isolate;
+  display: block;
+  overflow: hidden;
+  border-radius: inherit;
+  transform: translateZ(0);
+}
+.projectArtClip::before {
   position: absolute;
   z-index: 2;
   inset: 0;
@@ -210,11 +216,11 @@
   content: "";
   pointer-events: none;
 }
-.projectArt::after {
+.projectArtClip::after {
   position: absolute;
   z-index: 3;
-  top: -20%;
-  bottom: -20%;
+  top: 0;
+  bottom: 0;
   left: -70%;
   width: 38%;
   content: "";
@@ -225,7 +231,7 @@
   transform: skewX(-17deg);
   animation: project-shine 6s ease-in-out infinite;
 }
-.projectArt[data-art-variant="watercheck"]::after {
+.projectArt[data-art-variant="watercheck"] .projectArtClip::after {
   background: linear-gradient(100deg, transparent 0%, rgba(31, 126, 255, .08) 24%, var(--shine-edge) 40%, rgba(225, 249, 255, .92) 50%, var(--shine-center) 59%, transparent 78%);
   mix-blend-mode: normal;
 }
@@ -260,33 +266,17 @@
 .project h3.mblTitle { font-family: "Hammersmith One", "DM Sans", sans-serif; font-size: clamp(1.7rem, 3vw, 2.5rem); letter-spacing: -.04em; }
 .projectActions { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: .75rem; }
 .projectActions button, .projectActions a { border: 0; color: var(--muted); background: none; cursor: pointer; font: 700 12px/1.2 "DM Sans", sans-serif; }
-.projectActions button { padding: 9px; text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 4px; }
+.projectActions .bioAction { padding: 9px; text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 4px; }
 .projectActions a { padding: 9px 0; }
 .projectActions a:hover, .projectActions button:hover { color: var(--ink); }
-
-.missionSection { padding-block: 7.5rem; }
-.missionCard {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: clamp(1.5rem, 5vw, 4rem);
-  align-items: start;
-  padding: clamp(2rem, 6vw, 5rem);
-  border: 1px solid var(--line);
-  border-radius: 38px;
-  background: linear-gradient(135deg, var(--surface), color-mix(in srgb, var(--surface) 48%, transparent));
-  box-shadow: var(--shadow);
-}
-.missionMark { color: var(--gold-soft); font-size: clamp(2rem, 5vw, 4rem); line-height: 1; }
-.missionCard h2 { max-width: 800px; }
-.missionCard h2 em { color: var(--gold-soft); font-weight: 400; }
-.site[data-site-theme="white"] .missionCard h2 em { color: #a5751b; }
-.missionCard div > p:last-child { max-width: 650px; margin: 1.5rem 0 0; color: var(--muted); line-height: 1.7; }
 
 .servicesSection { padding-top: 5rem; }
 .servicesSection .sectionHead { max-width: 1060px; margin-inline: auto; text-align: center; }
 .servicesSection .sectionHead > p:last-child { margin-inline: auto; }
 .services { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
-.service { min-height: 230px; padding: 1.6rem; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.service { min-height: 230px; padding: 1.6rem; border: 0; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); color: var(--ink); background: transparent; cursor: pointer; font: inherit; text-align: left; transition: background 180ms ease, transform 180ms ease; }
+.service:hover { background: var(--surface); transform: translateY(-3px); }
+.service:focus-visible { position: relative; z-index: 1; outline: 2px solid var(--gold-soft); outline-offset: -2px; }
 .service > span { color: var(--gold-soft); font-size: 10px; font-weight: 800; letter-spacing: .16em; }
 .site[data-site-theme="white"] .service > span { color: #987126; }
 .service h3 { margin: 4.3rem 0 .7rem; font-family: "Instrument Serif", Georgia, serif; font-size: 2rem; font-weight: 400; }
@@ -512,6 +502,42 @@
 .bioDialogHead h2 { margin: 0; font-family: "Instrument Serif", Georgia, serif; font-size: 1.65rem; font-weight: 400; }
 .bioDialogHead button { display: grid; width: 44px; height: 44px; place-items: center; border: 1px solid var(--line); border-radius: 50%; color: var(--ink); background: transparent; cursor: pointer; font-size: 1.5rem; }
 .bioBlank { min-height: 150px; }
+.waterBioDialog { width: min(680px, calc(100% - 32px)); max-height: min(92svh, 920px); overflow-y: auto; }
+.waterBioDialog .bioDialogInner { padding: clamp(1.4rem, 4vw, 2.5rem); }
+.waterBioDialog .bioDialogHead { align-items: flex-start; }
+.waterBioDialog .bioDialogHead h2 { font-size: clamp(2rem, 6vw, 3.5rem); line-height: .98; }
+.waterBioDialog .bioDialogHead .waterBioEyebrow { font-size: clamp(.82rem, 2vw, 1rem); }
+.waterBioEyebrow { margin: 0 0 .65rem; color: var(--gold-soft); font-size: .65rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+.site[data-site-theme="white"] .waterBioEyebrow { color: #8d651d; }
+.waterBioContent { margin-top: 2rem; }
+.waterBioStory { text-align: left; }
+.waterBioStory p { margin: 0 0 1rem; color: var(--muted); font-size: .94rem; line-height: 1.75; }
+.waterBioStory em, .waterBioStory strong, .waterBioStory a { color: var(--gold-soft); }
+.site[data-site-theme="white"] .waterBioStory em,
+.site[data-site-theme="white"] .waterBioStory strong,
+.site[data-site-theme="white"] .waterBioStory a { color: #8d651d; }
+.waterBioStory a { border-bottom: 1px solid color-mix(in srgb, var(--gold) 55%, transparent); }
+.waterBioSource { display: inline-block; font-size: .72rem; letter-spacing: .04em; opacity: .65; }
+.waterBioStat { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: .5rem .75rem; margin-top: 1.7rem; padding-top: 1.5rem; border-top: 1px solid var(--line); text-align: center; }
+.waterBioStatFrom { font-family: "Instrument Serif", Georgia, serif; font-size: clamp(1.55rem, 4vw, 2rem); font-weight: 700; opacity: .62; text-decoration: line-through; }
+.waterBioStatArrow { color: var(--gold-soft); }
+.waterBioStatTo { color: var(--gold-soft); font-family: "Instrument Serif", Georgia, serif; font-size: 2rem; }
+.site[data-site-theme="white"] .waterBioStatArrow,
+.site[data-site-theme="white"] .waterBioStatTo { color: #8d651d; }
+.waterBioStatCaption { flex-basis: 100%; color: var(--muted); font-size: .65rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.waterBioWhat { margin-top: 2.3rem; padding-top: 1.8rem; border-top: 1px solid var(--line); }
+.waterBioWhat h3 { margin: 0 0 1.2rem; font-family: "Instrument Serif", Georgia, serif; font-size: clamp(1.75rem, 5vw, 2.5rem); font-weight: 400; }
+.waterBioPhone { position: relative; width: min(300px, 82%); margin: 1.8rem auto .4rem; padding: 11px; border: 1px solid color-mix(in srgb, var(--gold) 34%, var(--line)); border-radius: 42px; background: linear-gradient(160deg, #292929, #0a0a0a); box-shadow: 0 24px 60px -20px rgba(0, 0, 0, .82), 0 0 40px -14px color-mix(in srgb, var(--gold) 32%, transparent); }
+.waterBioPhoneNotch { position: absolute; z-index: 2; top: 19px; left: 50%; width: 34%; height: 20px; border-radius: 0 0 14px 14px; background: #050505; pointer-events: none; transform: translateX(-50%); }
+.waterBioVideo { display: block; width: 100%; aspect-ratio: 1170 / 2532; border-radius: 30px; background: #000; object-fit: cover; }
+.waterBioVideoCaption { margin: .9rem 0 0; color: var(--gold-soft); font-size: .68rem; font-weight: 700; letter-spacing: .14em; text-align: center; text-transform: uppercase; opacity: .7; }
+.site[data-site-theme="white"] .waterBioVideoCaption { color: #8d651d; }
+
+.contactDialog { width: min(980px, calc(100% - 32px)); max-height: min(92svh, 940px); padding: 0; overflow-y: auto; border: 1px solid var(--line); border-radius: 32px; color: var(--ink); background: var(--surface-solid); box-shadow: 0 40px 120px rgba(0, 5, 30, .58); }
+.contactDialog::backdrop { background: rgba(3, 10, 31, .72); backdrop-filter: blur(12px); }
+.contactDialogClose { position: sticky; z-index: 3; top: 1.1rem; float: right; display: grid; width: 44px; height: 44px; margin: 1.1rem 1.1rem -55px 0; place-items: center; border: 1px solid var(--line); border-radius: 50%; color: var(--ink); background: var(--surface-solid); cursor: pointer; font-size: 1.5rem; }
+.contactDialog .contactSection { width: 100%; margin: 0; padding: clamp(1.5rem, 5vw, 3.5rem); border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.contactDialog .contactHeader { padding-right: 3rem; }
 
 .verseDialog {
   width: min(620px, calc(100% - 32px));
@@ -547,7 +573,6 @@
   .projectsSection { padding-top: 1rem; }
   .projectGrid { gap: 1.2rem; }
   .projectArt { border-radius: clamp(22px, 8vw, 42px); }
-  .missionCard { grid-template-columns: 1fr; border-radius: 28px; }
   .services { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .service { min-height: 200px; }
   .service h3 { margin-top: 3rem; }
