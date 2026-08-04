@@ -158,6 +158,7 @@
 .projectGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.5rem, 5vw, 5rem); }
 .project { min-width: 0; text-align: center; }
 .projectArt {
+  --art-radius: clamp(30px, 5vw, 58px);
   --shine-edge: rgba(255, 214, 84, .08);
   --shine-center: rgba(255, 248, 215, .9);
   --art-rim: #8b6219;
@@ -168,7 +169,7 @@
   width: min(100%, 310px);
   margin: 0 auto;
   border: 1px solid var(--line);
-  border-radius: clamp(30px, 5vw, 58px);
+  border-radius: var(--art-radius);
   box-shadow:
     0 3px 0 color-mix(in srgb, var(--art-rim) 72%, transparent),
     0 18px 30px var(--art-shadow),
@@ -187,8 +188,13 @@
   position: relative;
   isolation: isolate;
   display: block;
+  width: 100%;
+  aspect-ratio: 1;
   overflow: hidden;
-  border-radius: inherit;
+  border-radius: var(--art-radius);
+  clip-path: inset(0 round var(--art-radius));
+  contain: paint;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
   transform: translateZ(0);
 }
 .projectArtClip::before {
@@ -584,7 +590,7 @@
   .section { width: calc(100% - 30px); padding-block: 5rem; }
   .projectsSection { padding-top: 1rem; }
   .projectGrid { gap: 1.2rem; }
-  .projectArt { border-radius: clamp(22px, 8vw, 42px); }
+  .projectArt { --art-radius: clamp(22px, 8vw, 42px); }
   .services { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .service { min-height: 200px; }
   .service h3 { margin-top: 3rem; }
