@@ -59,6 +59,14 @@ describe("Expected End About page", () => {
     expect(screen.getByRole("heading", { name: "“The Truth Behind the Code”" })).toBeInTheDocument();
   });
 
+  it("uses a vector arrow for the press inquiry action", () => {
+    const { container } = render(<CompanySite leaving={false} onOpenArtWorld={vi.fn()} />);
+    const pressLink = screen.getByRole("link", { name: "Start a press inquiry" });
+
+    expect(container.textContent).not.toContain("↓");
+    expect(pressLink.querySelector('svg[data-action-icon="down"]')).toBeInTheDocument();
+  });
+
   it("does not show the egg on the homepage", () => {
     window.history.replaceState({}, "", "/");
     render(<CompanySite leaving={false} onOpenArtWorld={vi.fn()} />);

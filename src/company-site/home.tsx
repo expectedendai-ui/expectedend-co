@@ -1,4 +1,5 @@
 import * as React from "react";
+import { ArrowDownIcon, ArrowUpRightIcon } from "./action-icons";
 import { BioDialog } from "./bio-dialog";
 import { ContactDialog } from "./contact-dialog";
 import { PROJECTS, SERVICES } from "./content";
@@ -18,7 +19,9 @@ export function HomePage() {
           <p className={styles.heroStatement}>
             We create thoughtful software, productivity tools, digital experiences, and communities that <em>bring people closer to God in exciting and easy ways!</em>
           </p>
-          <a className={styles.primaryAction} href="#projects">Meet our projects <span aria-hidden="true">↓</span></a>
+          <a className={`${styles.primaryAction} ${styles.actionWithIcon}`} href="#projects">
+            Meet our projects <ArrowDownIcon className={styles.actionIcon} />
+          </a>
         </div>
       </section>
 
@@ -63,7 +66,10 @@ export function HomePage() {
                       Bio
                     </button>
                   )}
-                  <a href={project.href} target="_blank" rel="noreferrer">{project.name === "The Water Check" ? "Visit Instagram" : "Visit app"} <span aria-hidden="true">↗</span></a>
+                  <a className={styles.actionWithIcon} href={project.href} target="_blank" rel="noreferrer">
+                    {project.name === "The Water Check" ? "Visit Instagram" : "Visit app"}
+                    <ArrowUpRightIcon className={styles.actionIcon} />
+                  </a>
                 </div>
               </div>
             </article>

@@ -29,6 +29,18 @@ describe("Expected End company homepage", () => {
     expect(screen.queryByRole("heading", { name: "Ideas can feel meaningful and easy to enter." })).not.toBeInTheDocument();
   });
 
+  it("uses vector action arrows instead of platform-dependent arrow characters", () => {
+    const { container } = render(<CompanySite leaving={false} onOpenArtWorld={vi.fn()} />);
+
+    expect(container.textContent).not.toMatch(/[↗↓]/);
+    const actionIcons = container.querySelectorAll("svg[data-action-icon]");
+    expect(actionIcons).toHaveLength(3);
+    actionIcons.forEach((icon) => {
+      expect(icon).toHaveAttribute("aria-hidden", "true");
+      expect(icon).toHaveAttribute("focusable", "false");
+    });
+  });
+
   it("opens the guided contact form from a selected service", async () => {
     const user = userEvent.setup();
     render(<CompanySite leaving={false} onOpenArtWorld={vi.fn()} />);

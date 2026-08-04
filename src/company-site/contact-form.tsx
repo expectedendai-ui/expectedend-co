@@ -1,4 +1,5 @@
 import * as React from "react";
+import { ArrowUpRightIcon } from "./action-icons";
 import styles from "./style.module.css";
 
 type ContactDetails = {
@@ -161,7 +162,9 @@ export function ContactForm({ initialProject = "", initialReason = "" }: Contact
 
         <div className={styles.contactSubmit}>
           <p>Nothing is sent until you review it and press Send in your email app.</p>
-          <button type="submit">Prepare email <span aria-hidden="true">↗</span></button>
+          <button className={styles.actionWithIcon} type="submit">
+            Prepare email <ArrowUpRightIcon className={styles.actionIcon} />
+          </button>
         </div>
       </form>
     </section>

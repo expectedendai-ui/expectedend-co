@@ -14,9 +14,11 @@ describe("Expected End contact composer", () => {
     });
     window.history.replaceState({}, "", "/about?utm_source=instagram&token=do-not-forward#contact");
 
-    render(<ContactForm />);
+    const { container } = render(<ContactForm />);
 
     expect(screen.queryByText("expectedendai@gmail.com")).not.toBeInTheDocument();
+    expect(container.textContent).not.toContain("↗");
+    expect(screen.getByRole("button", { name: /Prepare email/ }).querySelector("svg[data-action-icon]")).toBeInTheDocument();
     await user.type(screen.getByLabelText("Your name"), "A Visitor");
     await user.type(screen.getByLabelText("Your email"), "visitor@example.com");
     await user.selectOptions(screen.getByLabelText("What is this about?"), "Building an app or software idea");
