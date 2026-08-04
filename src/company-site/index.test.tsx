@@ -95,12 +95,10 @@ describe("Expected End company homepage", () => {
     expect(document.title).toBe("Privacy Statement — Expected End");
   });
 
-  it("switches and persists the scoped public theme", async () => {
-    const user = userEvent.setup();
+  it("keeps the public site blue without showing a theme control", () => {
     const { container } = render(<CompanySite leaving={false} onOpenArtWorld={vi.fn()} />);
-    await user.click(screen.getByRole("button", { name: "White" }));
-    expect(container.firstElementChild).toHaveAttribute("data-site-theme", "white");
-    expect(document.body).not.toHaveAttribute("data-theme", "white");
+    expect(container.firstElementChild).toHaveAttribute("data-site-theme", "blue");
+    expect(screen.queryByRole("group", { name: "Color theme" })).not.toBeInTheDocument();
   });
 
   it("routes the footer Contact link to the guided About form", async () => {

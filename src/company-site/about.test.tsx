@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { CompanySite } from ".";
@@ -35,12 +35,28 @@ describe("Expected End About page", () => {
     expect(storyToggle).toHaveAttribute("aria-expanded", "false");
     await user.click(storyToggle);
     expect(screen.getByRole("heading", { name: "Hi, my name is Denzel Rigaud." })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "“The Truth Behind the Code”" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Two" })).toHaveAttribute("href", "https://unicourt.com/case/fl-pal-rigaud-denzel-v-hall-aaron-914059");
+    expect(screen.getByRole("link", { name: "father" })).toHaveAttribute("href", "https://www.google.com/search?q=clifford+rigaud");
+    expect(screen.getByRole("link", { name: "chivalry" })).toHaveAttribute("href", "https://www.youtube.com/watch?v=SHVKb2j6rfc&list=RDSHVKb2j6rfc&start_radio=1");
     expect(screen.getByRole("button", { name: "Close Founder Story" })).toHaveAttribute("aria-expanded", "true");
 
     await user.click(screen.getByRole("button", { name: /Jeremiah 29:11/ }));
     expect(screen.getByRole("dialog", { name: "Jeremiah 29:11" })).toHaveTextContent("to give you an expected end");
     await user.click(screen.getByRole("button", { name: "Close Bible verse" }));
     expect(screen.queryByRole("dialog", { name: "Jeremiah 29:11" })).not.toBeInTheDocument();
+  });
+
+  it("opens the founder story when linked from MyBibleLens", () => {
+    render(<CompanySite leaving={false} onOpenArtWorld={vi.fn()} />);
+
+    act(() => {
+      window.history.pushState({}, "", "/about#founder-story");
+      window.dispatchEvent(new HashChangeEvent("hashchange"));
+    });
+
+    expect(screen.getByRole("button", { name: "Close Founder Story" })).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByRole("heading", { name: "“The Truth Behind the Code”" })).toBeInTheDocument();
   });
 
   it("does not show the egg on the homepage", () => {

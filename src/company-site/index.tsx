@@ -7,7 +7,6 @@ import { LEGAL_CONTENT } from "./legal-content";
 import { Navigation } from "./navigation";
 import { getRoute, getRouteMetadata, isInternalHref } from "./routes";
 import styles from "./style.module.css";
-import { readSiteTheme, type SiteTheme, writeSiteTheme } from "./theme";
 
 type CompanySiteProps = {
   leaving: boolean;
@@ -61,7 +60,6 @@ const scrollToHash = (hash: string) => {
 
 export function CompanySite({ leaving, onOpenArtWorld }: CompanySiteProps) {
   const [route, setRoute] = React.useState(() => getRoute(window.location.pathname));
-  const [theme, setTheme] = React.useState<SiteTheme>(readSiteTheme);
 
   React.useEffect(() => {
     updateDocumentMetadata(window.location.pathname);
@@ -75,11 +73,6 @@ export function CompanySite({ leaving, onOpenArtWorld }: CompanySiteProps) {
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
   }, []);
-
-  const selectTheme = (nextTheme: SiteTheme) => {
-    setTheme(nextTheme);
-    writeSiteTheme(nextTheme);
-  };
 
   const onNavigate = (event: React.MouseEvent<HTMLAnchorElement>) => {
     if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -95,7 +88,7 @@ export function CompanySite({ leaving, onOpenArtWorld }: CompanySiteProps) {
 
   const renderRoute = () => {
     if (route.key === "home") return <HomePage />;
-    if (route.key === "about") return <AboutPage onOpenArtWorld={onOpenArtWorld} />;
+    if (route.key === "about") return <AboutPage />;
     if (route.key === "terms" || route.key === "privacy" || route.key === "accessibility") {
       return <InfoPage content={LEGAL_CONTENT[route.key]} />;
     }
@@ -109,10 +102,10 @@ export function CompanySite({ leaving, onOpenArtWorld }: CompanySiteProps) {
   };
 
   return (
-    <div className={`${styles.site} ${leaving ? styles.leaving : ""}`} data-site-theme={theme}>
-      <Navigation isHome={route.key === "home"} theme={theme} onNavigate={onNavigate} onThemeChange={selectTheme} />
+    <div className={`${styles.site} ${leaving ? styles.leaving : ""}`} data-site-theme="blue">
+      <Navigation isHome={route.key === "home"} onNavigate={onNavigate} />
       {renderRoute()}
-      <Footer onNavigate={onNavigate} />
+      <Footer onNavigate={onNavigate} onOpenArtWorld={route.key === "about" ? onOpenArtWorld : undefined} />
     </div>
   );
 }

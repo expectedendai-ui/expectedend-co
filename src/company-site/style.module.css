@@ -66,9 +66,10 @@
   left: 50%;
   z-index: 20;
   display: flex;
-  width: min(1180px, calc(100% - 40px));
+  width: fit-content;
+  max-width: calc(100% - 40px);
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 22px;
   padding: 8px 10px 8px 18px;
   border: 1px solid var(--line);
@@ -79,25 +80,13 @@
   transform: translateX(-50%);
 }
 
-.navLinks, .theme { display: flex; align-items: center; }
+.navLinks { display: flex; align-items: center; }
 .navLinks { gap: 24px; }
 .nav a { color: var(--muted); font-size: 13px; font-weight: 600; letter-spacing: .01em; transition: color 180ms ease; }
 .nav a:hover { color: var(--ink); }
 .nav .companyNav { padding: 9px 13px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
 .nav .contactNav { padding: 10px 15px; border-radius: 999px; color: #15285d; background: var(--gold-soft); font-size: 11px; font-weight: 800; }
 .nav .contactNav:hover { color: #071b51; }
-.theme { min-width: 0; margin: 0; gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
-.theme button {
-  min-height: 32px;
-  padding: 7px 12px;
-  border: 0;
-  border-radius: 999px;
-  color: var(--muted);
-  background: transparent;
-  cursor: pointer;
-  font: 700 11px/1 "DM Sans", system-ui, sans-serif;
-}
-.theme .themeActive { color: #fff; background: var(--blue-bright); box-shadow: 0 4px 15px rgba(10, 45, 137, .26); }
 
 .hero {
   position: relative;
@@ -293,7 +282,7 @@
 .aboutStory { display: grid; width: min(940px, 100%); gap: clamp(3.5rem, 7vw, 6rem); margin: clamp(5rem, 9vw, 7rem) auto 0; }
 .storyChapter { display: grid; grid-template-columns: minmax(220px, .8fr) minmax(0, 1.2fr); gap: clamp(2rem, 7vw, 6rem); align-items: start; }
 .storyHeading { position: sticky; top: 8rem; }
-.storyHeading h2, .storyHeading h3, .missionStory h2, .pressSection h2, .expectedEnding h2 {
+.storyHeading h2, .storyHeading h3, .missionStory h2, .pressSection h2 {
   margin: .6rem 0 0;
   font-family: "Instrument Serif", Georgia, serif;
   font-size: clamp(2.8rem, 5.5vw, 5rem);
@@ -386,26 +375,52 @@
 .founderIntro h2 { margin-bottom: .5rem; }
 .founderIntro p { margin: 0; color: var(--muted); font-size: 1.02rem; line-height: 1.75; }
 .founderIntro .founderLead { color: var(--ink); font-family: "Instrument Serif", Georgia, serif; font-size: clamp(1.7rem, 4vw, 2.5rem); line-height: 1.2; }
-.founderValues { max-width: 680px; margin-inline: auto; padding: 1.5rem 0 1.5rem 1.5rem; border-left: 2px solid var(--gold); }
-.founderValues p { margin: 0; color: var(--muted); font-size: 1.03rem; line-height: 1.8; }
-
-.expectedEnding { max-width: 760px; margin-inline: auto; text-align: center; }
-.expectedEnding h2 { font-size: clamp(3.5rem, 8vw, 7rem); }
-.expectedEnding > p:not(.kicker) { max-width: 660px; margin: 1.4rem auto 0; color: var(--muted); font-size: 1.03rem; line-height: 1.8; }
-.expectedEnding button {
-  min-height: 52px;
-  margin-top: 2.2rem;
-  padding: 0 1.3rem;
-  border: 1px solid var(--gold);
-  border-radius: 999px;
-  color: #15285d;
-  background: var(--gold-soft);
-  box-shadow: 0 14px 36px rgba(0, 8, 36, .16);
-  cursor: pointer;
-  font: 800 12px/1 "DM Sans", sans-serif;
-  transition: transform 180ms ease, box-shadow 180ms ease;
+.truthBehindCode {
+  display: grid;
+  gap: clamp(2.8rem, 6vw, 4.8rem);
+  padding: clamp(1.6rem, 5vw, 4rem);
+  border: 1px solid var(--line);
+  border-radius: 32px;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--surface) 88%, transparent), color-mix(in srgb, var(--paper) 78%, transparent));
 }
-.expectedEnding button:hover { box-shadow: 0 19px 42px rgba(0, 8, 36, .24); transform: translateY(-3px); }
+.truthBehindCodeHeader { max-width: 690px; }
+.truthBehindCodeHeader h2 {
+  margin: .6rem 0 0;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(2.8rem, 6vw, 5.2rem);
+  font-weight: 400;
+  letter-spacing: -.04em;
+  line-height: .96;
+}
+.truthChapter { display: grid; grid-template-columns: minmax(180px, .62fr) minmax(0, 1.38fr); gap: clamp(1.5rem, 5vw, 4rem); align-items: start; }
+.truthChapter + .truthChapter { padding-top: clamp(2rem, 5vw, 3.5rem); border-top: 1px solid var(--line); }
+.truthChapter h3 { margin: 0; color: var(--ink); font-family: "Instrument Serif", Georgia, serif; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 400; letter-spacing: -.03em; line-height: 1; }
+.truthCopy { display: grid; gap: 1.35rem; color: var(--muted); font-size: 1.01rem; line-height: 1.8; }
+.truthCopy p { margin: 0; }
+.truthCopy strong { color: var(--ink); font-weight: 800; }
+.truthCopy a { color: var(--gold-soft); font-weight: 700; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
+.truthCopy a:hover { color: var(--ink); }
+.site[data-site-theme="white"] .truthCopy a { color: #8d651d; }
+.truthCopy .closingMission { padding-top: 1.35rem; border-top: 1px solid var(--line); color: var(--ink); }
+.truthCopy .inlineVerse {
+  display: inline;
+  min-height: 0;
+  margin: 0 0 0 .3em;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  border-radius: 0;
+  color: var(--gold-soft);
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+  text-underline-offset: .2em;
+  transition: color 180ms ease, border-color 180ms ease;
+}
+.truthCopy .inlineVerse:hover { color: var(--ink); }
+.truthCopy .inlineVerse:focus-visible { outline: 2px solid var(--gold-soft); outline-offset: 4px; }
 .aboutMain .contactSection { margin-top: clamp(4rem, 8vw, 6rem); }
 
 .contactSection {
@@ -445,20 +460,17 @@
 .contactSubmit button { min-height: 50px; padding: 0 1.2rem; border: 1px solid var(--gold); border-radius: 999px; color: #15285d; background: var(--gold-soft); cursor: pointer; font: 800 12px/1 "DM Sans", sans-serif; transition: transform 180ms ease, box-shadow 180ms ease; }
 .contactSubmit button:hover { transform: translateY(-2px); box-shadow: 0 14px 35px rgba(0, 5, 30, .22); }
 .eggButton {
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  z-index: 18;
   display: grid;
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
   place-items: center;
   padding: 0;
   border: 0;
   border-radius: 50%;
   background: transparent;
   cursor: pointer;
-  opacity: .14;
+  opacity: .04;
   transition: opacity 180ms ease, transform 180ms ease;
 }
 .eggButton:hover, .eggButton:focus-visible { opacity: .72; transform: scale(1.08); }
@@ -484,6 +496,7 @@
 .footerLinks a:hover { color: var(--ink); }
 .footerBottom { display: flex; justify-content: space-between; gap: 2rem; padding-top: 1.2rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .footerBottom p { margin: 0; }
+.footerBlessing { display: flex; align-items: center; gap: .25rem; margin: -12px 0 -12px auto; }
 .footerBottom .blessing { color: var(--gold-soft); font-family: "Instrument Serif", Georgia, serif; font-size: .9rem; font-weight: 400; letter-spacing: .04em; text-transform: none; }
 .site[data-site-theme="white"] .footerBottom .blessing { color: #987126; }
 
@@ -565,7 +578,6 @@
   .navLinks .sectionLink { display: none; }
   .nav .companyNav { padding-inline: 9px; font-size: 11px; }
   .nav .contactNav { padding-inline: 10px; }
-  .theme button { padding-inline: 10px; }
   .hero { min-height: 88svh; padding-top: 8rem; }
   .heroTitle { font-size: clamp(4rem, 20vw, 6.7rem); }
   .heroStatement { margin-top: 2rem; }
@@ -577,7 +589,7 @@
   .service { min-height: 200px; }
   .service h3 { margin-top: 3rem; }
   .aboutMain, .infoMain { padding-inline: 1rem; }
-  .storyChapter, .missionStory, .pressSection { grid-template-columns: 1fr; }
+  .storyChapter, .missionStory, .pressSection, .truthChapter { grid-template-columns: 1fr; }
   .storyHeading { position: static; }
   .founderReveal { border-radius: 28px; }
   .founderToggle { margin-inline: 2rem; }
