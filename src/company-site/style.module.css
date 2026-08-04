@@ -582,7 +582,7 @@
 
 @media (max-width: 780px) {
   .nav { width: calc(100% - 24px); padding-left: 14px; }
-  .navLinks { gap: 0; }
+  .navLinks { gap: 8px; }
   .navLinks .sectionLink { display: none; }
   .nav .companyNav { padding-inline: 9px; font-size: 11px; }
   .nav .contactNav { padding-inline: 10px; }
