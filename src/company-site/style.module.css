@@ -59,6 +59,8 @@
 .site button, .site a { -webkit-tap-highlight-color: transparent; }
 .site :focus-visible { outline: 3px solid var(--gold-soft); outline-offset: 4px; }
 .srOnly { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.actionWithIcon { display: inline-flex; align-items: center; justify-content: center; gap: .45em; }
+.actionIcon { display: block; width: 1em; height: 1em; flex: 0 0 auto; }
 
 .nav {
   position: fixed;
