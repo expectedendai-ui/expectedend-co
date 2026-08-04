@@ -1,4 +1,5 @@
 import * as React from "react";
+import { ArrowDownIcon } from "./action-icons";
 import { ContactForm } from "./contact-form";
 import styles from "./style.module.css";
 import { VerseDialog } from "./verse-dialog";
@@ -130,7 +131,9 @@ export function AboutPage() {
           </div>
           <div>
             <p>Expected End welcomes conversations about faith-centered technology, digital well-being, founder grief, MyBibleLens, The Water Check, and products that return time to real life.</p>
-            <a href="#contact">Start a press inquiry <span aria-hidden="true">↓</span></a>
+            <a className={styles.actionWithIcon} href="#contact">
+              Start a press inquiry <ArrowDownIcon className={styles.actionIcon} />
+            </a>
           </div>
         </section>
       </div>
