@@ -29,7 +29,7 @@ export const TRACKS: Track[] = [
 export function SongGate({ leaving, onPick }: { leaving: boolean; onPick: (i: number) => void }) {
   return (
     <div className={`${styles.gate} ${leaving ? styles.leaving : ""}`}>
-      <div className={styles.eyebrow}>Authentic</div>
+      <div className={styles.eyebrow}>Aug 2021 – Aug 2023 · My own apartment, not a single drug or alcohol taken.</div>
       <h1 className={styles.title}>
         select your track
         {/* biome-ignore lint/a11y: intentional hidden door, not a public control */}
