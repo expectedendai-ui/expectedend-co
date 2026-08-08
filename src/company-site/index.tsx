@@ -1,4 +1,6 @@
 import * as React from "react";
+import { WATER_CHECK_LEGAL_CONTENT, type WaterCheckLegalKey } from "../water-check/legal/water-check-legal-content";
+import { WaterCheckLegalPage } from "../water-check/legal/water-check-legal-page";
 import { WaterCheckPage } from "../water-check/water-check-page";
 import { WaterCheckShell } from "../water-check/water-check-shell";
 import { AboutPage } from "./about";
@@ -64,8 +66,8 @@ export function CompanySite({ leaving, onOpenArtWorld }: CompanySiteProps) {
   const [route, setRoute] = React.useState(() => getRoute(window.location.pathname));
 
   React.useEffect(() => {
-    updateDocumentMetadata(window.location.pathname);
-  }, [route]);
+    updateDocumentMetadata(route.path);
+  }, [route.path]);
 
   React.useEffect(() => {
     const onPopState = () => {
@@ -98,27 +100,25 @@ export function CompanySite({ leaving, onOpenArtWorld }: CompanySiteProps) {
       <main className={styles.notFound}>
         <p className={styles.kicker}>404</p>
         <h1>That page isn’t here.</h1>
-        <a href="/" onClick={onNavigate}>Return home</a>
+        <a href="/" onClick={onNavigate}>
+          Return home
+        </a>
       </main>
     );
   };
 
   if (route.family === "water-check") {
-    const legalHeadings: Record<Exclude<WaterCheckRouteKey, "water-check-home">, string> = {
-      "water-check-privacy": "Privacy",
-      "water-check-terms": "Terms",
-      "water-check-health-and-ai-disclaimer": "Health & AI Disclaimer",
-      "water-check-consumer-health-data": "Consumer Health Data",
+    const legalContentKeys: Record<Exclude<WaterCheckRouteKey, "water-check-home">, WaterCheckLegalKey> = {
+      "water-check-privacy": "privacy",
+      "water-check-terms": "terms",
+      "water-check-health-and-ai-disclaimer": "health-and-ai-disclaimer",
+      "water-check-consumer-health-data": "consumer-health-data",
     };
     const content =
       route.key === "water-check-home" ? (
         <WaterCheckPage onNavigate={onNavigate} />
       ) : (
-        <main>
-          <p>The Water Check</p>
-          <h1>{legalHeadings[route.key]}</h1>
-          <p>Product-specific information will be published here.</p>
-        </main>
+        <WaterCheckLegalPage content={WATER_CHECK_LEGAL_CONTENT[legalContentKeys[route.key]]} onNavigate={onNavigate} />
       );
 
     return (
