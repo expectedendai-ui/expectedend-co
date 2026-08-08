@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { WaterCheckPage } from "./water-check-page";
@@ -85,17 +85,26 @@ describe("Water Check Coming Soon page", () => {
     expect(container.querySelector("[src*='water-check-demo'], [srcset*='water-check-demo'], [poster]")).not.toBeInTheDocument();
     expect(container).not.toHaveTextContent(/testimonial|five-star|5-star|clinically proven|certified|real users/i);
 
-    const instagram = screen.getByRole("link", { name: "Follow on Instagram for launch updates" });
-    expect(instagram).toHaveAttribute("href", "https://www.instagram.com/thewatercheck/");
-    expect(instagram).toHaveAttribute("target", "_blank");
-    expect(instagram).toHaveAttribute("rel", expect.stringMatching(/noopener/));
-    expect(instagram).toHaveAttribute("rel", expect.stringMatching(/noreferrer/));
+    const instagramLinks = screen.getAllByRole("link", {
+      name: "Join our community to help you stay hydrated!",
+    });
+    expect(instagramLinks).toHaveLength(2);
+    for (const instagram of instagramLinks) {
+      expect(instagram).toHaveAttribute("href", "https://www.instagram.com/thewatercheck/");
+      expect(instagram).toHaveAttribute("target", "_blank");
+      expect(instagram).toHaveAttribute("rel", expect.stringMatching(/noopener/));
+      expect(instagram).toHaveAttribute("rel", expect.stringMatching(/noreferrer/));
+      expect(within(instagram).getByRole("img", { name: "Instagram" })).toHaveAttribute(
+        "src",
+        "/instagram-logo.webp"
+      );
+    }
   });
 
   it.each([
     ["pointer", "App Store — Coming Soon"],
     ["keyboard", "Google Play — Coming Soon"],
-  ])("keeps %s store activation inline, stable, and side-effect free", async (method, accessibleName) => {
+  ])("opens a dismissible Coming Soon popup for %s store activation without side effects", async (method, accessibleName) => {
     const user = userEvent.setup();
     const open = vi.spyOn(window, "open").mockImplementation(() => null);
     const request = vi.fn();
@@ -106,36 +115,29 @@ describe("Water Check Coming Soon page", () => {
     const sessionStorageBefore = storageSnapshot(window.sessionStorage);
 
     render(<WaterCheckPage onNavigate={vi.fn()} />);
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+
     const control = screen.getAllByRole("button", { name: accessibleName })[0];
     control.focus();
     const activate = () => (method === "pointer" ? user.click(control) : user.keyboard("{Enter}"));
 
     await activate();
 
-    const storeGroup = screen.getAllByRole("group", { name: "Future app availability" }).find((group) => group.contains(control));
-    expect(storeGroup).toBeInTheDocument();
-    const storeArea = storeGroup?.parentElement;
-    expect(storeArea).toBeInTheDocument();
-    const status = within(storeArea as HTMLElement).getByRole("status");
-    expect(status).toHaveAttribute("aria-live", "polite");
-    expect(status).toHaveTextContent(/still coming soon/i);
-    expect(status).not.toHaveTextContent(/availability checked again/i);
+    const dialog = screen.getByRole("dialog", { name: "Coming Soon" });
+    expect(dialog).toHaveAttribute("aria-modal", "true");
+    expect(within(dialog).getByText(accessibleName.replace(" — Coming Soon", ""))).toBeInTheDocument();
+    expect(within(dialog).getByRole("button", { name: "Close Coming Soon popup" })).toHaveFocus();
+
+    fireEvent(dialog, new Event("cancel", { bubbles: false, cancelable: true }));
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(control).toHaveFocus();
-    expect(control).not.toHaveAttribute("aria-pressed");
-    expect(control).not.toHaveAttribute("aria-expanded");
-    const firstStatus = status.textContent;
 
     await activate();
-    expect(status).toHaveTextContent("Availability checked again (2).");
+    await user.click(screen.getByRole("button", { name: "Close Coming Soon popup" }));
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(control).toHaveFocus();
-    const secondStatus = status.textContent;
 
-    await activate();
-    expect(status).toHaveTextContent("Availability checked again (3).");
-    expect(control).toHaveFocus();
-    const thirdStatus = status.textContent;
-
-    expect(new Set([firstStatus, secondStatus, thirdStatus])).toHaveProperty("size", 3);
     expect(window.location.href).toBe(locationBefore);
     expect(open).not.toHaveBeenCalled();
     expect(request).not.toHaveBeenCalled();

@@ -8,6 +8,11 @@ type WaterCheckPageProps = {
 
 type StoreName = "App Store" | "Google Play";
 
+type ComingSoonDialogProps = {
+  store: StoreName;
+  onClose: () => void;
+};
+
 const FEATURES = [
   {
     number: "01",
@@ -62,15 +67,67 @@ const FAQS = [
   },
 ] as const;
 
-function StoreActions({ compact = false }: { compact?: boolean }) {
-  const [availability, setAvailability] = React.useState<{ store: StoreName; activation: number } | null>(null);
+function ComingSoonDialog({ store, onClose }: ComingSoonDialogProps) {
+  const dialogRef = React.useRef<HTMLDialogElement>(null);
+  const closeButtonRef = React.useRef<HTMLButtonElement>(null);
+  const openerRef = React.useRef<HTMLElement | null>(null);
+  const titleId = React.useId();
+  const descriptionId = React.useId();
 
-  const checkAvailability = (store: StoreName) => {
-    setAvailability((current) => ({
-      store,
-      activation: (current?.activation ?? 0) + 1,
-    }));
-  };
+  React.useEffect(() => {
+    openerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    if (typeof dialog.showModal === "function") dialog.showModal();
+    else dialog.setAttribute("open", "");
+    closeButtonRef.current?.focus();
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      openerRef.current?.focus();
+    };
+  }, []);
+
+  return (
+    <dialog
+      aria-describedby={descriptionId}
+      aria-labelledby={titleId}
+      aria-modal="true"
+      className={styles.comingSoonPopup}
+      onCancel={(event) => {
+        event.preventDefault();
+        onClose();
+      }}
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+      ref={dialogRef}
+    >
+      <button
+        aria-label="Close Coming Soon popup"
+        className={styles.popupClose}
+        onClick={onClose}
+        ref={closeButtonRef}
+        type="button"
+      >
+        <span aria-hidden="true">×</span>
+      </button>
+      <p className={styles.popupKicker}>The Water Check</p>
+      <h2 id={titleId}>Coming Soon</h2>
+      <p id={descriptionId}>
+        <strong>{store}</strong> is not live yet. We’re building the experience carefully and will share the download when it
+        is ready.
+      </p>
+    </dialog>
+  );
+}
+
+function StoreActions({ compact = false }: { compact?: boolean }) {
+  const [selectedStore, setSelectedStore] = React.useState<StoreName | null>(null);
 
   return (
     <div className={`${styles.storeArea} ${compact ? styles.storeAreaCompact : ""}`}>
@@ -78,33 +135,46 @@ function StoreActions({ compact = false }: { compact?: boolean }) {
         <legend className={styles.srOnly}>Future app availability</legend>
         <button
           aria-label="App Store — Coming Soon"
+          aria-haspopup="dialog"
           className={styles.storeButton}
           type="button"
-          onClick={() => checkAvailability("App Store")}
+          onClick={() => setSelectedStore("App Store")}
         >
           <img className={styles.storeBadge} src="/appstore-coming-soon.png" alt="App Store" width="900" height="275" />
           <span className={styles.srOnly}> — Coming Soon</span>
         </button>
         <button
           aria-label="Google Play — Coming Soon"
+          aria-haspopup="dialog"
           className={styles.storeButton}
           type="button"
-          onClick={() => checkAvailability("Google Play")}
+          onClick={() => setSelectedStore("Google Play")}
         >
           <img className={styles.storeBadge} src="/playstore-soon.webp" alt="Google Play" width="536" height="180" />
           <span className={styles.srOnly}> — Coming Soon</span>
         </button>
       </fieldset>
-      <output className={styles.storeStatus} aria-live="polite" aria-atomic="true">
-        {availability ? (
-          <>
-            {availability.store} is still coming soon. No store listing is live yet.
-            {availability.activation > 1 ? ` Availability checked again (${availability.activation}).` : ""}
-          </>
-        ) : (
-          "No store listing is live yet. Choose either store for an availability update."
-        )}
-      </output>
+      <a
+        aria-label="Join our community to help you stay hydrated!"
+        className={styles.communityLink}
+        href="https://www.instagram.com/thewatercheck/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          className={styles.instagramLogo}
+          src="/instagram-logo.webp"
+          alt="Instagram"
+          width="256"
+          height="256"
+          loading="lazy"
+          decoding="async"
+        />
+        <span>Join our community to help you stay hydrated!</span>
+        <ArrowUpRightIcon className={styles.inlineIcon} />
+      </a>
+
+      {selectedStore ? <ComingSoonDialog store={selectedStore} onClose={() => setSelectedStore(null)} /> : null}
     </div>
   );
 }
@@ -328,14 +398,6 @@ export function WaterCheckPage({ onNavigate }: WaterCheckPageProps) {
             promised.
           </p>
           <StoreActions compact />
-          <a
-            className={styles.instagramLink}
-            href="https://www.instagram.com/thewatercheck/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Follow on Instagram for launch updates <ArrowUpRightIcon className={styles.inlineIcon} />
-          </a>
         </section>
       </main>
     </div>

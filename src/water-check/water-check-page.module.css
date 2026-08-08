@@ -199,10 +199,11 @@
   align-items: center;
   justify-content: center;
   padding: 0;
+  overflow: hidden;
   border: 0;
   border-radius: 0.75rem;
   color: inherit;
-  background: transparent;
+  background: #050709;
   box-shadow: 0 14px 32px rgba(7, 26, 45, 0.18);
   cursor: pointer;
   transition:
@@ -226,6 +227,42 @@
   object-fit: contain;
 }
 
+.communityLink {
+  display: grid;
+  width: fit-content;
+  max-width: 31rem;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.9rem;
+  padding: 0.5rem 0.75rem 0.5rem 0.5rem;
+  border: 1px solid rgba(16, 44, 73, 0.09);
+  border-radius: 1.05rem;
+  color: #274d6d;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 0.8rem 2.2rem rgba(31, 85, 137, 0.11);
+  font-size: 0.76rem;
+  font-weight: 780;
+  line-height: 1.35;
+  text-decoration: none;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.communityLink:hover {
+  box-shadow: 0 1rem 2.7rem rgba(31, 85, 137, 0.16);
+  transform: translateY(-2px);
+}
+
+.instagramLogo {
+  display: block;
+  width: 2.65rem;
+  height: 2.65rem;
+  border-radius: 0.8rem;
+  object-fit: cover;
+}
+
 .iconSvg {
   display: block;
   width: 1em;
@@ -239,14 +276,75 @@
   flex: 0 0 auto;
 }
 
-.page .storeStatus {
-  display: block;
-  min-height: 2.6rem;
-  max-width: 34rem;
-  margin: 0.7rem 0 0;
+.comingSoonPopup {
+  position: relative;
+  width: min(28rem, calc(100% - 2.5rem));
+  margin: auto;
+  padding: 3rem 2.25rem 2.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 2rem;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 82% 10%, rgba(142, 214, 255, 0.55), transparent 40%),
+    linear-gradient(145deg, #ffffff, #e7f5ff);
+  box-shadow: 0 2rem 7rem rgba(4, 17, 31, 0.32);
+  text-align: center;
+}
+
+.comingSoonPopup::backdrop {
+  background: rgba(7, 26, 45, 0.62);
+  backdrop-filter: blur(12px);
+}
+
+.popupClose {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: grid;
+  width: 2.35rem;
+  height: 2.35rem;
+  padding: 0;
+  place-items: center;
+  border: 1px solid rgba(16, 44, 73, 0.14);
+  border-radius: 999px;
+  color: #173f60;
+  background: rgba(255, 255, 255, 0.72);
+  cursor: pointer;
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.page .popupKicker {
+  max-width: none;
+  margin: 0 0 0.55rem;
+  color: #2679a8;
+  font-size: 0.66rem;
+  font-weight: 850;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.comingSoonPopup h2 {
+  margin: 0;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(3.2rem, 10vw, 4.8rem);
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  line-height: 0.9;
+}
+
+.page .comingSoonPopup > p:last-child {
+  max-width: 22rem;
+  margin: 1.2rem auto 0;
   color: #526b7c;
-  font-size: 0.72rem;
-  line-height: 1.45;
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+
+.comingSoonPopup strong {
+  display: block;
+  margin-bottom: 0.15rem;
+  color: #173f60;
 }
 
 .heroVisual {
@@ -953,23 +1051,11 @@
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.2);
 }
 
-.page .storeAreaCompact .storeStatus {
+.storeAreaCompact .communityLink {
   margin-inline: auto;
-  color: #a9c8dc;
-}
-
-.instagramLink {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  margin-top: 1.1rem;
-  padding: 0.55rem 0.2rem;
-  color: #b9d9ec;
-  font-size: 0.75rem;
-  font-weight: 720;
-  text-decoration: underline;
-  text-decoration-color: rgba(185, 217, 236, 0.4);
-  text-underline-offset: 0.35em;
+  border-color: rgba(255, 255, 255, 0.16);
+  color: #d9edfa;
+  background: rgba(255, 255, 255, 0.08);
 }
 
 @keyframes halo-breathe {
@@ -1046,6 +1132,10 @@
   .storeButton {
     width: 100%;
     min-width: 0;
+  }
+
+  .communityLink {
+    width: 100%;
   }
 
   .visualNote {
@@ -1195,11 +1285,13 @@
   }
 
   .storeButton,
+  .communityLink,
   .faqControl {
     transition: none;
   }
 
-  .storeButton:hover {
+  .storeButton:hover,
+  .communityLink:hover {
     transform: none;
   }
 }
