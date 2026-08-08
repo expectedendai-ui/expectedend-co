@@ -1,4 +1,5 @@
 import * as React from "react";
+import { WaterCheckPage } from "../water-check/water-check-page";
 import { WaterCheckShell } from "../water-check/water-check-shell";
 import { AboutPage } from "./about";
 import { Footer } from "./footer";
@@ -111,11 +112,7 @@ export function CompanySite({ leaving, onOpenArtWorld }: CompanySiteProps) {
     };
     const content =
       route.key === "water-check-home" ? (
-        <main>
-          <p>Coming Soon</p>
-          <h1>The Water Check</h1>
-          <p>A thoughtful hydration and wellness experience is on the way.</p>
-        </main>
+        <WaterCheckPage onNavigate={onNavigate} />
       ) : (
         <main>
           <p>The Water Check</p>
