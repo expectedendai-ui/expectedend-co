@@ -11,6 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
+.worktrees/
 
 # Local-only audio (third-party content — never commit, never ship)
 public/audio/
