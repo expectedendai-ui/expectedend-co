@@ -31,6 +31,9 @@ describe("Expected End About page", () => {
     egg.focus();
     await user.keyboard("{Enter}{Enter}");
     expect(onOpenArtWorld).toHaveBeenCalledTimes(2);
+
+    await user.keyboard("[Space][Space]");
+    expect(onOpenArtWorld).toHaveBeenCalledTimes(3);
   });
 
   it("expires an unfinished activation sequence and cleans up its timer", () => {

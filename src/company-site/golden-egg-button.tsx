@@ -17,7 +17,12 @@ export function GoldenEggButton({ onActivate }: GoldenEggButtonProps) {
     setArmed(false);
   }, []);
 
-  React.useEffect(() => clearActivation, [clearActivation]);
+  React.useEffect(
+    () => () => {
+      if (resetTimerRef.current !== null) window.clearTimeout(resetTimerRef.current);
+    },
+    []
+  );
 
   const handleActivate = () => {
     if (armedRef.current) {
