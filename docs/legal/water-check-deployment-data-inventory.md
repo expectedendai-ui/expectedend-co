@@ -4,6 +4,8 @@ Status: **unresolved — blocks hosted preview and production release**
 
 This inventory records the deployment-layer facts needed to describe the Water Check Coming Soon website accurately. Repository review can establish what the application code intentionally does; it cannot establish the authenticated Cloudflare Pages, DNS, CDN, security, or account configuration. An authorized owner must complete the evidence fields below before approving the product privacy language.
 
+The production release guard hashes this entire document, requires every deployment area to have a resolved evidence location and a `Verified`, `Complete`, `Approved`, or reasoned `Not applicable` status, and requires every approval-record value below to be resolved. Approval metadata alone cannot release an unresolved inventory. Any edit after approval changes the document digest and blocks release until the inventory is reviewed again.
+
 ## Application-layer observation
 
 The reviewed Coming Soon implementation contains no form, waitlist, account flow, health or demographic input, product-scan upload, AI chat, payment flow, Water Check analytics integration, advertising integration, or intentional cookie/local-storage/session-storage write. Store controls update an in-page status only. The optional Instagram link sends a request to Instagram only after a visitor activates it.

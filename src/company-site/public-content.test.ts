@@ -1,14 +1,20 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { getWaterCheckRenderedReleaseFacts } from "../water-check/legal/water-check-release-content";
 import { validateWaterCheckRelease, WATER_CHECK_RELEASE_EVIDENCE } from "../water-check/legal/water-check-release-evidence";
 import { CONTACT_HREF, PUBLIC_CONTENT_APPROVED } from "./content";
 import { getRouteMetadata } from "./routes";
 
 const WATER_CHECK_GOVERNED_SOURCE_PATHS = [
   "src/water-check/water-check-page.tsx",
+  "src/water-check/water-check-shell.tsx",
   "src/water-check/legal/water-check-legal-content.ts",
+  "src/water-check/legal/water-check-legal-page.tsx",
+  "docs/legal/water-check-deployment-data-inventory.md",
 ] as const;
+
+const WATER_CHECK_DEPLOYMENT_INVENTORY_PATH = "docs/legal/water-check-deployment-data-inventory.md";
 
 const WATER_CHECK_PATHS = [
   "/thewatercheck",
@@ -74,7 +80,11 @@ describe.skipIf(process.env.RELEASE_CHECK !== "1")("public-content release gate"
   });
 
   it("requires independent, content-bound Water Check release evidence", () => {
-    const validation = validateWaterCheckRelease(WATER_CHECK_RELEASE_EVIDENCE, readWaterCheckGovernedSources());
+    const validation = validateWaterCheckRelease(WATER_CHECK_RELEASE_EVIDENCE, {
+      governedSources: readWaterCheckGovernedSources(),
+      renderedFacts: getWaterCheckRenderedReleaseFacts(WATER_CHECK_RELEASE_EVIDENCE),
+      deploymentInventoryDocument: readFileSync(WATER_CHECK_DEPLOYMENT_INVENTORY_PATH, "utf8"),
+    });
     expect(validation.errors, validation.errors.join("\n")).toEqual([]);
     expect(validation.valid).toBe(true);
   });

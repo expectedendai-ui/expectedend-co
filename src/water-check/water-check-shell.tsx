@@ -1,4 +1,9 @@
 import type * as React from "react";
+import {
+  getWaterCheckRenderedReleaseFacts,
+  WATER_CHECK_PENDING_APPROVAL_LABEL,
+  WATER_CHECK_RELEASE_RECORD,
+} from "./legal/water-check-release-content";
 import styles from "./water-check-shell.module.css";
 
 type WaterCheckShellProps = {
@@ -16,6 +21,8 @@ const LEGAL_LINKS = [
 ] as const;
 
 export function WaterCheckShell({ activePath, children, leaving, onNavigate }: WaterCheckShellProps) {
+  const releaseFacts = getWaterCheckRenderedReleaseFacts(WATER_CHECK_RELEASE_RECORD);
+
   return (
     <div className={`${styles.shell} ${leaving ? styles.leaving : ""}`} data-site-theme="water-check">
       <header className={styles.header}>
@@ -45,7 +52,9 @@ export function WaterCheckShell({ activePath, children, leaving, onNavigate }: W
             Expected End
           </a>
         </nav>
-        <p className={styles.copyright}>© 2026 Expected End LLC</p>
+        <p className={styles.copyright}>
+          © 2026 The Water Check · Entity: {releaseFacts.entityName ?? WATER_CHECK_PENDING_APPROVAL_LABEL}
+        </p>
       </footer>
     </div>
   );

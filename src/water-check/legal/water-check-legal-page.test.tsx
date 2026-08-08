@@ -5,9 +5,16 @@ import { CompanySite } from "../../company-site";
 import { WATER_CHECK_LEGAL_CONTENT, type WaterCheckLegalKey } from "./water-check-legal-content";
 import { WaterCheckLegalPage } from "./water-check-legal-page";
 import {
+  getWaterCheckRenderedReleaseFacts,
+  WATER_CHECK_RELEASE_RECORD,
+  type WaterCheckReleaseFacts,
+} from "./water-check-release-content";
+import {
   createWaterCheckGovernedDigest,
+  createWaterCheckDeploymentInventoryDigest,
   validateWaterCheckRelease,
   WATER_CHECK_RELEASE_EVIDENCE,
+  type WaterCheckReleaseArtifacts,
   type WaterCheckReleaseEvidence,
 } from "./water-check-release-evidence";
 
@@ -18,16 +25,65 @@ const ROUTES: Array<[string, WaterCheckLegalKey, string]> = [
   ["/thewatercheck/consumer-health-data", "consumer-health-data", "Consumer Health Data"],
 ];
 
-const validEvidence = (governedSources: readonly string[]): WaterCheckReleaseEvidence => ({
-  ...WATER_CHECK_RELEASE_EVIDENCE,
+const APPROVED_FACTS: WaterCheckReleaseFacts = {
   entityName: "Example Product Company",
   contactPath: "/about#contact",
   effectiveDate: "2026-09-15",
-  approvedBy: "Product owner",
-  approvedAt: "2026-09-14",
-  governedContentDigest: createWaterCheckGovernedDigest(governedSources),
-  deploymentInventoryApprovedBy: "Infrastructure owner",
-  deploymentInventoryApprovedAt: "2026-09-14",
+};
+
+const RESOLVED_DEPLOYMENT_INVENTORY = `# Water Check Deployment Data Inventory
+
+Status: **Approved**
+
+| Area | Facts to verify | Evidence location or capture | Status |
+| --- | --- | --- | --- |
+| Hosting and CDN services | Account and domains | Evidence bundle section 1 | Verified |
+| Request and log fields | Request fields | Evidence bundle section 2 | Verified |
+| Purposes and system owners | Purposes and owners | Evidence bundle section 3 | Verified |
+| Authorized access | Authorized roles | Evidence bundle section 4 | Verified |
+| Recipients and subprocessors | Recipients | Evidence bundle section 5 | Verified |
+| Protection | Protections | Evidence bundle section 6 | Verified |
+| Retention and deletion | Configured rules | Evidence bundle section 7 | Verified |
+| Cookies and browser storage | Client state | Evidence bundle section 8 | Verified |
+| Response headers | Route captures | Evidence bundle section 9 | Verified |
+| Nonessential behavior | Optional products | Evidence bundle section 10 | Verified |
+
+| Field | Approved value |
+| --- | --- |
+| Deployment inventory approver | Infrastructure owner |
+| Approval date | 2026-09-14 |
+| Evidence capture date | 2026-09-13 |
+| Pages project and account confirmed | Yes — production and preview |
+| Inventory version or attachment digest | inventory-v1 |
+| Privacy copy reconciled to this inventory | Yes — 2026-09-14 |
+`;
+
+const validEvidence = (
+  governedSources: readonly string[],
+  facts: WaterCheckReleaseFacts = APPROVED_FACTS
+): WaterCheckReleaseEvidence => ({
+  candidates: WATER_CHECK_RELEASE_EVIDENCE.candidates,
+  approvedContent: {
+    facts,
+    approvedBy: "Product owner",
+    approvedAt: "2026-09-14",
+    governedContentDigest: createWaterCheckGovernedDigest([...governedSources, JSON.stringify(facts)]),
+  },
+  deploymentInventoryApproval: {
+    approvedBy: "Infrastructure owner",
+    approvedAt: "2026-09-14",
+    contentDigest: createWaterCheckDeploymentInventoryDigest(RESOLVED_DEPLOYMENT_INVENTORY),
+  },
+});
+
+const releaseArtifacts = (
+  governedSources: readonly string[],
+  evidence: WaterCheckReleaseEvidence,
+  deploymentInventoryDocument = RESOLVED_DEPLOYMENT_INVENTORY
+): WaterCheckReleaseArtifacts => ({
+  governedSources,
+  renderedFacts: getWaterCheckRenderedReleaseFacts(evidence),
+  deploymentInventoryDocument,
 });
 
 describe("Water Check legal pages", () => {
@@ -39,7 +95,9 @@ describe("Water Check legal pages", () => {
 
     const article = screen.getByRole("article", { name: heading });
     expect(within(article).getByRole("heading", { level: 1, name: heading })).toBeInTheDocument();
+    expect(within(article).getByText(/entity: pending owner approval/i)).toBeInTheDocument();
     expect(within(article).getByText(/effective date: pending owner approval/i)).toBeInTheDocument();
+    expect(within(article).getByText(/contact: pending owner approval/i)).toBeInTheDocument();
     expect(within(article).queryByText(/product-specific information will be published here/i)).not.toBeInTheDocument();
     expect(within(article).getByRole("link", { name: /return to the water check/i })).toHaveAttribute("href", "/thewatercheck");
     expect(within(article).getAllByRole("heading", { level: 2 }).length).toBeGreaterThanOrEqual(4);
@@ -110,65 +168,186 @@ describe("Water Check legal pages", () => {
 });
 
 describe("Water Check release evidence", () => {
-  const governedSources = ["approved landing health claims", "approved legal copy"];
-  const unresolvedDraftSources = ["landing health claims", JSON.stringify(WATER_CHECK_LEGAL_CONTENT)];
+  const governedSources = ["approved landing health claims", "approved legal copy", RESOLVED_DEPLOYMENT_INVENTORY];
 
   it("keeps repository-derived candidates explicitly unresolved", () => {
-    expect(WATER_CHECK_RELEASE_EVIDENCE.candidateEntityName).toBe("Expected End LLC");
-    expect(WATER_CHECK_RELEASE_EVIDENCE.candidateContactPath).toBe("/about#contact");
-    expect(WATER_CHECK_RELEASE_EVIDENCE.entityName).toBeNull();
-    expect(WATER_CHECK_RELEASE_EVIDENCE.contactPath).toBeNull();
-    expect(WATER_CHECK_RELEASE_EVIDENCE.effectiveDate).toBeNull();
-    expect(validateWaterCheckRelease(WATER_CHECK_RELEASE_EVIDENCE, unresolvedDraftSources)).toMatchObject({
+    const unresolvedInventory = "Status: **Unresolved**";
+    const unresolvedDraftSources = ["landing health claims", JSON.stringify(WATER_CHECK_LEGAL_CONTENT), unresolvedInventory];
+
+    expect(WATER_CHECK_RELEASE_EVIDENCE).toBe(WATER_CHECK_RELEASE_RECORD);
+    expect(WATER_CHECK_RELEASE_EVIDENCE.candidates.entityName).toBe("Expected End LLC");
+    expect(WATER_CHECK_RELEASE_EVIDENCE.candidates.contactPath).toBe("/about#contact");
+    expect(WATER_CHECK_RELEASE_EVIDENCE.approvedContent).toBeNull();
+    expect(WATER_CHECK_RELEASE_EVIDENCE.deploymentInventoryApproval).toBeNull();
+    expect(
+      validateWaterCheckRelease(WATER_CHECK_RELEASE_EVIDENCE, {
+        governedSources: unresolvedDraftSources,
+        renderedFacts: getWaterCheckRenderedReleaseFacts(WATER_CHECK_RELEASE_EVIDENCE),
+        deploymentInventoryDocument: unresolvedInventory,
+      })
+    ).toMatchObject({
       valid: false,
       errors: expect.arrayContaining([expect.stringMatching(/unresolved token/i)]),
     });
   });
 
   it("accepts exact, synthetic owner and deployment approval evidence", () => {
-    expect(validateWaterCheckRelease(validEvidence(governedSources), governedSources)).toEqual({ valid: true, errors: [] });
+    const evidence = validEvidence(governedSources);
+    expect(validateWaterCheckRelease(evidence, releaseArtifacts(governedSources, evidence))).toEqual({
+      valid: true,
+      errors: [],
+    });
+  });
+
+  it("rejects approved legal facts that differ from any rendered release fact", () => {
+    const evidence = validEvidence(governedSources);
+    const artifacts = releaseArtifacts(governedSources, evidence);
+    const mismatchedRenderedFacts = [
+      { ...artifacts.renderedFacts, entityName: "Different Public Entity" },
+      { ...artifacts.renderedFacts, contactPath: "/different-contact" },
+      { ...artifacts.renderedFacts, effectiveDate: "2026-09-16" },
+    ];
+
+    for (const renderedFacts of mismatchedRenderedFacts) {
+      expect(validateWaterCheckRelease(evidence, { ...artifacts, renderedFacts }).errors).toEqual(
+        expect.arrayContaining([expect.stringMatching(/rendered entity.*does not match/i)])
+      );
+    }
+  });
+
+  it("rejects changed legal facts even when the rendered facts change with them", () => {
+    const evidence = validEvidence(governedSources);
+    const changedFacts = { ...APPROVED_FACTS, entityName: "Changed Product Company" };
+    const changedEvidence: WaterCheckReleaseEvidence = {
+      ...evidence,
+      approvedContent: evidence.approvedContent && {
+        ...evidence.approvedContent,
+        facts: changedFacts,
+      },
+    };
+
+    expect(validateWaterCheckRelease(changedEvidence, releaseArtifacts(governedSources, changedEvidence)).errors).toEqual(
+      expect.arrayContaining([expect.stringMatching(/governed-content digest/i)])
+    );
   });
 
   it("rejects missing owner facts, unresolved tokens, and stale governed copy", () => {
     const approved = validEvidence(governedSources);
     const missingOwnerFacts: WaterCheckReleaseEvidence = {
       ...approved,
-      entityName: null,
-      approvedBy: null,
+      approvedContent: null,
     };
-    expect(validateWaterCheckRelease(missingOwnerFacts, governedSources).errors).toEqual(
-      expect.arrayContaining([expect.stringMatching(/entity name/i), expect.stringMatching(/approver/i)])
+    expect(validateWaterCheckRelease(missingOwnerFacts, releaseArtifacts(governedSources, missingOwnerFacts)).errors).toEqual(
+      expect.arrayContaining([expect.stringMatching(/legal facts.*approval/i)])
     );
 
-    const unresolvedCopy = [...governedSources, "TODO: decide this claim"];
-    expect(validateWaterCheckRelease(validEvidence(unresolvedCopy), unresolvedCopy).errors).toEqual(
+    const unresolvedCopy = ["approved landing health claims", "TODO: decide this claim", RESOLVED_DEPLOYMENT_INVENTORY];
+    const unresolvedEvidence = validEvidence(unresolvedCopy);
+    expect(validateWaterCheckRelease(unresolvedEvidence, releaseArtifacts(unresolvedCopy, unresolvedEvidence)).errors).toEqual(
       expect.arrayContaining([expect.stringMatching(/unresolved token/i)])
     );
 
-    expect(validateWaterCheckRelease(approved, [...governedSources, "changed after approval"]).errors).toEqual(
+    const staleSources = [...governedSources, "changed after approval"];
+    expect(validateWaterCheckRelease(approved, releaseArtifacts(staleSources, approved)).errors).toEqual(
       expect.arrayContaining([expect.stringMatching(/digest/i)])
     );
   });
 
   it("rejects unsupported data-rights promises and invented fixed retention periods", () => {
     const approved = validEvidence(governedSources);
-    expect(validateWaterCheckRelease(approved, [...governedSources, "You can export and delete your data."]).errors).toEqual(
+    expect(
+      validateWaterCheckRelease(
+        approved,
+        releaseArtifacts([...governedSources, "You can export and delete your data."], approved)
+      ).errors
+    ).toEqual(
       expect.arrayContaining([expect.stringMatching(/unsupported deletion or export promise/i)])
     );
-    expect(validateWaterCheckRelease(approved, [...governedSources, "We retain request logs for 30 days."]).errors).toEqual(
+    expect(
+      validateWaterCheckRelease(
+        approved,
+        releaseArtifacts([...governedSources, "We retain request logs for 30 days."], approved)
+      ).errors
+    ).toEqual(
       expect.arrayContaining([expect.stringMatching(/unverified fixed retention period/i)])
     );
+  });
+
+  it("rejects an unresolved deployment inventory despite synthetically valid approval metadata", () => {
+    const unresolvedInventory = RESOLVED_DEPLOYMENT_INVENTORY.replace("Status: **Approved**", "Status: **Unresolved**").replace(
+      "| Request and log fields | Request fields | Evidence bundle section 2 | Verified |",
+      "| Request and log fields | Request fields | Evidence bundle section 2 | Pending |"
+    );
+    const unresolvedSources = ["approved landing health claims", "approved legal copy", unresolvedInventory];
+    const evidence = validEvidence(unresolvedSources);
+    const syntheticallyApprovedEvidence: WaterCheckReleaseEvidence = {
+      ...evidence,
+      deploymentInventoryApproval: {
+        approvedBy: "Infrastructure owner",
+        approvedAt: "2026-09-14",
+        contentDigest: createWaterCheckDeploymentInventoryDigest(unresolvedInventory),
+      },
+    };
+
+    expect(
+      validateWaterCheckRelease(
+        syntheticallyApprovedEvidence,
+        releaseArtifacts(unresolvedSources, syntheticallyApprovedEvidence, unresolvedInventory)
+      ).errors
+    ).toEqual(
+      expect.arrayContaining([
+        expect.stringMatching(/inventory status/i),
+        expect.stringMatching(/request and log fields/i),
+      ])
+    );
+  });
+
+  it("rejects a deployment inventory changed after its approval", () => {
+    const evidence = validEvidence(governedSources);
+    const changedInventory = `${RESOLVED_DEPLOYMENT_INVENTORY}\nConfiguration changed after approval.\n`;
+    const changedSources = ["approved landing health claims", "approved legal copy", changedInventory];
+
+    expect(
+      validateWaterCheckRelease(evidence, releaseArtifacts(changedSources, evidence, changedInventory)).errors
+    ).toEqual(expect.arrayContaining([expect.stringMatching(/deployment-inventory digest/i)]));
+  });
+
+  it("rejects a deployment inventory omitted from the governed-content sources", () => {
+    const sourcesWithoutInventory = ["approved landing health claims", "approved legal copy"];
+    const evidence = validEvidence(sourcesWithoutInventory);
+
+    expect(
+      validateWaterCheckRelease(evidence, releaseArtifacts(sourcesWithoutInventory, evidence)).errors
+    ).toEqual(expect.arrayContaining([expect.stringMatching(/included in the governed-content sources/i)]));
   });
 
   it("rejects malformed or unverified entity, effective-date, contact, and inventory evidence", () => {
     const evidence: WaterCheckReleaseEvidence = {
       ...validEvidence(governedSources),
-      entityName: "UNRESOLVED",
-      contactPath: "mailto:unknown@example.com",
-      effectiveDate: "soon",
-      deploymentInventoryApprovedAt: null,
+      approvedContent: {
+        facts: {
+          entityName: "UNRESOLVED",
+          contactPath: "mailto:unknown@example.com",
+          effectiveDate: "soon",
+        },
+        approvedBy: "Product owner",
+        approvedAt: "2026-09-14",
+        governedContentDigest: createWaterCheckGovernedDigest([
+          ...governedSources,
+          JSON.stringify({
+            entityName: "UNRESOLVED",
+            contactPath: "mailto:unknown@example.com",
+            effectiveDate: "soon",
+          }),
+        ]),
+      },
+      deploymentInventoryApproval: {
+        approvedBy: "Infrastructure owner",
+        approvedAt: "soon",
+        contentDigest: createWaterCheckDeploymentInventoryDigest(RESOLVED_DEPLOYMENT_INVENTORY),
+      },
     };
-    expect(validateWaterCheckRelease(evidence, governedSources).errors).toEqual(
+    expect(validateWaterCheckRelease(evidence, releaseArtifacts(governedSources, evidence)).errors).toEqual(
       expect.arrayContaining([
         expect.stringMatching(/entity name/i),
         expect.stringMatching(/contact path/i),

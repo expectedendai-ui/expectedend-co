@@ -63,12 +63,12 @@ const FAQS = [
 ] as const;
 
 function StoreActions({ compact = false }: { compact?: boolean }) {
-  const [availability, setAvailability] = React.useState<{ store: StoreName; repeated: boolean } | null>(null);
+  const [availability, setAvailability] = React.useState<{ store: StoreName; activation: number } | null>(null);
 
   const checkAvailability = (store: StoreName) => {
     setAvailability((current) => ({
       store,
-      repeated: current?.store === store,
+      activation: (current?.activation ?? 0) + 1,
     }));
   };
 
@@ -111,7 +111,7 @@ function StoreActions({ compact = false }: { compact?: boolean }) {
         {availability ? (
           <>
             {availability.store} is still coming soon. No store listing is live yet.
-            {availability.repeated ? " Availability checked again." : ""}
+            {availability.activation > 1 ? ` Availability checked again (${availability.activation}).` : ""}
           </>
         ) : (
           "No store listing is live yet. Choose either store for an availability update."

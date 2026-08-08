@@ -9,19 +9,15 @@ export type WaterCheckLegalContent = {
   eyebrow: string;
   title: string;
   footerLabel: string;
-  effectiveDateLabel: string;
   intro: string;
   sections: readonly WaterCheckLegalSection[];
 };
-
-const PENDING_EFFECTIVE_DATE = "Pending owner approval";
 
 export const WATER_CHECK_LEGAL_CONTENT = {
   privacy: {
     eyebrow: "Product information",
     title: "Privacy",
     footerLabel: "Privacy",
-    effectiveDateLabel: PENDING_EFFECTIVE_DATE,
     intro:
       "This notice describes the current Coming Soon website. It does not describe a released app, because The Water Check app is still being planned and is not available for public use.",
     sections: [
@@ -71,7 +67,6 @@ export const WATER_CHECK_LEGAL_CONTENT = {
     eyebrow: "Product information",
     title: "Terms",
     footerLabel: "Terms",
-    effectiveDateLabel: PENDING_EFFECTIVE_DATE,
     intro:
       "These terms are written for the current Water Check Coming Soon website. A future app will need terms that match the product that is actually released.",
     sections: [
@@ -121,7 +116,6 @@ export const WATER_CHECK_LEGAL_CONTENT = {
     eyebrow: "Important limitations",
     title: "Health & AI Disclaimer",
     footerLabel: "Health & AI Disclaimer",
-    effectiveDateLabel: PENDING_EFFECTIVE_DATE,
     intro:
       "The current Coming Soon website provides only general product information. It does not accept health inputs, analyze a drink, produce a personal result, or provide an AI conversation.",
     sections: [
@@ -163,7 +157,6 @@ export const WATER_CHECK_LEGAL_CONTENT = {
     eyebrow: "Product information",
     title: "Consumer Health Data",
     footerLabel: "Consumer Health Data",
-    effectiveDateLabel: PENDING_EFFECTIVE_DATE,
     intro:
       "This notice separates the current Coming Soon website from health-related information a future Water Check app may handle. It does not assert that any particular consumer-health law applies.",
     sections: [

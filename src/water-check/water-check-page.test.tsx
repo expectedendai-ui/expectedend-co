@@ -78,12 +78,9 @@ describe("Water Check Coming Soon page", () => {
     render(<WaterCheckPage onNavigate={vi.fn()} />);
     const control = screen.getAllByRole("button", { name: accessibleName })[0];
     control.focus();
+    const activate = () => (method === "pointer" ? user.click(control) : user.keyboard("{Enter}"));
 
-    if (method === "pointer") {
-      await user.click(control);
-    } else {
-      await user.keyboard("{Enter}");
-    }
+    await activate();
 
     const storeGroup = screen.getAllByRole("group", { name: "Future app availability" }).find((group) => group.contains(control));
     expect(storeGroup).toBeInTheDocument();
@@ -92,13 +89,23 @@ describe("Water Check Coming Soon page", () => {
     const status = within(storeArea as HTMLElement).getByRole("status");
     expect(status).toHaveAttribute("aria-live", "polite");
     expect(status).toHaveTextContent(/still coming soon/i);
+    expect(status).not.toHaveTextContent(/availability checked again/i);
     expect(control).toHaveFocus();
     expect(control).not.toHaveAttribute("aria-pressed");
     expect(control).not.toHaveAttribute("aria-expanded");
+    const firstStatus = status.textContent;
 
-    await user.click(control);
-    expect(status).toHaveTextContent(/still coming soon/i);
+    await activate();
+    expect(status).toHaveTextContent("Availability checked again (2).");
     expect(control).toHaveFocus();
+    const secondStatus = status.textContent;
+
+    await activate();
+    expect(status).toHaveTextContent("Availability checked again (3).");
+    expect(control).toHaveFocus();
+    const thirdStatus = status.textContent;
+
+    expect(new Set([firstStatus, secondStatus, thirdStatus])).toHaveProperty("size", 3);
     expect(window.location.href).toBe(locationBefore);
     expect(open).not.toHaveBeenCalled();
     expect(request).not.toHaveBeenCalled();
