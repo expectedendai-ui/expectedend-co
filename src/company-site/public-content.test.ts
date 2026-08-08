@@ -15,6 +15,22 @@ const WATER_CHECK_GOVERNED_SOURCE_PATHS = [
 ] as const;
 
 const WATER_CHECK_DEPLOYMENT_INVENTORY_PATH = "docs/legal/water-check-deployment-data-inventory.md";
+const AI_CRAWLER_RUNBOOK_PATH = "docs/operations/ai-crawler-controls.md";
+
+const REPRESENTATIVE_AI_CRAWLERS = [
+  "GPTBot",
+  "OAI-SearchBot",
+  "ChatGPT-User",
+  "ClaudeBot",
+  "Claude-SearchBot",
+  "Claude-User",
+  "PerplexityBot",
+  "Perplexity-User",
+  "CCBot",
+  "Google-Extended",
+  "Applebot-Extended",
+  "Meta-ExternalAgent",
+] as const;
 
 const WATER_CHECK_PATHS = [
   "/thewatercheck",
@@ -70,6 +86,38 @@ describe("public-content deployment guard", () => {
     expect(globalStyles).toContain('url("/fonts/hammersmith-one-latin.woff2") format("woff2")');
     expect(globalStyles).toContain('url("/fonts/instrument-serif-latin.woff2") format("woff2")');
     expect(globalStyles).toContain('url("/fonts/instrument-serif-italic-latin.woff2") format("woff2")');
+  });
+
+  it("keeps ordinary indexing open while disallowing the documented AI crawler inventory", () => {
+    const indexHtml = readFileSync("index.html", "utf8");
+    const robots = readFileSync("public/robots.txt", "utf8");
+
+    expect(indexHtml).toContain('name="robots" content="index, follow, noimageai, max-image-preview:large"');
+    expect(robots).toMatch(/User-agent: \*\nAllow: \/\nDisallow: \/artworks\/\nDisallow: \/audio\//);
+    expect(robots).toContain("Sitemap: https://expectedend.co/sitemap.xml");
+
+    for (const crawler of REPRESENTATIVE_AI_CRAWLERS) {
+      expect(robots).toMatch(new RegExp(`User-agent: ${crawler}\\n(?:User-agent: [^\\n]+\\n)*Disallow: /`, "i"));
+    }
+  });
+
+  it("publishes a closed AI-use policy without pretending the declaration enforces access", () => {
+    const aiPolicy = readFileSync("public/ai.txt", "utf8");
+    const normalizedAiPolicy = aiPolicy.replace(/^# ?/gm, "").replace(/\s+/g, " ");
+    const runbook = readFileSync(AI_CRAWLER_RUNBOOK_PATH, "utf8");
+
+    expect(aiPolicy).toContain("# Policy: NO AUTOMATED AI USE");
+    expect(normalizedAiPolicy).toMatch(/does not authorize automated AI search, agent access, crawling, training/i);
+    expect(normalizedAiPolicy).toMatch(/does not enforce access/i);
+    expect(normalizedAiPolicy).not.toMatch(/public text.+may be.+read and cited/i);
+
+    expect(runbook).toMatch(/Search, Agent, and Training/i);
+    expect(runbook).toMatch(/WAF rule order/i);
+    expect(runbook).toMatch(/AI Labyrinth/i);
+    expect(runbook).toMatch(/false positive/i);
+    expect(runbook).toMatch(/rollback/i);
+    expect(runbook).toMatch(/quarterly/i);
+    expect(runbook).toMatch(/cannot make public content secret/i);
   });
 });
 
