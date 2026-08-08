@@ -478,11 +478,10 @@
   border-radius: 50%;
   background: transparent;
   cursor: pointer;
-  opacity: .01;
-  transition: opacity 180ms ease, transform 180ms ease;
+  touch-action: manipulation;
 }
-.eggButton:hover, .eggButton:focus-visible { opacity: .72; transform: scale(1.08); }
-.eggButton img { display: block; width: 25px; height: 25px; border-radius: 50%; }
+.eggButton:focus-visible { outline: 2px solid var(--gold-soft); outline-offset: 2px; }
+.eggButton img { display: block; width: 20px; height: 20px; border-radius: 50%; opacity: 0; }
 
 .infoArticle { width: min(860px, 100%); margin: 2vh auto 0; }
 .infoHeader { padding-bottom: 3rem; border-bottom: 1px solid var(--line); }
