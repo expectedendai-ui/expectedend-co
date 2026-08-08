@@ -14,7 +14,7 @@ const FEATURES = [
     eyebrow: "Planned input",
     title: "Planned scan or described-drink logging",
     copy: "Photograph a label or describe a drink in plain language. The future product is intended to turn either into a simple journal entry.",
-    accent: "lime",
+    accent: "sky",
   },
   {
     number: "02",
