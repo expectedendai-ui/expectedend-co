@@ -31,14 +31,14 @@ export const WATER_CHECK_LEGAL_CONTENT = {
       {
         heading: "Operational website delivery",
         paragraphs: [
-          "Hosting, content-delivery, networking, and security services may process ordinary request information needed to deliver and protect a webpage, such as a network address, requested path, browser or device details, timestamps, and security events. The exact fields, service configuration, authorized access, recipients, protection, and retention or deletion rules have not yet been verified for the Water Check deployment.",
-          "Those deployment facts must be documented in the Water Check Deployment Data Inventory and approved before this notice is released. Until that review is complete, this notice does not claim that visiting the website involves zero operational processing.",
+          "Cloudflare Pages hosts and delivers this website for Expected End LLC. When someone requests a page, Cloudflare processes operational traffic information that may include an IP address, traffic-routing data, the requested host and path, request and response headers, timestamps, system configuration, and security or network signals. Cloudflare may also derive service metrics such as request volume, errors, cache performance, availability, and threat signals.",
+          "Expected End LLC uses that processing to route, cache, deliver, protect, and troubleshoot this static website. The release has no server-side Water Check function, application database, health journal, or visitor-log export. Cloudflare controls its provider-level processing under its services, privacy policy, security controls, and published retention practices.",
         ],
       },
       {
         heading: "Cookies, browser storage, analytics, and external links",
         paragraphs: [
-          "The current Water Check page code does not intentionally set cookies or browser storage and does not include a Water Check analytics, advertising, payment, or account feature. The deployment inventory must separately confirm whether the host or security configuration adds any cookie, storage, logging, or nonessential behavior.",
+          "The current Water Check release does not set a cookie or write to local storage or session storage. It does not include a Water Check analytics beacon, advertising pixel, payment flow, account feature, session replay, chat widget, social embed, experiment SDK, or remote font. Cloudflare adds operational caching, security, and Network Error Logging response headers but did not set a cookie in the reviewed route captures.",
           "The page links to Instagram for optional launch updates. Instagram is a separate destination and receives a request only after you choose that link; its own terms and privacy practices apply there.",
         ],
       },
@@ -58,7 +58,7 @@ export const WATER_CHECK_LEGAL_CONTENT = {
       {
         heading: "Changes and contact",
         paragraphs: [
-          "This notice will receive an owner-approved effective date and contact path before release. It must be revised before the website or a future app begins a materially different information practice. The repository-derived contact candidate is not presented here as an approved product contact until that review is complete.",
+          "Expected End LLC provides this notice effective August 8, 2026. Use the contact link above for questions about this website. This notice must be revised before the website or a future app begins a materially different information practice.",
         ],
       },
     ],
@@ -107,7 +107,7 @@ export const WATER_CHECK_LEGAL_CONTENT = {
       {
         heading: "Changes and contact",
         paragraphs: [
-          "These terms will receive an owner-approved entity name, contact path, and effective date before release. Material changes will be identified by a new effective date. No governing-law, venue, or product-contact detail is stated until the owner confirms it.",
+          "Expected End LLC provides these website terms effective August 8, 2026. Use the contact link above for questions. Material changes will be identified by a new effective date. These terms do not state a governing-law or venue provision.",
         ],
       },
     ],
@@ -168,9 +168,9 @@ export const WATER_CHECK_LEGAL_CONTENT = {
         ],
       },
       {
-        heading: "Operational requests are being inventoried",
+        heading: "Operational website requests",
         paragraphs: [
-          "Delivering and securing any webpage may involve technical request information processed by hosting, content-delivery, networking, or security services. The deployment-specific fields, purposes, system owners, authorized access, protections, recipients, and retention or deletion rules are not yet verified and must be approved in the Deployment Data Inventory before release.",
+          "Cloudflare Pages hosts and secures this website for Expected End LLC. Cloudflare processes operational traffic information that may include an IP address, traffic-routing data, the requested host and path, request and response headers, timestamps, system configuration, and security or network signals. It may derive service metrics used to deliver, protect, and troubleshoot the site.",
           "This operational review is separate from future app health inputs. The current website does not turn a visitor’s request information into a health journal or AI health explanation.",
         ],
       },
@@ -196,7 +196,7 @@ export const WATER_CHECK_LEGAL_CONTENT = {
       {
         heading: "Updates and contact",
         paragraphs: [
-          "This notice will receive an owner-approved entity, contact path, and effective date before release. It must be updated when actual product or deployment practices are known and before the future app handles consumer health data.",
+          "Expected End LLC provides this notice effective August 8, 2026. Use the contact link above for questions. It must be updated before the future app handles consumer health data or when the website begins a materially different information practice.",
         ],
       },
     ],

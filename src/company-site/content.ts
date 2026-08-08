@@ -1,8 +1,8 @@
 export const CONTACT_HREF = "/about#contact";
 
-// The privacy disclosure changed when fonts became self-hosted. Renewed owner
-// approval is required before the production release gate can turn green.
-export const PUBLIC_CONTENT_APPROVED = false;
+// Denzel Rigaud approved the governed public content and self-hosted-font
+// disclosure for production release on 2026-08-08.
+export const PUBLIC_CONTENT_APPROVED = true;
 
 export const PROJECTS = [
   {

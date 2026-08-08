@@ -35,8 +35,21 @@ export const WATER_CHECK_RELEASE_RECORD: WaterCheckReleaseRecord = {
     entityName: "Expected End LLC",
     contactPath: "/about#contact",
   },
-  approvedContent: null,
-  deploymentInventoryApproval: null,
+  approvedContent: {
+    facts: {
+      entityName: "Expected End LLC",
+      contactPath: "/about#contact",
+      effectiveDate: "2026-08-08",
+    },
+    approvedBy: "Denzel Rigaud",
+    approvedAt: "2026-08-08",
+    governedContentDigest: "sha256:0d2013f399dd69fcf5906c7ff1c08d25988d883a20df4371d5945d187f497d16",
+  },
+  deploymentInventoryApproval: {
+    approvedBy: "Denzel Rigaud",
+    approvedAt: "2026-08-08",
+    contentDigest: "sha256:90425897ed33f71e099d6f8fcb8f03a53b17688def04bfe4978d611a36ded5a3",
+  },
 };
 
 export const getWaterCheckRenderedReleaseFacts = (

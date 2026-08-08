@@ -95,9 +95,9 @@ describe("Water Check legal pages", () => {
 
     const article = screen.getByRole("article", { name: heading });
     expect(within(article).getByRole("heading", { level: 1, name: heading })).toBeInTheDocument();
-    expect(within(article).getByText(/entity: pending owner approval/i)).toBeInTheDocument();
-    expect(within(article).getByText(/effective date: pending owner approval/i)).toBeInTheDocument();
-    expect(within(article).getByText(/contact: pending owner approval/i)).toBeInTheDocument();
+    expect(within(article).getByText(/entity: expected end llc/i)).toBeInTheDocument();
+    expect(within(article).getByText(/effective date: 2026-08-08/i)).toBeInTheDocument();
+    expect(within(article).getByRole("link", { name: "/about#contact" })).toHaveAttribute("href", "/about#contact");
     expect(within(article).queryByText(/product-specific information will be published here/i)).not.toBeInTheDocument();
     expect(within(article).getByRole("link", { name: /return to the water check/i })).toHaveAttribute("href", "/thewatercheck");
     expect(within(article).getAllByRole("heading", { level: 2 }).length).toBeGreaterThanOrEqual(4);
@@ -122,8 +122,10 @@ describe("Water Check legal pages", () => {
       /product scans, ai conversations, email addresses, accounts, age, gender, ethnicity, or racial identity/i
     );
     expect(article).toHaveTextContent(/18\+.*eligibility.*not.*collect/i);
-    expect(article).toHaveTextContent(/hosting, content-delivery, networking, and security services may process.*request/i);
-    expect(article).toHaveTextContent(/exact fields.*recipients.*retention.*not yet been verified/i);
+    expect(article).toHaveTextContent(/cloudflare pages hosts and delivers this website/i);
+    expect(article).toHaveTextContent(/ip address.*requested host and path.*security or network signals/i);
+    expect(article).toHaveTextContent(/no server-side water check function.*application database.*health journal/i);
+    expect(article).toHaveTextContent(/does not set a cookie or write to local storage or session storage/i);
     expect(article).not.toHaveTextContent(/collect(?:s|ed)? no (?:personal|technical|operational) (?:data|information)/i);
     expect(article.querySelector("form, input, select, textarea")).not.toBeInTheDocument();
   });
@@ -170,19 +172,29 @@ describe("Water Check legal pages", () => {
 describe("Water Check release evidence", () => {
   const governedSources = ["approved landing health claims", "approved legal copy", RESOLVED_DEPLOYMENT_INVENTORY];
 
-  it("keeps repository-derived candidates explicitly unresolved", () => {
+  it("publishes exact owner-approved facts while still rejecting unresolved evidence", () => {
     const unresolvedInventory = "Status: **Unresolved**";
     const unresolvedDraftSources = ["landing health claims", JSON.stringify(WATER_CHECK_LEGAL_CONTENT), unresolvedInventory];
+    const unresolvedEvidence: WaterCheckReleaseEvidence = {
+      candidates: WATER_CHECK_RELEASE_EVIDENCE.candidates,
+      approvedContent: null,
+      deploymentInventoryApproval: null,
+    };
 
     expect(WATER_CHECK_RELEASE_EVIDENCE).toBe(WATER_CHECK_RELEASE_RECORD);
     expect(WATER_CHECK_RELEASE_EVIDENCE.candidates.entityName).toBe("Expected End LLC");
     expect(WATER_CHECK_RELEASE_EVIDENCE.candidates.contactPath).toBe("/about#contact");
-    expect(WATER_CHECK_RELEASE_EVIDENCE.approvedContent).toBeNull();
-    expect(WATER_CHECK_RELEASE_EVIDENCE.deploymentInventoryApproval).toBeNull();
+    expect(WATER_CHECK_RELEASE_EVIDENCE.approvedContent?.facts).toEqual({
+      entityName: "Expected End LLC",
+      contactPath: "/about#contact",
+      effectiveDate: "2026-08-08",
+    });
+    expect(WATER_CHECK_RELEASE_EVIDENCE.approvedContent?.approvedBy).toBe("Denzel Rigaud");
+    expect(WATER_CHECK_RELEASE_EVIDENCE.deploymentInventoryApproval?.approvedBy).toBe("Denzel Rigaud");
     expect(
-      validateWaterCheckRelease(WATER_CHECK_RELEASE_EVIDENCE, {
+      validateWaterCheckRelease(unresolvedEvidence, {
         governedSources: unresolvedDraftSources,
-        renderedFacts: getWaterCheckRenderedReleaseFacts(WATER_CHECK_RELEASE_EVIDENCE),
+        renderedFacts: getWaterCheckRenderedReleaseFacts(unresolvedEvidence),
         deploymentInventoryDocument: unresolvedInventory,
       })
     ).toMatchObject({
