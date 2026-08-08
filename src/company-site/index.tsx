@@ -1,11 +1,12 @@
 import * as React from "react";
+import { WaterCheckShell } from "../water-check/water-check-shell";
 import { AboutPage } from "./about";
 import { Footer } from "./footer";
 import { HomePage } from "./home";
 import { InfoPage } from "./info-page";
 import { LEGAL_CONTENT } from "./legal-content";
 import { Navigation } from "./navigation";
-import { getRoute, getRouteMetadata, isInternalHref } from "./routes";
+import { getRoute, getRouteMetadata, isInternalHref, type WaterCheckRouteKey } from "./routes";
 import styles from "./style.module.css";
 
 type CompanySiteProps = {
@@ -86,7 +87,7 @@ export function CompanySite({ leaving, onOpenArtWorld }: CompanySiteProps) {
     scrollToHash(url.hash);
   };
 
-  const renderRoute = () => {
+  const renderCompanyRoute = () => {
     if (route.key === "home") return <HomePage />;
     if (route.key === "about") return <AboutPage />;
     if (route.key === "terms" || route.key === "privacy" || route.key === "accessibility") {
@@ -101,10 +102,39 @@ export function CompanySite({ leaving, onOpenArtWorld }: CompanySiteProps) {
     );
   };
 
+  if (route.family === "water-check") {
+    const legalHeadings: Record<Exclude<WaterCheckRouteKey, "water-check-home">, string> = {
+      "water-check-privacy": "Privacy",
+      "water-check-terms": "Terms",
+      "water-check-health-and-ai-disclaimer": "Health & AI Disclaimer",
+      "water-check-consumer-health-data": "Consumer Health Data",
+    };
+    const content =
+      route.key === "water-check-home" ? (
+        <main>
+          <p>Coming Soon</p>
+          <h1>The Water Check</h1>
+          <p>A thoughtful hydration and wellness experience is on the way.</p>
+        </main>
+      ) : (
+        <main>
+          <p>The Water Check</p>
+          <h1>{legalHeadings[route.key]}</h1>
+          <p>Product-specific information will be published here.</p>
+        </main>
+      );
+
+    return (
+      <WaterCheckShell activePath={route.path} leaving={leaving} onNavigate={onNavigate}>
+        {content}
+      </WaterCheckShell>
+    );
+  }
+
   return (
     <div className={`${styles.site} ${leaving ? styles.leaving : ""}`} data-site-theme="blue">
       <Navigation isHome={route.key === "home"} onNavigate={onNavigate} />
-      {renderRoute()}
+      {renderCompanyRoute()}
       <Footer onNavigate={onNavigate} onOpenArtWorld={route.key === "about" ? onOpenArtWorld : undefined} />
     </div>
   );
