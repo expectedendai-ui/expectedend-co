@@ -38,6 +38,19 @@ describe("Water Check Coming Soon page", () => {
     expect(within(hero).getByText("Coming Soon")).toBeInTheDocument();
     expect(within(hero).getByText("For adults 18+")).toBeInTheDocument();
 
+    const googlePlayBadges = screen.getAllByAltText("Google Play");
+    expect(googlePlayBadges).toHaveLength(2);
+    for (const badge of googlePlayBadges) {
+      expect(badge).toHaveAttribute("src", "/googleplay.png");
+      expect(badge).toHaveAttribute("width", "170");
+      expect(badge).toHaveAttribute("height", "60");
+    }
+    expect(
+      container.querySelectorAll(
+        'path[d="M0 5.90771C0 3.14629 2.23858 0.907715 5 0.907715H130C132.761 0.907715 135 3.14629 135 5.90771V35.9077C135 38.6691 132.761 40.9077 130 40.9077H5C2.23857 40.9077 0 38.6691 0 35.9077V5.90771Z"]'
+      )
+    ).toHaveLength(2);
+
     const timeline = screen.getByRole("region", { name: "A fictional drink journal" });
     expect(within(timeline).getByText("Fictional example")).toBeInTheDocument();
     expect(within(timeline).getByText(/drink logged/i)).toBeInTheDocument();

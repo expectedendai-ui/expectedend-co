@@ -193,31 +193,25 @@
 
 .storeButton {
   display: inline-flex;
-  min-width: 12.7rem;
+  width: 10.625rem;
+  min-width: 10.625rem;
   min-height: 3.75rem;
   align-items: center;
-  gap: 0.8rem;
-  padding: 0.62rem 1.05rem;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 1rem;
-  color: #f5fffe;
-  background: linear-gradient(145deg, #0c3039, #061b23);
-  box-shadow:
-    0 14px 32px rgba(6, 27, 35, 0.18),
-    inset 0 1px rgba(255, 255, 255, 0.1);
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: 0.75rem;
+  color: inherit;
+  background: transparent;
+  box-shadow: 0 14px 32px rgba(6, 27, 35, 0.18);
   cursor: pointer;
-  text-align: left;
   transition:
     transform 180ms ease,
-    box-shadow 180ms ease,
-    border-color 180ms ease;
+    box-shadow 180ms ease;
 }
 
 .storeButton:hover {
-  border-color: rgba(190, 255, 246, 0.48);
-  box-shadow:
-    0 18px 40px rgba(6, 27, 35, 0.24),
-    inset 0 1px rgba(255, 255, 255, 0.16);
+  box-shadow: 0 18px 40px rgba(6, 27, 35, 0.24);
   transform: translateY(-2px);
 }
 
@@ -225,41 +219,11 @@
   transform: translateY(0);
 }
 
-.storeButton small,
-.storeButton strong {
+.storeBadge {
   display: block;
-}
-
-.storeButton small {
-  margin-bottom: 0.1rem;
-  color: #b4cbcf;
-  font-size: 0.63rem;
-  font-weight: 650;
-  line-height: 1;
-}
-
-.storeButton strong {
-  color: #fff;
-  font-size: 1rem;
-  line-height: 1.15;
-}
-
-.storeGlyph {
-  display: grid;
-  width: 1.85rem;
-  height: 1.85rem;
-  flex: 0 0 auto;
-  place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 0.58rem;
-  color: var(--aqua-bright);
-  font-family: Georgia, serif;
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-.playGlyph {
-  font-family: inherit;
+  width: 10.625rem;
+  height: 3.75rem;
+  object-fit: contain;
 }
 
 .iconSvg {
@@ -986,8 +950,7 @@
 }
 
 .storeAreaCompact .storeButton {
-  border-color: rgba(190, 255, 246, 0.18);
-  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.2);
 }
 
 .page .storeAreaCompact .storeStatus {
@@ -1081,14 +1044,8 @@
   }
 
   .storeButton {
+    width: 100%;
     min-width: 0;
-    min-height: 3.65rem;
-    padding: 0.55rem 0.65rem;
-  }
-
-  .storeGlyph {
-    width: 1.65rem;
-    height: 1.65rem;
   }
 
   .visualNote {
@@ -1172,15 +1129,6 @@
     font-size: 0.87rem;
   }
 
-  .storeButtons,
-  .storeAreaCompact .storeButtons {
-    grid-template-columns: 1fr;
-  }
-
-  .storeButton {
-    width: 100%;
-  }
-
   .heroVisual {
     width: min(28rem, 100%);
   }
@@ -1230,6 +1178,13 @@
 
   .page .faqItem p {
     margin-right: 0;
+  }
+}
+
+@media (max-width: 360px) {
+  .storeButtons,
+  .storeAreaCompact .storeButtons {
+    grid-template-columns: 1fr;
   }
 }
 
