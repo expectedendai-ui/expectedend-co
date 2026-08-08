@@ -1,13 +1,56 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { getWaterCheckRenderedReleaseFacts } from "../water-check/legal/water-check-release-content";
+import { validateWaterCheckRelease, WATER_CHECK_RELEASE_EVIDENCE } from "../water-check/legal/water-check-release-evidence";
 import { CONTACT_HREF, PUBLIC_CONTENT_APPROVED } from "./content";
+import { getRouteMetadata } from "./routes";
 
-const readPublicTextFiles = (directory: string): string[] => readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
-  const path = join(directory, entry.name);
-  if (entry.isDirectory()) return readPublicTextFiles(path);
-  return /\.(?:html|json|txt|xml|webmanifest)$/i.test(entry.name) ? [readFileSync(path, "utf8")] : [];
-});
+const WATER_CHECK_GOVERNED_SOURCE_PATHS = [
+  "src/water-check/water-check-page.tsx",
+  "src/water-check/water-check-shell.tsx",
+  "src/water-check/legal/water-check-legal-content.ts",
+  "src/water-check/legal/water-check-legal-page.tsx",
+  "docs/legal/water-check-deployment-data-inventory.md",
+] as const;
+
+const WATER_CHECK_DEPLOYMENT_INVENTORY_PATH = "docs/legal/water-check-deployment-data-inventory.md";
+const AI_CRAWLER_RUNBOOK_PATH = "docs/operations/ai-crawler-controls.md";
+
+const REPRESENTATIVE_AI_CRAWLERS = [
+  "GPTBot",
+  "OAI-SearchBot",
+  "ChatGPT-User",
+  "ClaudeBot",
+  "Claude-SearchBot",
+  "Claude-User",
+  "PerplexityBot",
+  "Perplexity-User",
+  "CCBot",
+  "Google-Extended",
+  "Applebot-Extended",
+  "Meta-ExternalAgent",
+] as const;
+
+const WATER_CHECK_PATHS = [
+  "/thewatercheck",
+  "/thewatercheck/privacy",
+  "/thewatercheck/terms",
+  "/thewatercheck/health-and-ai-disclaimer",
+  "/thewatercheck/consumer-health-data",
+] as const;
+
+const readWaterCheckGovernedSources = () =>
+  WATER_CHECK_GOVERNED_SOURCE_PATHS.map((path) => readFileSync(path, "utf8")).concat(
+    JSON.stringify(WATER_CHECK_PATHS.map((path) => getRouteMetadata(path)))
+  );
+
+const readPublicTextFiles = (directory: string): string[] =>
+  readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const path = join(directory, entry.name);
+    if (entry.isDirectory()) return readPublicTextFiles(path);
+    return /\.(?:html|json|txt|xml|webmanifest)$/i.test(entry.name) ? [readFileSync(path, "utf8")] : [];
+  });
 
 describe("public-content deployment guard", () => {
   it("runs the approval gate before production deploy", () => {
@@ -22,11 +65,75 @@ describe("public-content deployment guard", () => {
     expect(publicText).not.toMatch(/[a-z0-9._%+-]+@gmail\.com/i);
     expect(publicText).not.toMatch(/"email"\s*:/);
   });
+
+  it("publishes the Water Check route family in static discovery surfaces", () => {
+    const indexHtml = readFileSync("index.html", "utf8");
+    const sitemap = readFileSync("public/sitemap.xml", "utf8");
+
+    for (const path of WATER_CHECK_PATHS) {
+      expect(sitemap).toContain(`<loc>https://expectedend.co${path}</loc>`);
+    }
+    expect(indexHtml).toContain('"url": "https://expectedend.co/thewatercheck"');
+    expect(indexHtml).toContain('"sameAs": [\n              "https://www.instagram.com/thewatercheck/"\n            ]');
+  });
+
+  it("loads fonts from same-origin assets instead of Google Fonts", () => {
+    const indexHtml = readFileSync("index.html", "utf8");
+    const globalStyles = readFileSync("src/index.css", "utf8");
+
+    expect(indexHtml).not.toMatch(/fonts\.(?:googleapis|gstatic)\.com/);
+    expect(globalStyles).toContain('url("/fonts/dm-sans-latin.woff2") format("woff2")');
+    expect(globalStyles).toContain('url("/fonts/hammersmith-one-latin.woff2") format("woff2")');
+    expect(globalStyles).toContain('url("/fonts/instrument-serif-latin.woff2") format("woff2")');
+    expect(globalStyles).toContain('url("/fonts/instrument-serif-italic-latin.woff2") format("woff2")');
+  });
+
+  it("keeps ordinary indexing open while disallowing the documented AI crawler inventory", () => {
+    const indexHtml = readFileSync("index.html", "utf8");
+    const robots = readFileSync("public/robots.txt", "utf8");
+
+    expect(indexHtml).toContain('name="robots" content="index, follow, noimageai, max-image-preview:large"');
+    expect(robots).toMatch(/User-agent: \*\nAllow: \/\nDisallow: \/artworks\/\nDisallow: \/audio\//);
+    expect(robots).toContain("Sitemap: https://expectedend.co/sitemap.xml");
+
+    for (const crawler of REPRESENTATIVE_AI_CRAWLERS) {
+      expect(robots).toMatch(new RegExp(`User-agent: ${crawler}\\n(?:User-agent: [^\\n]+\\n)*Disallow: /`, "i"));
+    }
+  });
+
+  it("publishes a closed AI-use policy without pretending the declaration enforces access", () => {
+    const aiPolicy = readFileSync("public/ai.txt", "utf8");
+    const normalizedAiPolicy = aiPolicy.replace(/^# ?/gm, "").replace(/\s+/g, " ");
+    const runbook = readFileSync(AI_CRAWLER_RUNBOOK_PATH, "utf8");
+
+    expect(aiPolicy).toContain("# Policy: NO AUTOMATED AI USE");
+    expect(normalizedAiPolicy).toMatch(/does not authorize automated AI search, agent access, crawling, training/i);
+    expect(normalizedAiPolicy).toMatch(/does not enforce access/i);
+    expect(normalizedAiPolicy).not.toMatch(/public text.+may be.+read and cited/i);
+
+    expect(runbook).toMatch(/Search, Agent, and Training/i);
+    expect(runbook).toMatch(/WAF rule order/i);
+    expect(runbook).toMatch(/AI Labyrinth/i);
+    expect(runbook).toMatch(/false positive/i);
+    expect(runbook).toMatch(/rollback/i);
+    expect(runbook).toMatch(/quarterly/i);
+    expect(runbook).toMatch(/cannot make public content secret/i);
+  });
 });
 
 describe.skipIf(process.env.RELEASE_CHECK !== "1")("public-content release gate", () => {
   it("requires explicit owner approval before production release", () => {
     expect(CONTACT_HREF).toBe("/about#contact");
     expect(PUBLIC_CONTENT_APPROVED).toBe(true);
+  });
+
+  it("requires independent, content-bound Water Check release evidence", () => {
+    const validation = validateWaterCheckRelease(WATER_CHECK_RELEASE_EVIDENCE, {
+      governedSources: readWaterCheckGovernedSources(),
+      renderedFacts: getWaterCheckRenderedReleaseFacts(WATER_CHECK_RELEASE_EVIDENCE),
+      deploymentInventoryDocument: readFileSync(WATER_CHECK_DEPLOYMENT_INVENTORY_PATH, "utf8"),
+    });
+    expect(validation.errors, validation.errors.join("\n")).toEqual([]);
+    expect(validation.valid).toBe(true);
   });
 });

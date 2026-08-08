@@ -1,11 +1,15 @@
 import * as React from "react";
+import { WATER_CHECK_LEGAL_CONTENT, type WaterCheckLegalKey } from "../water-check/legal/water-check-legal-content";
+import { WaterCheckLegalPage } from "../water-check/legal/water-check-legal-page";
+import { WaterCheckPage } from "../water-check/water-check-page";
+import { WaterCheckShell } from "../water-check/water-check-shell";
 import { AboutPage } from "./about";
 import { Footer } from "./footer";
 import { HomePage } from "./home";
 import { InfoPage } from "./info-page";
 import { LEGAL_CONTENT } from "./legal-content";
 import { Navigation } from "./navigation";
-import { getRoute, getRouteMetadata, isInternalHref } from "./routes";
+import { getRoute, getRouteMetadata, isInternalHref, type WaterCheckRouteKey } from "./routes";
 import styles from "./style.module.css";
 
 type CompanySiteProps = {
@@ -62,8 +66,8 @@ export function CompanySite({ leaving, onOpenArtWorld }: CompanySiteProps) {
   const [route, setRoute] = React.useState(() => getRoute(window.location.pathname));
 
   React.useEffect(() => {
-    updateDocumentMetadata(window.location.pathname);
-  }, [route]);
+    updateDocumentMetadata(route.path);
+  }, [route.path]);
 
   React.useEffect(() => {
     const onPopState = () => {
@@ -86,8 +90,8 @@ export function CompanySite({ leaving, onOpenArtWorld }: CompanySiteProps) {
     scrollToHash(url.hash);
   };
 
-  const renderRoute = () => {
-    if (route.key === "home") return <HomePage />;
+  const renderCompanyRoute = () => {
+    if (route.key === "home") return <HomePage onNavigate={onNavigate} />;
     if (route.key === "about") return <AboutPage />;
     if (route.key === "terms" || route.key === "privacy" || route.key === "accessibility") {
       return <InfoPage content={LEGAL_CONTENT[route.key]} />;
@@ -96,15 +100,38 @@ export function CompanySite({ leaving, onOpenArtWorld }: CompanySiteProps) {
       <main className={styles.notFound}>
         <p className={styles.kicker}>404</p>
         <h1>That page isn’t here.</h1>
-        <a href="/" onClick={onNavigate}>Return home</a>
+        <a href="/" onClick={onNavigate}>
+          Return home
+        </a>
       </main>
     );
   };
 
+  if (route.family === "water-check") {
+    const legalContentKeys: Record<Exclude<WaterCheckRouteKey, "water-check-home">, WaterCheckLegalKey> = {
+      "water-check-privacy": "privacy",
+      "water-check-terms": "terms",
+      "water-check-health-and-ai-disclaimer": "health-and-ai-disclaimer",
+      "water-check-consumer-health-data": "consumer-health-data",
+    };
+    const content =
+      route.key === "water-check-home" ? (
+        <WaterCheckPage onNavigate={onNavigate} />
+      ) : (
+        <WaterCheckLegalPage content={WATER_CHECK_LEGAL_CONTENT[legalContentKeys[route.key]]} onNavigate={onNavigate} />
+      );
+
+    return (
+      <WaterCheckShell activePath={route.path} leaving={leaving} onNavigate={onNavigate}>
+        {content}
+      </WaterCheckShell>
+    );
+  }
+
   return (
     <div className={`${styles.site} ${leaving ? styles.leaving : ""}`} data-site-theme="blue">
       <Navigation isHome={route.key === "home"} onNavigate={onNavigate} />
-      {renderRoute()}
+      {renderCompanyRoute()}
       <Footer onNavigate={onNavigate} onOpenArtWorld={route.key === "about" ? onOpenArtWorld : undefined} />
     </div>
   );

@@ -1,17 +1,16 @@
 # ai.txt — AI usage declaration
 # Site: https://expectedend.co
 # Owner: Expected End LLC
-# Updated: 2026-07-31
-# Policy: OPEN COMPANY INFORMATION, PROTECT ART.
+# Updated: 2026-08-08
+# Policy: NO AUTOMATED AI USE
 
-# Public text about Expected End, its mission, projects, and services may be
-# read and cited by AI search and answer engines. Original artwork and audio
-# are not licensed for AI use.
+# Expected End does not authorize automated AI search, agent access, crawling,
+# training, fine-tuning, dataset creation, generation, or style replication
+# using this site's text, artwork, audio, visual design, layout, typography, or
+# animations. Public availability is not permission for those uses.
+
+# This declaration records the owner's policy; it does not enforce access.
+# Named crawler directives live in /robots.txt. Cloudflare edge controls are
+# the production enforcement layer for automated traffic they recognize.
 User-Agent: *
-Allow: /
-Disallow: /artworks/
-Disallow: /audio/
-
-# The original artwork, audio, visual design, layout, typography, and
-# animations on this site remain copyrighted. They are not licensed for AI or
-# machine-learning training, fine-tuning, generation, or style replication.
+Disallow: /

@@ -5,7 +5,11 @@ import { ContactDialog } from "./contact-dialog";
 import { PROJECTS, SERVICES } from "./content";
 import styles from "./style.module.css";
 
-export function HomePage() {
+type HomePageProps = {
+  onNavigate: React.MouseEventHandler<HTMLAnchorElement>;
+};
+
+export function HomePage({ onNavigate }: HomePageProps) {
   const [activeBio, setActiveBio] = React.useState<string | null>(null);
   const [activeService, setActiveService] = React.useState<string | null>(null);
 
@@ -33,9 +37,10 @@ export function HomePage() {
               <a
                 className={styles.projectArt}
                 data-art-variant={project.artVariant}
-                href={project.href}
-                target="_blank"
-                rel="noreferrer"
+                href={project.destination.href}
+                onClick={project.destination.kind === "internal" ? onNavigate : undefined}
+                target={project.destination.kind === "external" ? "_blank" : undefined}
+                rel={project.destination.kind === "external" ? "noreferrer" : undefined}
                 aria-label={`Visit ${project.name}`}
               >
                 <span className={styles.projectArtClip}>
@@ -66,9 +71,15 @@ export function HomePage() {
                       Bio
                     </button>
                   )}
-                  <a className={styles.actionWithIcon} href={project.href} target="_blank" rel="noreferrer">
-                    {project.name === "The Water Check" ? "Visit Instagram" : "Visit app"}
-                    <ArrowUpRightIcon className={styles.actionIcon} />
+                  <a
+                    className={styles.actionWithIcon}
+                    href={project.destination.href}
+                    onClick={project.destination.kind === "internal" ? onNavigate : undefined}
+                    target={project.destination.kind === "external" ? "_blank" : undefined}
+                    rel={project.destination.kind === "external" ? "noreferrer" : undefined}
+                  >
+                    {project.destination.actionLabel}
+                    {project.destination.kind === "external" && <ArrowUpRightIcon className={styles.actionIcon} />}
                   </a>
                 </div>
               </div>
