@@ -62,28 +62,6 @@ const FAQS = [
   },
 ] as const;
 
-function AppStoreBadge() {
-  return (
-    <svg className={styles.storeBadge} viewBox="0 0 135 41" width="170" height="60" aria-hidden="true">
-      <path
-        d="M0 5.90771C0 3.14629 2.23858 0.907715 5 0.907715H130C132.761 0.907715 135 3.14629 135 5.90771V35.9077C135 38.6691 132.761 40.9077 130 40.9077H5C2.23857 40.9077 0 38.6691 0 35.9077V5.90771Z"
-        fill="#1E1A24"
-      />
-      <g>
-        <circle cx="18.5" cy="22.5" r="6.1" fill="#fff" />
-        <ellipse cx="21.4" cy="14.2" rx="2.2" ry="3.2" fill="#fff" transform="rotate(34 21.4 14.2)" />
-        <circle cx="24.2" cy="20.6" r="2.1" fill="#1E1A24" />
-      </g>
-      <text x="31" y="16" fill="#d8d5db" fontFamily="Arial, Helvetica, sans-serif" fontSize="4.6" fontWeight="700">
-        COMING SOON ON THE
-      </text>
-      <text x="31" y="29" fill="#fff" fontFamily="Arial, Helvetica, sans-serif" fontSize="11" fontWeight="600">
-        App Store
-      </text>
-    </svg>
-  );
-}
-
 function StoreActions({ compact = false }: { compact?: boolean }) {
   const [availability, setAvailability] = React.useState<{ store: StoreName; activation: number } | null>(null);
 
@@ -104,7 +82,7 @@ function StoreActions({ compact = false }: { compact?: boolean }) {
           type="button"
           onClick={() => checkAvailability("App Store")}
         >
-          <AppStoreBadge />
+          <img className={styles.storeBadge} src="/appstore-coming-soon.png" alt="App Store" width="900" height="275" />
           <span className={styles.srOnly}> — Coming Soon</span>
         </button>
         <button
@@ -113,7 +91,7 @@ function StoreActions({ compact = false }: { compact?: boolean }) {
           type="button"
           onClick={() => checkAvailability("Google Play")}
         >
-          <img className={styles.storeBadge} src="/googleplay.png" alt="Google Play" width="170" height="60" />
+          <img className={styles.storeBadge} src="/playstore-soon.webp" alt="Google Play" width="536" height="180" />
           <span className={styles.srOnly}> — Coming Soon</span>
         </button>
       </fieldset>

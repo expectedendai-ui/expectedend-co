@@ -1,3 +1,6 @@
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -8,6 +11,9 @@ const storageSnapshot = (storage: Storage) =>
     .filter((key): key is string => key !== null)
     .sort()
     .map((key) => [key, storage.getItem(key)]);
+
+const publicAssetDigest = (filename: string) =>
+  createHash("sha256").update(readFileSync(resolve("public", filename))).digest("hex");
 
 describe("Water Check Coming Soon page", () => {
   beforeEach(() => {
@@ -21,6 +27,15 @@ describe("Water Check Coming Soon page", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     vi.unstubAllGlobals();
+  });
+
+  it("keeps the supplied store artwork byte-for-byte", () => {
+    expect(publicAssetDigest("appstore-coming-soon.png")).toBe(
+      "2c521c2da2979da1c27af8b3192b1e1d603d3c7ff60c775a250e2e538fc286ab"
+    );
+    expect(publicAssetDigest("playstore-soon.webp")).toBe(
+      "98edce161205c38bb73898be3c009a67ff98ac5306bac7d4f79cf43270e48cb5"
+    );
   });
 
   it("pairs the fixed hook with an immediate limitation and an honest planned product story", () => {
@@ -38,18 +53,20 @@ describe("Water Check Coming Soon page", () => {
     expect(within(hero).getByText("Coming Soon")).toBeInTheDocument();
     expect(within(hero).getByText("For adults 18+")).toBeInTheDocument();
 
-    const googlePlayBadges = screen.getAllByAltText("Google Play");
-    expect(googlePlayBadges).toHaveLength(2);
-    for (const badge of googlePlayBadges) {
-      expect(badge).toHaveAttribute("src", "/googleplay.png");
-      expect(badge).toHaveAttribute("width", "170");
-      expect(badge).toHaveAttribute("height", "60");
+    const suppliedBadges = [
+      { alt: "App Store", src: "/appstore-coming-soon.png", width: "900", height: "275" },
+      { alt: "Google Play", src: "/playstore-soon.webp", width: "536", height: "180" },
+    ];
+
+    for (const expected of suppliedBadges) {
+      const badges = screen.getAllByAltText(expected.alt);
+      expect(badges).toHaveLength(2);
+      for (const badge of badges) {
+        expect(badge).toHaveAttribute("src", expected.src);
+        expect(badge).toHaveAttribute("width", expected.width);
+        expect(badge).toHaveAttribute("height", expected.height);
+      }
     }
-    expect(
-      container.querySelectorAll(
-        'path[d="M0 5.90771C0 3.14629 2.23858 0.907715 5 0.907715H130C132.761 0.907715 135 3.14629 135 5.90771V35.9077C135 38.6691 132.761 40.9077 130 40.9077H5C2.23857 40.9077 0 38.6691 0 35.9077V5.90771Z"]'
-      )
-    ).toHaveLength(2);
 
     const timeline = screen.getByRole("region", { name: "A fictional drink journal" });
     expect(within(timeline).getByText("Fictional example")).toBeInTheDocument();
