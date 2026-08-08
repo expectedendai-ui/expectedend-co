@@ -51,8 +51,8 @@ describe("Water Check Coming Soon page", () => {
     expect(screen.getByText(/may be incomplete and cannot diagnose/i)).toBeInTheDocument();
     expect(screen.getByText(/asks for no health information or email/i)).toBeInTheDocument();
 
-    expect(container.querySelector("form, input, select, textarea, video, source, track")).not.toBeInTheDocument();
-    expect(container.querySelector("[src*='water-check-demo'], [poster]")).not.toBeInTheDocument();
+    expect(container.querySelector("form, input, select, textarea, video, track")).not.toBeInTheDocument();
+    expect(container.querySelector("[src*='water-check-demo'], [srcset*='water-check-demo'], [poster]")).not.toBeInTheDocument();
     expect(container).not.toHaveTextContent(/testimonial|five-star|5-star|clinically proven|certified|real users/i);
 
     const instagram = screen.getByRole("link", { name: "Follow on Instagram for launch updates" });

@@ -71,38 +71,6 @@
   padding: clamp(4rem, 10vw, 8rem) 1.25rem;
 }
 
-.content > main {
-  width: min(44rem, 100%);
-  text-align: center;
-}
-
-.content h1 {
-  margin: 0;
-  font-family: "Instrument Serif", Georgia, serif;
-  font-size: clamp(3rem, 10vw, 6.5rem);
-  font-weight: 400;
-  letter-spacing: -0.05em;
-  line-height: 0.95;
-  text-wrap: balance;
-}
-
-.content p {
-  max-width: 38rem;
-  margin: 1.25rem auto 0;
-  color: #3e6572;
-  line-height: 1.7;
-}
-
-.content p:first-child {
-  margin-top: 0;
-  margin-bottom: 1rem;
-  color: #176d83;
-  font-size: 0.74rem;
-  font-weight: 800;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
 .footer {
   display: flex;
   width: min(74rem, calc(100% - 2rem));

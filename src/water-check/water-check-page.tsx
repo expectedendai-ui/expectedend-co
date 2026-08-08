@@ -1,4 +1,5 @@
 import * as React from "react";
+import { ArrowRightIcon, ArrowUpRightIcon, CheckInIcon, PlayIcon, PlusIcon, SparkleIcon } from "./water-check-icons";
 import styles from "./water-check-page.module.css";
 
 type WaterCheckPageProps = {
@@ -62,12 +63,12 @@ const FAQS = [
 ] as const;
 
 function StoreActions({ compact = false }: { compact?: boolean }) {
-  const [availability, setAvailability] = React.useState<{ store: StoreName; checks: number } | null>(null);
+  const [availability, setAvailability] = React.useState<{ store: StoreName; repeated: boolean } | null>(null);
 
   const checkAvailability = (store: StoreName) => {
     setAvailability((current) => ({
       store,
-      checks: current?.store === store ? current.checks + 1 : 1,
+      repeated: current?.store === store,
     }));
   };
 
@@ -97,7 +98,7 @@ function StoreActions({ compact = false }: { compact?: boolean }) {
           onClick={() => checkAvailability("Google Play")}
         >
           <span className={`${styles.storeGlyph} ${styles.playGlyph}`} aria-hidden="true">
-            ▶
+            <PlayIcon className={styles.iconSvg} />
           </span>
           <span>
             <small>Coming Soon on</small>
@@ -110,7 +111,7 @@ function StoreActions({ compact = false }: { compact?: boolean }) {
         {availability ? (
           <>
             {availability.store} is still coming soon. No store listing is live yet.
-            {availability.checks > 1 ? " Availability checked again." : ""}
+            {availability.repeated ? " Availability checked again." : ""}
           </>
         ) : (
           "No store listing is live yet. Choose either store for an availability update."
@@ -151,19 +152,26 @@ export function WaterCheckPage({ onNavigate }: WaterCheckPageProps) {
             <div className={styles.brandHalo}>
               <div className={styles.brandGlass}>
                 <span className={styles.brandGlint} aria-hidden="true" />
-                <img
-                  className={styles.brandImage}
-                  src="/brand/thewatercheck-liquid-glass.png"
-                  alt="The Water Check liquid-glass C emblem"
-                  width="720"
-                  height="720"
-                  decoding="async"
-                  fetchPriority="high"
-                />
+                <picture>
+                  <source
+                    type="image/webp"
+                    srcSet="/brand/thewatercheck-liquid-glass-720.webp 720w, /brand/thewatercheck-liquid-glass-1080.webp 1080w"
+                    sizes="(max-width: 900px) 88vw, 35rem"
+                  />
+                  <img
+                    className={styles.brandImage}
+                    src="/brand/thewatercheck-liquid-glass.png"
+                    alt="The Water Check liquid-glass C emblem"
+                    width="720"
+                    height="720"
+                    decoding="async"
+                    fetchPriority="high"
+                  />
+                </picture>
               </div>
             </div>
             <div className={styles.visualNote}>
-              <span aria-hidden="true">✦</span>
+              <SparkleIcon className={styles.iconSvg} />
               <p>
                 <strong>Notice, don’t diagnose.</strong> A quieter way to look back at the day.
               </p>
@@ -191,7 +199,7 @@ export function WaterCheckPage({ onNavigate }: WaterCheckPageProps) {
                 <div className={styles.timelineTime}>12:18</div>
                 <article className={`${styles.timelineCard} ${styles.drinkCard}`}>
                   <span className={styles.timelineIcon} aria-hidden="true">
-                    ＋
+                    <PlusIcon className={styles.iconSvg} />
                   </span>
                   <div>
                     <p className={styles.timelineLabel}>Drink logged</p>
@@ -205,7 +213,7 @@ export function WaterCheckPage({ onNavigate }: WaterCheckPageProps) {
                 <div className={styles.timelineTime}>15:42</div>
                 <article className={`${styles.timelineCard} ${styles.checkinCard}`}>
                   <span className={styles.timelineIcon} aria-hidden="true">
-                    ◌
+                    <CheckInIcon className={styles.iconSvg} />
                   </span>
                   <div>
                     <p className={styles.timelineLabel}>Later bloat check-in</p>
@@ -219,7 +227,7 @@ export function WaterCheckPage({ onNavigate }: WaterCheckPageProps) {
                 <div className={styles.timelineTime}>Over time</div>
                 <article className={`${styles.timelineCard} ${styles.patternCard}`}>
                   <span className={styles.timelineIcon} aria-hidden="true">
-                    ✦
+                    <SparkleIcon className={styles.iconSvg} />
                   </span>
                   <div>
                     <p className={styles.timelineLabel}>Qualified possible pattern</p>
@@ -270,7 +278,7 @@ export function WaterCheckPage({ onNavigate }: WaterCheckPageProps) {
                 definitive causation.
               </p>
               <a href="/thewatercheck/health-and-ai-disclaimer" onClick={onNavigate}>
-                Read the Health &amp; AI Disclaimer <span aria-hidden="true">→</span>
+                Read the Health &amp; AI Disclaimer <ArrowRightIcon className={styles.inlineIcon} />
               </a>
             </div>
           </aside>
@@ -338,7 +346,7 @@ export function WaterCheckPage({ onNavigate }: WaterCheckPageProps) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Follow on Instagram for launch updates <span aria-hidden="true">↗</span>
+            Follow on Instagram for launch updates <ArrowUpRightIcon className={styles.inlineIcon} />
           </a>
         </section>
       </main>
