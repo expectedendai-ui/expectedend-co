@@ -1,12 +1,18 @@
 export const CONTACT_HREF = "/about#contact";
 
-export const PUBLIC_CONTENT_APPROVED = true;
+// The privacy disclosure changed when fonts became self-hosted. Renewed owner
+// approval is required before the production release gate can turn green.
+export const PUBLIC_CONTENT_APPROVED = false;
 
 export const PROJECTS = [
   {
     name: "MyBibleLens",
     category: "Christianity app",
-    href: "https://mybiblelens.us/",
+    destination: {
+      kind: "external",
+      href: "https://mybiblelens.us/",
+      actionLabel: "Visit app",
+    },
     bioHref: "https://mybiblelens.us/legal.html#about",
     image: "/brand/mybiblelens.png",
     artVariant: "mybiblelens",
@@ -14,8 +20,12 @@ export const PROJECTS = [
   },
   {
     name: "The Water Check",
-    category: "Instagram community",
-    href: "https://www.instagram.com/thewatercheck/",
+    category: "Health app · Coming Soon",
+    destination: {
+      kind: "internal",
+      href: "/thewatercheck",
+      actionLabel: "Visit product page",
+    },
     bioHref: null,
     image: "/brand/thewatercheck.png",
     artVariant: "watercheck",

@@ -43,6 +43,28 @@ describe("public-content deployment guard", () => {
     expect(publicText).not.toMatch(/[a-z0-9._%+-]+@gmail\.com/i);
     expect(publicText).not.toMatch(/"email"\s*:/);
   });
+
+  it("publishes the Water Check route family in static discovery surfaces", () => {
+    const indexHtml = readFileSync("index.html", "utf8");
+    const sitemap = readFileSync("public/sitemap.xml", "utf8");
+
+    for (const path of WATER_CHECK_PATHS) {
+      expect(sitemap).toContain(`<loc>https://expectedend.co${path}</loc>`);
+    }
+    expect(indexHtml).toContain('"url": "https://expectedend.co/thewatercheck"');
+    expect(indexHtml).toContain('"sameAs": [\n              "https://www.instagram.com/thewatercheck/"\n            ]');
+  });
+
+  it("loads fonts from same-origin assets instead of Google Fonts", () => {
+    const indexHtml = readFileSync("index.html", "utf8");
+    const globalStyles = readFileSync("src/index.css", "utf8");
+
+    expect(indexHtml).not.toMatch(/fonts\.(?:googleapis|gstatic)\.com/);
+    expect(globalStyles).toContain('url("/fonts/dm-sans-latin.woff2") format("woff2")');
+    expect(globalStyles).toContain('url("/fonts/hammersmith-one-latin.woff2") format("woff2")');
+    expect(globalStyles).toContain('url("/fonts/instrument-serif-latin.woff2") format("woff2")');
+    expect(globalStyles).toContain('url("/fonts/instrument-serif-italic-latin.woff2") format("woff2")');
+  });
 });
 
 describe.skipIf(process.env.RELEASE_CHECK !== "1")("public-content release gate", () => {

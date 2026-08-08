@@ -20,13 +20,54 @@ describe("Expected End public site", () => {
       "href",
       "https://mybiblelens.us/legal.html#about"
     );
-    expect(screen.getByRole("link", { name: "Visit The Water Check" })).toHaveAttribute(
-      "href",
-      "https://www.instagram.com/thewatercheck/"
-    );
+    const waterCheckArtwork = screen.getByRole("link", { name: "Visit The Water Check" });
+    expect(waterCheckArtwork).toHaveAttribute("href", "/thewatercheck");
+    expect(waterCheckArtwork).not.toHaveAttribute("target");
+    expect(waterCheckArtwork).not.toHaveAttribute("rel");
+
+    const waterCheckAction = screen.getByRole("link", { name: "Visit product page" });
+    expect(waterCheckAction).toHaveAttribute("href", "/thewatercheck");
+    expect(waterCheckAction).not.toHaveAttribute("target");
+    expect(waterCheckAction).not.toHaveAttribute("rel");
+
+    const myBibleLensArtwork = screen.getByRole("link", { name: "Visit MyBibleLens" });
+    expect(myBibleLensArtwork).toHaveAttribute("target", "_blank");
+    expect(myBibleLensArtwork).toHaveAttribute("rel", "noreferrer");
+    expect(screen.getByRole("link", { name: "Visit app" })).toHaveAttribute("target", "_blank");
     expect(screen.queryByText("JARVIS")).not.toBeInTheDocument();
     expect(screen.queryByText("THE MENU")).not.toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "Ideas can feel meaningful and easy to enter." })).not.toBeInTheDocument();
+  });
+
+  it.each([
+    ["artwork", "Visit The Water Check"],
+    ["primary action", "Visit product page"],
+  ])("navigates from the Water Check %s through the existing SPA callback", async (_, accessibleName) => {
+    const user = userEvent.setup();
+    vi.spyOn(window, "scrollTo").mockImplementation(() => undefined);
+    render(<CompanySite leaving={false} onOpenArtWorld={vi.fn()} />);
+
+    await user.click(screen.getByRole("link", { name: accessibleName }));
+
+    expect(window.location.pathname).toBe("/thewatercheck");
+    expect(screen.getByRole("navigation", { name: "Water Check navigation" })).toBeInTheDocument();
+    expect(screen.queryByRole("navigation", { name: "Main navigation" })).not.toBeInTheDocument();
+  });
+
+  it("does not intercept modified clicks on project destinations", () => {
+    render(<CompanySite leaving={false} onOpenArtWorld={vi.fn()} />);
+    const stopJSDOMNavigation = (event: MouseEvent) => event.preventDefault();
+    window.addEventListener("click", stopJSDOMNavigation);
+
+    fireEvent.click(screen.getByRole("link", { name: "Visit product page" }), {
+      ctrlKey: true,
+    });
+    fireEvent.click(screen.getByRole("link", { name: "Visit app" }), {
+      ctrlKey: true,
+    });
+    window.removeEventListener("click", stopJSDOMNavigation);
+
+    expect(window.location.pathname).toBe("/");
   });
 
   it("uses vector action arrows instead of platform-dependent arrow characters", () => {
@@ -34,7 +75,7 @@ describe("Expected End public site", () => {
 
     expect(container.textContent).not.toMatch(/[↗↓]/);
     const actionIcons = container.querySelectorAll("svg[data-action-icon]");
-    expect(actionIcons).toHaveLength(3);
+    expect(actionIcons).toHaveLength(2);
     actionIcons.forEach((icon) => {
       expect(icon).toHaveAttribute("aria-hidden", "true");
       expect(icon).toHaveAttribute("focusable", "false");

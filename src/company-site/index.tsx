@@ -91,7 +91,7 @@ export function CompanySite({ leaving, onOpenArtWorld }: CompanySiteProps) {
   };
 
   const renderCompanyRoute = () => {
-    if (route.key === "home") return <HomePage />;
+    if (route.key === "home") return <HomePage onNavigate={onNavigate} />;
     if (route.key === "about") return <AboutPage />;
     if (route.key === "terms" || route.key === "privacy" || route.key === "accessibility") {
       return <InfoPage content={LEGAL_CONTENT[route.key]} />;
