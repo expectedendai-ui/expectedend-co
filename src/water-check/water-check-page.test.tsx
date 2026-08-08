@@ -109,9 +109,21 @@ describe("Water Check Coming Soon page", () => {
 
     expect(within(founderStory).getByText("Aug 2026")).toBeInTheDocument();
     expect(within(founderStory).getByText("Denzel Rigaud, Founder of Expected End")).toBeInTheDocument();
-    expect(within(founderStory).getByText(/carried The Water Check with me for six years/i)).toBeInTheDocument();
+    expect(within(founderStory).getByText(/household with 4 women.+my mom, her wife, and my 2 sisters/i)).toBeInTheDocument();
+    expect(within(founderStory).getByText(/carried The Water Check with me for 6 years/i)).toBeInTheDocument();
     expect(within(founderStory).getByText(/hydration needs vary with the person/i)).toBeInTheDocument();
     expect(within(founderStory).getByText(/will not diagnose a condition or prove that one drink caused a symptom/i)).toBeInTheDocument();
+    const linkedIn = within(founderStory).getByRole("link", { name: "Denzel Rigaud on LinkedIn" });
+    const instagram = within(founderStory).getByRole("link", { name: "Denzel Rigaud on Instagram" });
+    expect(linkedIn).toHaveAttribute("href", "https://www.linkedin.com/in/denzel-rigaud-2b0200210/");
+    expect(instagram).toHaveAttribute("href", "https://www.instagram.com/smiledenzel/");
+    expect(linkedIn.querySelector("img")).toHaveAttribute("src", "/linkedin-icon.webp");
+    expect(instagram.querySelector("img")).toHaveAttribute("src", "/instagram-logo.webp");
+    for (const social of [linkedIn, instagram]) {
+      expect(social).toHaveAttribute("target", "_blank");
+      expect(social).toHaveAttribute("rel", expect.stringMatching(/noopener/));
+      expect(social).toHaveAttribute("rel", expect.stringMatching(/noreferrer/));
+    }
     expect(founderStory.compareDocumentPosition(walkthroughKicker)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
     expect(founderStory.querySelector("time")).toHaveAttribute("datetime", "2026-08");
     expect(founderText).not.toMatch(/water (?:flushes|flushed).*vitamin/i);

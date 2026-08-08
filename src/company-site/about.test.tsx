@@ -72,6 +72,9 @@ describe("Expected End About page", () => {
     expect(screen.getByRole("link", { name: "Two" })).toHaveAttribute("href", "https://unicourt.com/case/fl-pal-rigaud-denzel-v-hall-aaron-914059");
     expect(screen.getByRole("link", { name: "father" })).toHaveAttribute("href", "https://www.google.com/search?q=clifford+rigaud");
     expect(screen.getByRole("link", { name: "chivalry" })).toHaveAttribute("href", "https://www.youtube.com/watch?v=SHVKb2j6rfc&list=RDSHVKb2j6rfc&start_radio=1");
+    expect(screen.getByText(/Finding God led me to learn more about myself/i)).toBeInTheDocument();
+    expect(screen.getByText(/The Water Check belongs to that mission/i)).toBeInTheDocument();
+    expect(screen.getByText(/helps you become the most capable version of that person/i)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Close Founder Story" })).toHaveAttribute("aria-expanded", "true");
 
     await user.click(screen.getByRole("button", { name: /Jeremiah 29:11/ }));

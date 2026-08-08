@@ -242,14 +242,36 @@ export function WaterCheckPage({ onNavigate }: WaterCheckPageProps) {
             <time dateTime="2026-08">Aug 2026</time>
             <h2 id="founder-story-title">What we’re building, and why</h2>
             <p className={styles.founderByline}>Denzel Rigaud, Founder of Expected End</p>
+            <nav className={styles.founderSocials} aria-label="Denzel Rigaud social profiles">
+              <a
+                aria-label="Denzel Rigaud on LinkedIn"
+                className={styles.founderSocialLink}
+                href="https://www.linkedin.com/in/denzel-rigaud-2b0200210/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img className={styles.founderSocialIcon} src="/linkedin-icon.webp" alt="" width="28" height="28" />
+                <span>LinkedIn</span>
+              </a>
+              <a
+                aria-label="Denzel Rigaud on Instagram"
+                className={styles.founderSocialLink}
+                href="https://www.instagram.com/smiledenzel/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img className={styles.founderSocialIcon} src="/instagram-logo.webp" alt="" width="28" height="28" />
+                <span>Instagram</span>
+              </a>
+            </nav>
           </div>
 
           <div className={styles.founderStoryBody}>
             <p>
-              I grew up hearing women I care about look at themselves and say, “I’m fat.” I wanted to slow that judgment down:
-              could it be bloating, and could we give the body some grace before deciding what it means? Bloating is not the
-              answer every time, and lasting or concerning symptoms deserve a conversation with a qualified healthcare
-              professional.
+              I grew up hearing women I care about look at themselves and say, “I’m fat.” I grew up in a household with 4 women:
+              my mom, her wife, and my 2 sisters, so I heard that judgment up close. I wanted to slow that judgment down: could it
+              be bloating, and could we give the body some grace before deciding what it means? Bloating is not the answer every
+              time, and lasting or concerning symptoms deserve a conversation with a qualified healthcare professional.
             </p>
             <p>
               I watched people skip meals or restrict themselves because they did not know why their body felt different that
@@ -272,7 +294,7 @@ export function WaterCheckPage({ onNavigate }: WaterCheckPageProps) {
               diagnose a condition or prove that one drink caused a symptom.
             </p>
             <p>
-              I have carried The Water Check with me for six years. Now I am building the version I wanted as an athlete and the
+              I have carried The Water Check with me for 6 years. Now I am building the version I wanted as an athlete and the
               version I wish the women I grew up around had: calm, private, and free from shame. You deserve information before
               you blame your body.
             </p>
