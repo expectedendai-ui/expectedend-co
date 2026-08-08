@@ -237,6 +237,48 @@ export function WaterCheckPage({ onNavigate }: WaterCheckPageProps) {
           </div>
         </section>
 
+        <section className={styles.founderStory} aria-labelledby="founder-story-title">
+          <div className={styles.founderStoryHeader}>
+            <time dateTime="2026-08">Aug 2026</time>
+            <h2 id="founder-story-title">What we’re building, and why</h2>
+            <p className={styles.founderByline}>Denzel Rigaud, Founder of Expected End</p>
+          </div>
+
+          <div className={styles.founderStoryBody}>
+            <p>
+              I grew up hearing women I care about look at themselves and say, “I’m fat.” I wanted to slow that judgment down:
+              could it be bloating, and could we give the body some grace before deciding what it means? Bloating is not the
+              answer every time, and lasting or concerning symptoms deserve a conversation with a qualified healthcare
+              professional.
+            </p>
+            <p>
+              I watched people skip meals or restrict themselves because they did not know why their body felt different that
+              day. The feeling might follow food, a fizzy drink, an energy drink, a salty meal, training, or a change in routine.
+              Bloating has many possible causes, and those everyday details are easy to forget once discomfort takes over.
+            </p>
+            <p>
+              I know that frustration as an athlete. Feeling bloated before training or competition distracts me and changes how
+              comfortable I feel in my body. Hydration advice can become another rigid rule. “Drink a gallon a day” sounds
+              universal, but hydration needs vary with the person, their activity, the climate, and their life stage.
+            </p>
+            <p>
+              The problem is that we remember the discomfort and lose the context. Then we guess, blame our bodies, or make a
+              sudden change without a clear record of what happened.
+            </p>
+            <p>
+              The Water Check is my attempt to replace that guess with a private record. The planned app will let adults log or
+              scan a drink, review approximate hydration and nutrient context, and check in later about bloating. Over time, it
+              may help someone notice possible patterns and prepare better questions for a doctor or dietitian. It will not
+              diagnose a condition or prove that one drink caused a symptom.
+            </p>
+            <p>
+              I have carried The Water Check with me for six years. Now I am building the version I wanted as an athlete and the
+              version I wish the women I grew up around had: calm, private, and free from shame. You deserve information before
+              you blame your body.
+            </p>
+          </div>
+        </section>
+
         <section className={styles.storySection} aria-labelledby="story-title">
           <div className={styles.sectionIntro}>
             <p className={styles.sectionKicker}>One drink. One check-in. More context.</p>

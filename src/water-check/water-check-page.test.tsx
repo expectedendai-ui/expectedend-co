@@ -101,6 +101,24 @@ describe("Water Check Coming Soon page", () => {
     }
   });
 
+  it("places Denzel's governed founder story before the product walkthrough", () => {
+    const { container } = render(<WaterCheckPage onNavigate={vi.fn()} />);
+    const founderStory = screen.getByRole("region", { name: "What we’re building, and why" });
+    const walkthroughKicker = screen.getByText("One drink. One check-in. More context.");
+    const founderText = founderStory.textContent ?? "";
+
+    expect(within(founderStory).getByText("Aug 2026")).toBeInTheDocument();
+    expect(within(founderStory).getByText("Denzel Rigaud, Founder of Expected End")).toBeInTheDocument();
+    expect(within(founderStory).getByText(/carried The Water Check with me for six years/i)).toBeInTheDocument();
+    expect(within(founderStory).getByText(/hydration needs vary with the person/i)).toBeInTheDocument();
+    expect(within(founderStory).getByText(/will not diagnose a condition or prove that one drink caused a symptom/i)).toBeInTheDocument();
+    expect(founderStory.compareDocumentPosition(walkthroughKicker)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(founderStory.querySelector("time")).toHaveAttribute("datetime", "2026-08");
+    expect(founderText).not.toMatch(/water (?:flushes|flushed).*vitamin/i);
+    expect(founderText).not.toMatch(/everyone (?:needs|should drink) (?:a )?gallon/i);
+    expect(container.querySelector("form, input, select, textarea")).not.toBeInTheDocument();
+  });
+
   it.each([
     ["pointer", "App Store — Coming Soon"],
     ["keyboard", "Google Play — Coming Soon"],

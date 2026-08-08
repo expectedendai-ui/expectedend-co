@@ -470,6 +470,84 @@
   color: var(--ink);
 }
 
+.founderStory {
+  display: grid;
+  width: min(74rem, calc(100% - 1rem));
+  grid-template-columns: minmax(15rem, 0.72fr) minmax(0, 1.28fr);
+  gap: clamp(2.5rem, 7vw, 7rem);
+  margin: 0 auto;
+  padding: clamp(4.5rem, 9vw, 8rem) clamp(1rem, 4vw, 3.5rem);
+  border-top: 1px solid rgba(30, 102, 146, 0.16);
+  border-bottom: 1px solid rgba(30, 102, 146, 0.16);
+  background: linear-gradient(145deg, rgba(214, 241, 255, 0.38), rgba(255, 255, 255, 0.18));
+}
+
+.founderStoryHeader {
+  align-self: start;
+}
+
+.founderStoryHeader time {
+  display: block;
+  margin-bottom: 1.2rem;
+  color: #166187;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.founderStoryHeader h2 {
+  max-width: 29rem;
+  margin: 0;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(3rem, 5.4vw, 5.4rem);
+  font-weight: 400;
+  letter-spacing: -0.052em;
+  line-height: 0.94;
+  text-wrap: balance;
+}
+
+.page .founderByline {
+  max-width: 22rem;
+  margin: 1.5rem 0 0;
+  color: #2d769f;
+  font-size: 0.82rem;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+}
+
+.founderStoryBody {
+  display: grid;
+  align-content: start;
+  gap: 1.25rem;
+  max-width: 42rem;
+}
+
+.page .founderStoryBody p {
+  max-width: none;
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.25vw, 1.1rem);
+  line-height: 1.78;
+}
+
+.page .founderStoryBody p:first-child::first-letter {
+  float: left;
+  margin: 0.08em 0.12em 0 0;
+  color: #287da9;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 4.2rem;
+  line-height: 0.78;
+}
+
+.page .founderStoryBody p:last-child {
+  color: var(--ink);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+  line-height: 1.4;
+}
+
 .storySection,
 .featuresSection,
 .trustSection,
@@ -1110,6 +1188,10 @@
   .trustCard {
     gap: 2rem;
   }
+
+  .founderStory {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 620px) {
@@ -1144,6 +1226,7 @@
   }
 
   .storySection,
+  .founderStory,
   .featuresSection,
   .trustSection,
   .faqSection,
@@ -1232,6 +1315,7 @@
   }
 
   .storySection,
+  .founderStory,
   .featuresSection,
   .trustSection,
   .faqSection {
