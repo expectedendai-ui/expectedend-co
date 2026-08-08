@@ -8,9 +8,9 @@ The release guard hashes this entire document and the governed public copy. Any 
 
 ## Application-layer observation
 
-The reviewed release contains no form, waitlist, account flow, health or demographic input, product-scan upload, AI chat, payment flow, Water Check analytics integration, advertising integration, or intentional cookie, local-storage, or session-storage write. Store controls update an in-page status only. Instagram and LinkedIn are ordinary links; a request to either service occurs only after a visitor activates its link.
+The reviewed release contains no form, waitlist, account flow, health or demographic input, product-scan upload, AI chat, payment flow, app-download control, Water Check analytics integration, advertising integration, or intentional cookie, local-storage, or session-storage write. Instagram and LinkedIn are ordinary links; a request to either service occurs only after a visitor activates its link.
 
-A clean browser profile loaded `/thewatercheck` from the production build and made ten same-origin document, script, style, font, and image requests. It made no third-party request, set no cookie, created no local-storage or session-storage item, and produced no browser warning or error.
+A clean browser profile loaded `/thewatercheck` from the production build and made eight same-origin document, script, style, font, and image requests. It made no third-party request, set no cookie, created no local-storage or session-storage item, and produced no browser warning or error.
 
 ## Deployment inventory
 

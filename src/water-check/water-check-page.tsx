@@ -1,16 +1,9 @@
-import * as React from "react";
+import type * as React from "react";
 import { ArrowRightIcon, ArrowUpRightIcon, CheckInIcon, PlusIcon, SparkleIcon } from "./water-check-icons";
 import styles from "./water-check-page.module.css";
 
 type WaterCheckPageProps = {
   onNavigate: (event: React.MouseEvent<HTMLAnchorElement>) => void;
-};
-
-type StoreName = "App Store" | "Google Play";
-
-type ComingSoonDialogProps = {
-  store: StoreName;
-  onClose: () => void;
 };
 
 const FEATURES = [
@@ -20,6 +13,7 @@ const FEATURES = [
     title: "Planned scan or described-drink logging",
     copy: "Photograph a label or describe a drink in plain language. The future product is intended to turn either into a simple journal entry.",
     accent: "sky",
+    preview: "scanner",
   },
   {
     number: "02",
@@ -27,6 +21,7 @@ const FEATURES = [
     title: "Planned hydration and nutrient tracking",
     copy: "See estimated water, sugar, sodium, and other nutritional details together, so a drink has context beyond a single number.",
     accent: "aqua",
+    preview: "calendar",
   },
   {
     number: "03",
@@ -34,6 +29,7 @@ const FEATURES = [
     title: "Planned bloat check-ins",
     copy: "A quick later check-in is intended to help build a private record of how different days and drinks felt over time.",
     accent: "violet",
+    preview: "day-track",
   },
   {
     number: "04",
@@ -41,14 +37,43 @@ const FEATURES = [
     title: "Educational, approximate AI",
     copy: "Future explanations may surface possible patterns in a journal. They may be incomplete and cannot diagnose, treat, prevent, or establish a definitive cause.",
     accent: "coral",
+    preview: "insight",
   },
+] as const;
+
+type FeaturePreviewKind = (typeof FEATURES)[number]["preview"];
+
+const CALENDAR_WEEKDAYS = [
+  ["mon", "M"],
+  ["tue", "T"],
+  ["wed", "W"],
+  ["thu", "T"],
+  ["fri", "F"],
+  ["sat", "S"],
+  ["sun", "S"],
+] as const;
+
+const CALENDAR_DAYS = [
+  ["jul-27", "27", "outside"],
+  ["jul-28", "28", "outside"],
+  ["jul-29", "29", "outside"],
+  ["jul-30", "30", "outside"],
+  ["jul-31", "31", "outside"],
+  ["aug-1", "1", "tracked"],
+  ["aug-2", "2", "tracked"],
+  ["aug-3", "3", "tracked"],
+  ["aug-4", "4", "tracked"],
+  ["aug-5", "5", "tracked"],
+  ["aug-6", "6", "tracked"],
+  ["aug-7", "7", "tracked"],
+  ["aug-8", "8", "today"],
+  ["aug-9", "9", ""],
 ] as const;
 
 const FAQS = [
   {
     question: "Is The Water Check available now?",
-    answer:
-      "Not yet. The Water Check is in development, and both store controls on this page are honest Coming Soon notices—not links to live listings.",
+    answer: "Not yet. The Water Check is in development, and this page has no download links or live store listings.",
   },
   {
     question: "Will a possible pattern explain why bloating happened?",
@@ -67,115 +92,183 @@ const FAQS = [
   },
 ] as const;
 
-function ComingSoonDialog({ store, onClose }: ComingSoonDialogProps) {
-  const dialogRef = React.useRef<HTMLDialogElement>(null);
-  const closeButtonRef = React.useRef<HTMLButtonElement>(null);
-  const openerRef = React.useRef<HTMLElement | null>(null);
-  const titleId = React.useId();
-  const descriptionId = React.useId();
+function FeaturePreview({ kind }: { kind: FeaturePreviewKind }) {
+  if (kind === "scanner") {
+    return (
+      <div className={styles.featurePreview} data-feature-preview={kind} aria-hidden="true">
+        <div className={styles.previewBar}>
+          <span>Scan a drink</span>
+          <span className={styles.livePill}>Camera ready</span>
+        </div>
+        <div className={styles.scanViewport}>
+          <span className={styles.scanCornerTopLeft} />
+          <span className={styles.scanCornerTopRight} />
+          <span className={styles.scanCornerBottomLeft} />
+          <span className={styles.scanCornerBottomRight} />
+          <div className={styles.bottleMockup}>
+            <span className={styles.bottleCap} />
+            <span className={styles.bottleLabel}>H₂O</span>
+          </div>
+          <span className={styles.scanBeam} />
+        </div>
+        <div className={styles.scanResult}>
+          <span className={styles.resultIcon}>+</span>
+          <span>
+            <strong>Electrolyte water</strong>
+            <small>12 fl oz · ready to review</small>
+          </span>
+          <span className={styles.resultAction}>Add</span>
+        </div>
+      </div>
+    );
+  }
 
-  React.useEffect(() => {
-    openerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    const dialog = dialogRef.current;
-    if (!dialog) return;
+  if (kind === "calendar") {
+    return (
+      <div className={styles.featurePreview} data-feature-preview={kind} aria-hidden="true">
+        <div className={styles.previewBar}>
+          <span>August 2026</span>
+          <span className={styles.calendarArrows}>‹ &nbsp; ›</span>
+        </div>
+        <div className={styles.weekdays}>
+          {CALENDAR_WEEKDAYS.map(([id, day]) => (
+            <span key={id}>{day}</span>
+          ))}
+        </div>
+        <div className={styles.calendarGrid}>
+          {CALENDAR_DAYS.map(([id, day, state]) => (
+            <span className={state ? styles[state] : undefined} key={id}>
+              {day}
+            </span>
+          ))}
+        </div>
+        <div className={styles.calendarSummary}>
+          <span className={styles.progressRing}>74%</span>
+          <span>
+            <strong>6 day rhythm</strong>
+            <small>Hydration logs this week</small>
+          </span>
+          <span className={styles.summaryBars}>
+            <i />
+            <i />
+            <i />
+          </span>
+        </div>
+      </div>
+    );
+  }
 
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    if (typeof dialog.showModal === "function") dialog.showModal();
-    else dialog.setAttribute("open", "");
-    closeButtonRef.current?.focus();
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      openerRef.current?.focus();
-    };
-  }, []);
+  if (kind === "day-track") {
+    return (
+      <div className={`${styles.featurePreview} ${styles.dayTrackPreview}`} data-feature-preview={kind} aria-hidden="true">
+        <div className={styles.previewBar}>
+          <span>Today · Aug 8</span>
+          <span className={styles.dayScore}>Day 06</span>
+        </div>
+        <div className={styles.dayProgress}>
+          <span>
+            <strong>52</strong>
+            <small>oz logged</small>
+          </span>
+          <div>
+            <i />
+          </div>
+          <span>
+            <strong>3</strong>
+            <small>drinks</small>
+          </span>
+        </div>
+        <div className={styles.miniTimeline}>
+          <div>
+            <time>8:10</time>
+            <i />
+            <span>
+              <strong>Morning water</strong>
+              <small>16 oz · water</small>
+            </span>
+            <b>✓</b>
+          </div>
+          <div>
+            <time>12:18</time>
+            <i />
+            <span>
+              <strong>Sparkling lemon</strong>
+              <small>12 oz · carbonated</small>
+            </span>
+            <b>✓</b>
+          </div>
+          <div className={styles.timelineCurrent}>
+            <time>3:42</time>
+            <i />
+            <span>
+              <strong>Bloat check-in</strong>
+              <small>A little uncomfortable</small>
+            </span>
+            <b>→</b>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <dialog
-      aria-describedby={descriptionId}
-      aria-labelledby={titleId}
-      aria-modal="true"
-      className={styles.comingSoonPopup}
-      onCancel={(event) => {
-        event.preventDefault();
-        onClose();
-      }}
-      onMouseDown={(event) => {
-        if (event.target === event.currentTarget) onClose();
-      }}
-      ref={dialogRef}
-    >
-      <button
-        aria-label="Close Coming Soon popup"
-        className={styles.popupClose}
-        onClick={onClose}
-        ref={closeButtonRef}
-        type="button"
-      >
-        <span aria-hidden="true">×</span>
-      </button>
-      <p className={styles.popupKicker}>The Water Check</p>
-      <h2 id={titleId}>Coming Soon</h2>
-      <p id={descriptionId}>
-        <strong>{store}</strong> is not live yet. We’re building the experience carefully and will share the download when it
-        is ready.
-      </p>
-    </dialog>
+    <div className={`${styles.featurePreview} ${styles.insightPreview}`} data-feature-preview={kind} aria-hidden="true">
+      <div className={styles.previewBar}>
+        <span>Water Check AI</span>
+        <span className={styles.educationPill}>Educational only</span>
+      </div>
+      <div className={styles.insightChart}>
+        <span className={styles.insightLabel}>7-day journal signal</span>
+        <svg viewBox="0 0 300 74" role="presentation">
+          <path d="M4 55 C38 57, 45 36, 76 40 S123 67, 151 41 S199 14, 225 28 S269 52, 296 16" />
+          <circle cx="76" cy="40" r="4" />
+          <circle cx="151" cy="41" r="4" />
+          <circle cx="225" cy="28" r="4" />
+          <circle cx="296" cy="16" r="5" />
+        </svg>
+        <div className={styles.chartDays}>
+          <span>M</span>
+          <span>T</span>
+          <span>W</span>
+          <span>T</span>
+          <span>F</span>
+          <span>S</span>
+          <span>S</span>
+        </div>
+      </div>
+      <div className={styles.insightMessage}>
+        <span className={styles.sparkleMark}>✦</span>
+        <span>
+          <small>Possible pattern</small>
+          <strong>Carbonation may be worth noticing.</strong>
+          <em>Explore the journal—not a diagnosis.</em>
+        </span>
+      </div>
+    </div>
   );
 }
 
-function StoreActions({ compact = false }: { compact?: boolean }) {
-  const [selectedStore, setSelectedStore] = React.useState<StoreName | null>(null);
-
+function CommunityLink({ compact = false }: { compact?: boolean }) {
   return (
-    <div className={`${styles.storeArea} ${compact ? styles.storeAreaCompact : ""}`}>
-      <fieldset className={styles.storeButtons}>
-        <legend className={styles.srOnly}>Future app availability</legend>
-        <button
-          aria-label="App Store — Coming Soon"
-          aria-haspopup="dialog"
-          className={styles.storeButton}
-          type="button"
-          onClick={() => setSelectedStore("App Store")}
-        >
-          <img className={styles.storeBadge} src="/appstore-coming-soon.png" alt="App Store" width="900" height="275" />
-          <span className={styles.srOnly}> — Coming Soon</span>
-        </button>
-        <button
-          aria-label="Google Play — Coming Soon"
-          aria-haspopup="dialog"
-          className={styles.storeButton}
-          type="button"
-          onClick={() => setSelectedStore("Google Play")}
-        >
-          <img className={styles.storeBadge} src="/playstore-soon.webp" alt="Google Play" width="536" height="180" />
-          <span className={styles.srOnly}> — Coming Soon</span>
-        </button>
-      </fieldset>
-      <a
-        aria-label="Join our community to help you stay hydrated!"
-        className={styles.communityLink}
-        href="https://www.instagram.com/thewatercheck/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          className={styles.instagramLogo}
-          src="/instagram-logo.webp"
-          alt="Instagram"
-          width="256"
-          height="256"
-          loading="lazy"
-          decoding="async"
-        />
-        <span>Join our community to help you stay hydrated!</span>
-        <ArrowUpRightIcon className={styles.inlineIcon} />
-      </a>
-
-      {selectedStore ? <ComingSoonDialog store={selectedStore} onClose={() => setSelectedStore(null)} /> : null}
-    </div>
+    <a
+      aria-label="Join our community to help you stay hydrated!"
+      className={`${styles.communityLink} ${compact ? styles.communityLinkCompact : ""}`}
+      href="https://www.instagram.com/thewatercheck/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <img
+        className={styles.instagramLogo}
+        src="/instagram-logo.webp"
+        alt="Instagram"
+        width="256"
+        height="256"
+        loading="lazy"
+        decoding="async"
+      />
+      <span>Join our community to help you stay hydrated!</span>
+      <ArrowUpRightIcon className={styles.inlineIcon} />
+    </a>
   );
 }
 
@@ -203,7 +296,7 @@ export function WaterCheckPage({ onNavigate }: WaterCheckPageProps) {
               Bloating can have many causes. The future product explores possible patterns in a personal drink journal—not body
               composition or a diagnosis.
             </p>
-            <StoreActions />
+            <CommunityLink />
           </div>
 
           <div className={styles.heroVisual}>
@@ -274,8 +367,8 @@ export function WaterCheckPage({ onNavigate }: WaterCheckPageProps) {
               time, and lasting or concerning symptoms deserve a conversation with a qualified healthcare professional.
             </p>
             <p>
-              I watched people skip meals or restrict themselves because they did not know why their body felt different that
-              day. The feeling might follow food, a fizzy drink, an energy drink, a salty meal, training, or a change in routine.
+              I watched people skip meals or restrict themselves because they did not know why their body felt different that day.
+              The feeling might follow food, a fizzy drink, an energy drink, a salty meal, training, or a change in routine.
               Bloating has many possible causes, and those everyday details are easy to forget once discomfort takes over.
             </p>
             <p>
@@ -378,11 +471,7 @@ export function WaterCheckPage({ onNavigate }: WaterCheckPageProps) {
                   <span>{feature.eyebrow}</span>
                   <span>{feature.number}</span>
                 </div>
-                <div className={styles.featureArtifact} aria-hidden="true">
-                  <span />
-                  <span />
-                  <span />
-                </div>
+                <FeaturePreview kind={feature.preview} />
                 <h3>{feature.title}</h3>
                 <p>{feature.copy}</p>
               </article>
@@ -404,33 +493,6 @@ export function WaterCheckPage({ onNavigate }: WaterCheckPageProps) {
               </a>
             </div>
           </aside>
-        </section>
-
-        <section className={styles.trustSection} aria-labelledby="trust-title">
-          <div className={styles.trustCard}>
-            <div className={styles.trustCopy}>
-              <p className={styles.sectionKicker}>The quiet part is the point</p>
-              <h2 id="trust-title">No form between curiosity and the story.</h2>
-              <p>
-                This Coming Soon page asks for no health information or email. There is no waitlist, account, scan upload, age
-                check, demographic prompt, symptom entry, or AI conversation here.
-              </p>
-              <ul className={styles.trustFacts} aria-label="Current website boundaries">
-                <li>No signup</li>
-                <li>No health-data form</li>
-                <li>No tracker or social embed</li>
-              </ul>
-            </div>
-            <aside className={styles.trustSeal} aria-label="Current website: view only">
-              <span>Current website</span>
-              <strong>
-                View
-                <br />
-                only
-              </strong>
-              <small>No submission</small>
-            </aside>
-          </div>
         </section>
 
         <section className={styles.faqSection} aria-labelledby="faq-title">
@@ -458,10 +520,9 @@ export function WaterCheckPage({ onNavigate }: WaterCheckPageProps) {
           <p className={styles.sectionKicker}>Coming Soon · 18+</p>
           <h2 id="final-title">The next check is not ready to download. It is ready to be built carefully.</h2>
           <p className={styles.finalCopy}>
-            Choose a store for the honest status, or follow the optional Instagram link for launch updates. No release date is
-            promised.
+            Follow the optional Instagram community link for launch updates. No release date is promised.
           </p>
-          <StoreActions compact />
+          <CommunityLink compact />
         </section>
       </main>
     </div>
