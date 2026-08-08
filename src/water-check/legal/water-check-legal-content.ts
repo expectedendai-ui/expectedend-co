@@ -74,7 +74,7 @@ export const WATER_CHECK_LEGAL_CONTENT = {
         heading: "Eligibility and current experience",
         paragraphs: [
           "This website and the planned product are intended for adults age 18 and older. The current website is an informational preview: it has no account, waitlist, health journal, scanning feature, AI conversation, or live App Store or Google Play listing.",
-          "Store controls on the page only report that the app is coming soon. Activating one does not reserve access, create an account, submit information, or promise a release date.",
+          "This page provides no app-download control. The Coming Soon label does not reserve access, create an account, submit information, or promise a release date.",
         ],
       },
       {
