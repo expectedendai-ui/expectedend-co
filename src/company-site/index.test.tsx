@@ -293,6 +293,10 @@ describe("Expected End public site", () => {
     expect(screen.queryByText("Three ways to open.")).not.toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Try the free calculator" })).toHaveAttribute("href", "/thewatercheck-calculator");
     expect(screen.getByRole("link", { name: "Open the calculator" })).toHaveAttribute("href", "/thewatercheck-calculator");
+    expect(screen.getByRole("link", { name: "Follow The Water Check on Instagram" })).toHaveAttribute(
+      "href",
+      "https://www.instagram.com/thewatercheck?stkn=dW00MHRucTY1Nmto"
+    );
     expect(screen.getByRole("link", { name: "Website Privacy Statement" })).toHaveAttribute("href", "/privacy");
     expect(document.title).toBe("The Water Check — Hydration App & Free Calculator");
     expect(screen.queryByRole("navigation", { name: "Main navigation" })).not.toBeInTheDocument();
