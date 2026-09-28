@@ -11,6 +11,7 @@ export type CompanyRouteKey =
   | "mybiblelens-store"
   | "watercheck-store"
   | "watercheck-page"
+  | "watercheck-calculator"
   | "not-found";
 
 export type NavTheme = "blue" | "water";
@@ -102,6 +103,14 @@ const ROUTES: PublicRoute[] = [
     navTheme: "water",
     title: "The Water Check — Hydration App & Free Calculator",
     description: "Explore The Water Check app and try a free, private hydration estimate on Expected End.",
+  },
+  {
+    key: "watercheck-calculator",
+    family: "company",
+    path: "/thewatercheck-calculator",
+    navTheme: "water",
+    title: "Free Hydration Calculator — The Water Check",
+    description: "Get a free, private daily hydration estimate with The Water Check calculator.",
   },
 ];
 
