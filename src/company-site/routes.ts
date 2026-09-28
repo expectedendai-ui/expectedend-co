@@ -100,8 +100,8 @@ const ROUTES: PublicRoute[] = [
     family: "company",
     path: "/thewatercheckpage",
     navTheme: "water",
-    title: "Hydration Calculator — The Water Check",
-    description: "A private hydration estimate, practical water habits, and The Water Check community.",
+    title: "The Water Check — Hydration App & Free Calculator",
+    description: "Explore The Water Check app and try a free, private hydration estimate on Expected End.",
   },
 ];
 

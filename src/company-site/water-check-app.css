@@ -1,0 +1,21 @@
+.waterApp {
+  background: linear-gradient(160deg, #052548, #073d70 57%, #052846);
+  color: #f4fbff;
+  padding: clamp(4rem, 8vw, 7rem) 1.25rem;
+}
+
+.waterAppInner { max-width: 78rem; margin: 0 auto; }
+.waterAppIntro { max-width: 48rem; }
+.waterAppEyebrow { color: #7edcff; font-size: .8rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+.waterApp h2 { font-family: "Instrument Serif", Georgia, serif; font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 400; letter-spacing: -.035em; line-height: 1.04; margin: 1rem 0 1.5rem; }
+.waterAppIntro > p:not(.waterAppEyebrow) { color: #d2eaf5; font-size: clamp(1rem, 1.7vw, 1.2rem); line-height: 1.65; }
+.waterAppActions { align-items: center; display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; margin: 2rem 0 1rem; }
+.waterAppComingSoon { background: #a7e8ff; border-radius: 999px; color: #052548; font-weight: 800; padding: .85rem 1.2rem; }
+.waterAppActions a { color: #f4fbff; font-weight: 700; text-decoration: underline; text-underline-offset: .25em; }
+.waterApp .waterAppCaveat { font-size: .85rem !important; }
+.waterAppScreens { display: grid; gap: 1rem; grid-auto-columns: minmax(13rem, 1fr); grid-auto-flow: column; margin-top: 3rem; overflow-x: auto; padding: 0 0 1rem; scroll-snap-type: x mandatory; }
+.waterAppScreens figure { margin: 0; scroll-snap-align: start; }
+.waterAppScreens img { aspect-ratio: 660 / 1434; border: 1px solid #3e759b; border-radius: 1.4rem; box-shadow: 0 1rem 2.5rem #001a36a8; display: block; height: auto; width: 100%; }
+.waterAppScreens figcaption { color: #d2eaf5; font-size: .9rem; font-weight: 700; padding: .8rem .2rem 0; text-align: center; }
+@media (min-width: 1150px) { .waterAppScreens { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+@media (prefers-reduced-motion: reduce) { .waterAppScreens { scroll-behavior: auto; } }
