@@ -153,7 +153,14 @@
     box-shadow: 0 14px 34px rgba(11, 111, 208, 0.42);
   }
   .waterLanding .calc-btn:hover { filter: brightness(1.08); }
-  .waterLanding .store:focus-visible, .waterLanding .calc-btn:focus-visible { outline: 3px solid var(--sky); outline-offset: 3px; }
+  .waterLanding .social-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 52px; height: 52px; border-radius: 15px;
+    border: 1px solid var(--line); background: rgba(255, 255, 255, 0.08);
+    color: var(--ink); text-decoration: none;
+  }
+  .waterLanding .social-btn:hover { background: rgba(255, 255, 255, 0.15); }
+  .waterLanding .store:focus-visible, .waterLanding .calc-btn:focus-visible, .waterLanding .social-btn:focus-visible { outline: 3px solid var(--sky); outline-offset: 3px; }
   .waterLanding .cta-note { margin-top: 14px; font-size: 13px; color: var(--ink-soft); }
 
   /* ---------- the two phones ---------- */
