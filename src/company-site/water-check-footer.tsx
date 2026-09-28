@@ -21,7 +21,7 @@ export function WaterCheckFooter({ onNavigate }: WaterCheckFooterProps) {
             <span>The Water Check</span>
           </a>
           <p className="waterCheckFooterNote">
-            No sign-ups, no account, nothing saved. The calculator runs in your browser and your numbers never leave it.
+            The free calculator needs no account. It runs in your browser and does not send your numbers to us.
           </p>
         </div>
 
@@ -29,6 +29,7 @@ export function WaterCheckFooter({ onNavigate }: WaterCheckFooterProps) {
           <div>
             <p className="waterCheckFooterHeading">The Water Check</p>
             <a href="#calculator">Hydration calculator</a>
+            <a href="#the-app">Explore the app</a>
             <a href="https://www.instagram.com/thewatercheck/" target="_blank" rel="noopener noreferrer">
               @thewatercheck on Instagram
             </a>

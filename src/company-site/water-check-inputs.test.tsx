@@ -27,6 +27,14 @@ describe("Water Check footer", () => {
   });
 });
 
+it("presents the app preview and keeps the free calculator reachable", () => {
+  render(<WaterCheckPage />);
+  expect(screen.getByRole("heading", { name: "Your water, day by day." })).toBeInTheDocument();
+  expect(screen.getAllByRole("img", { name: /The Water Check .* on an iPhone/ })).toHaveLength(5);
+  expect(screen.getByRole("link", { name: "Try the free calculator" })).toHaveAttribute("href", "#calculator");
+  expect(screen.queryByRole("link", { name: /Download on the App Store/i })).not.toBeInTheDocument();
+});
+
 // Regression: the number boxes used to clamp on every keystroke, so clearing the age snapped to 18,
 // typing "22" on top became 1822 then 100, and typing "6" after "5" in feet became 56 then 8.
 describe("Water Check number inputs", () => {

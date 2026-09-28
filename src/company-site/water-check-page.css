@@ -24,6 +24,18 @@
   background: #f4eff4;
 }
 
+.waterCheckAppLink {
+  border: 1px solid rgba(255, 255, 255, .8);
+  border-radius: 999px;
+  color: white;
+  display: inline-block;
+  font-weight: 700;
+  margin-top: 1.5rem;
+  padding: .75rem 1.1rem;
+  text-decoration: none;
+}
+.waterCheckAppLink:hover, .waterCheckAppLink:focus-visible { background: white; color: #082d52; }
+
 .waterCheckHero {
   background:
     radial-gradient(ellipse at 22% -10%, rgba(230, 252, 255, 0.55), transparent 38%),

@@ -16,6 +16,7 @@ import {
 import * as React from "react";
 import "./water-check-page.css";
 import { WaterIntro } from "./water-intro";
+import { WaterCheckApp } from "./water-check-app";
 
 const ESTIMATE_GUIDANCE =
   "This is an educational planning estimate for adults—not a diagnosis, treatment, or clinical prescription. Food also supplies water, and individual needs vary. Do not force fluids. Ask a healthcare professional about your needs if you are pregnant or breastfeeding, take medicines that affect fluid balance, have a kidney or heart condition, follow a fluid restriction, or have concerning symptoms.";
@@ -336,8 +337,9 @@ export function WaterCheckPage({ onNavigate }: WaterCheckPageProps = {}) {
                 Ditch the influencers. Learn your actual biology.
               </h1>
               <p className="tw:mt-8 tw:max-w-2xl tw:text-lg tw:leading-8 tw:text-[#e1f9ff] tw:sm:text-xl">
-                No sign-ups. Just a practical starting point for your daily hydration.
+                Try the free calculator without an account, then explore the app we are building for everyday tracking.
               </p>
+              <a className="waterCheckAppLink" href="#the-app">Explore the app ↓</a>
             </div>
             <div className="waterCheckLogoStage tw:justify-self-center tw:lg:justify-self-end">
               <a href="#calculator" aria-label="Use the Water Check calculator" data-water-logo-orb>
@@ -914,6 +916,8 @@ export function WaterCheckPage({ onNavigate }: WaterCheckPageProps = {}) {
             </div>
           </div>
         </section>
+
+        <WaterCheckApp />
 
         <section className="waterCheckTipsSection tw:px-5 tw:py-24 tw:sm:px-8" aria-labelledby="water-tips-title">
           <div className="tw:mx-auto tw:max-w-6xl">
