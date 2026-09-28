@@ -14,6 +14,7 @@ import { FounderFooter } from "./founder-footer";
 import { FounderNavigation } from "./founder-navigation";
 import { WaterCheckFooter } from "./water-check-footer";
 import { WaterCheckPage } from "./water-check-page";
+import { WaterCheckLanding } from "./water-check-landing";
 
 type CompanySiteProps = {
   leaving: boolean;
@@ -113,7 +114,8 @@ export function CompanySite({ leaving, onOpenArtWorld }: CompanySiteProps) {
     if (route.key === "home") return <HomePage onNavigate={onNavigate} />;
     if (route.key === "mybiblelens-store") return <Storefront brand="mybiblelens" onNavigate={onNavigate} />;
     if (route.key === "watercheck-store") return <Storefront brand="watercheck" onNavigate={onNavigate} />;
-    if (route.key === "watercheck-page") return <WaterCheckPage onNavigate={onNavigate} />;
+    if (route.key === "watercheck-page") return <WaterCheckLanding />;
+    if (route.key === "watercheck-calculator") return <WaterCheckPage onNavigate={onNavigate} />;
     if (route.key === "about") return <AboutPage onNavigate={onNavigate} />;
     if (route.key === "denzel-rigaud") return <DenzelPage onNavigate={onNavigate} />;
     if (route.key === "press") return <PressPage onNavigate={onNavigate} />;
@@ -137,17 +139,18 @@ export function CompanySite({ leaving, onOpenArtWorld }: CompanySiteProps) {
         <FounderNavigation onNavigate={onNavigate} />
       ) : (
         route.key !== "mybiblelens-store" &&
-        route.key !== "watercheck-store" && (
+        route.key !== "watercheck-store" &&
+        route.key !== "watercheck-page" && (
           <Navigation isHome={route.key === "home"} theme={route.navTheme} onNavigate={onNavigate} />
         )
       )}
       {renderCompanyRoute()}
-      {route.key === "watercheck-page" ? (
+      {route.key === "watercheck-calculator" ? (
         <WaterCheckFooter onNavigate={onNavigate} />
       ) : route.key === "denzel-rigaud" ? (
         <FounderFooter onNavigate={onNavigate} onOpenArtWorld={onOpenArtWorld} />
       ) : (
-        route.key !== "mybiblelens-store" && route.key !== "watercheck-store" && <Footer onNavigate={onNavigate} />
+        route.key !== "mybiblelens-store" && route.key !== "watercheck-store" && route.key !== "watercheck-page" && <Footer onNavigate={onNavigate} />
       )}
     </div>
   );

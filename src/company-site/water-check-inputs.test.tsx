@@ -7,7 +7,7 @@ import { WaterCheckPage } from "./water-check-page";
 describe("Water Check footer", () => {
   it("replaces the company footer with a neutral Water Check footer on this page only", () => {
     vi.stubGlobal("scrollTo", vi.fn());
-    window.history.replaceState({}, "", "/thewatercheckpage");
+    window.history.replaceState({}, "", "/thewatercheck-calculator");
     render(<CompanySite leaving={false} onOpenArtWorld={vi.fn()} />);
     const footer = screen.getByRole("contentinfo");
     expect(footer).toHaveAttribute("data-water-check-footer");

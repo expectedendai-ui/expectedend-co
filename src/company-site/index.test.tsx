@@ -88,9 +88,7 @@ describe("Expected End public site", () => {
 
     await user.click(screen.getByRole("link", { name: "Visit The Water Check" }));
     expect(window.location.pathname).toBe("/thewatercheckpage");
-    expect(
-      screen.getByRole("heading", { level: 1, name: "Ditch the influencers. Learn your actual biology." })
-    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: /Drink up.*keep count/ })).toBeInTheDocument();
   });
 
   it("opens the Water Check bio dialog and restores focus when it closes", async () => {
@@ -286,8 +284,22 @@ describe("Expected End public site", () => {
     expect(document.title).toBe("Page not found — Expected End");
   });
 
-  it("renders the Water Check page with shared chrome and route metadata", () => {
+  it("publishes the Claude landing design with the approved headline and working links", () => {
     window.history.replaceState({}, "", "/thewatercheckpage");
+    render(<CompanySite leaving={false} onOpenArtWorld={vi.fn()} />);
+
+    expect(screen.getByRole("heading", { level: 1, name: /Drink up.*keep count/ })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Everything you need, nothing you don't." })).toBeInTheDocument();
+    expect(screen.queryByText("Three ways to open.")).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Try the free calculator" })).toHaveAttribute("href", "/thewatercheck-calculator");
+    expect(screen.getByRole("link", { name: "Open the calculator" })).toHaveAttribute("href", "/thewatercheck-calculator");
+    expect(screen.getByRole("link", { name: "Website Privacy Statement" })).toHaveAttribute("href", "/privacy");
+    expect(document.title).toBe("The Water Check — Hydration App & Free Calculator");
+    expect(screen.queryByRole("navigation", { name: "Main navigation" })).not.toBeInTheDocument();
+  });
+
+  it("renders the Water Check calculator with shared chrome and route metadata", () => {
+    window.history.replaceState({}, "", "/thewatercheck-calculator");
     render(<CompanySite leaving={false} onOpenArtWorld={vi.fn()} />);
 
     expect(
@@ -295,15 +307,15 @@ describe("Expected End public site", () => {
     ).toBeInTheDocument();
     expect(screen.getByRole("navigation", { name: "Main navigation" })).toHaveAttribute("data-nav-theme", "water");
     expect(screen.getByRole("navigation", { name: "Footer navigation" })).toBeInTheDocument();
-    expect(document.title).toBe("Hydration Calculator — The Water Check");
+    expect(document.title).toBe("Free Hydration Calculator — The Water Check");
     expect(document.querySelector('meta[name="description"]')).toHaveAttribute(
       "content",
-      "A private hydration estimate, practical water habits, and The Water Check community."
+      "Get a free, private daily hydration estimate with The Water Check calculator."
     );
-    expect(document.querySelector('link[rel="canonical"]')).toHaveAttribute("href", "https://expectedend.co/thewatercheckpage");
+    expect(document.querySelector('link[rel="canonical"]')).toHaveAttribute("href", "https://expectedend.co/thewatercheck-calculator");
     expect(document.querySelector("meta[property='og:url']")).toHaveAttribute(
       "content",
-      "https://expectedend.co/thewatercheckpage"
+      "https://expectedend.co/thewatercheck-calculator"
     );
     const waterCheckSchema = JSON.parse(
       document.querySelector('main[data-water-check-page] script[type="application/ld+json"]')?.textContent ?? "{}"

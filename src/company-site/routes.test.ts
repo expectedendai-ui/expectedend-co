@@ -42,7 +42,7 @@ describe("company-site routes", () => {
     expect(storeMetadata.canonical).toBe("https://expectedend.co/mybiblelensstore");
 
     const waterCheckMetadata = getRouteMetadata("/thewatercheckpage");
-    expect(waterCheckMetadata.title).toContain("Hydration Calculator");
+    expect(waterCheckMetadata.title).toContain("Hydration App & Free Calculator");
     expect(waterCheckMetadata.description).toContain("hydration estimate");
     expect(waterCheckMetadata.canonical).toBe("https://expectedend.co/thewatercheckpage");
 
