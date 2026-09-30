@@ -119,7 +119,7 @@ export function CompanySite({ leaving, onOpenArtWorld }: CompanySiteProps) {
     if (route.key === "about") return <AboutPage onNavigate={onNavigate} />;
     if (route.key === "denzel-rigaud") return <DenzelPage onNavigate={onNavigate} />;
     if (route.key === "press") return <PressPage onNavigate={onNavigate} />;
-    if (route.key === "terms" || route.key === "privacy" || route.key === "accessibility") {
+    if (route.key === "terms" || route.key === "privacy" || route.key === "accessibility" || route.key === "watercheck-privacy" || route.key === "watercheck-terms") {
       return <InfoPage content={LEGAL_CONTENT[route.key]} />;
     }
     return (
@@ -145,7 +145,7 @@ export function CompanySite({ leaving, onOpenArtWorld }: CompanySiteProps) {
         )
       )}
       {renderCompanyRoute()}
-      {route.key === "watercheck-calculator" ? (
+      {route.key === "watercheck-calculator" || route.key === "watercheck-privacy" || route.key === "watercheck-terms" ? (
         <WaterCheckFooter onNavigate={onNavigate} />
       ) : route.key === "denzel-rigaud" ? (
         <FounderFooter onNavigate={onNavigate} onOpenArtWorld={onOpenArtWorld} />
