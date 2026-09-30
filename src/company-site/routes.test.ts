@@ -9,6 +9,8 @@ describe("company-site routes", () => {
     expect(getRoute("/press/").key).toBe("press");
     expect(getRoute("/terms").key).toBe("terms");
     expect(getRoute("/privacy").key).toBe("privacy");
+    expect(getRoute("/thewatercheck/privacy").key).toBe("watercheck-privacy");
+    expect(getRoute("/thewatercheck/terms").key).toBe("watercheck-terms");
     expect(getRoute("/accessibility").key).toBe("accessibility");
     expect(getRoute("/mybiblelensstore").key).toBe("mybiblelens-store");
     expect(getRoute("/thewatercheckstore/").key).toBe("watercheck-store");
@@ -19,8 +21,6 @@ describe("company-site routes", () => {
   it.each([
     "/thewatercheck",
     "/thewatercheck/",
-    "/thewatercheck/privacy",
-    "/thewatercheck/terms",
     "/thewatercheck/health-and-ai-disclaimer",
     "/thewatercheck/consumer-health-data",
   ])("retires %s as a not-found route", (path) => {

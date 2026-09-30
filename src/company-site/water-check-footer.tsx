@@ -42,11 +42,11 @@ export function WaterCheckFooter({ onNavigate }: WaterCheckFooterProps) {
           </div>
           <div>
             <p className="waterCheckFooterHeading">The fine print</p>
-            <a href="/terms" onClick={onNavigate}>
+            <a href="/thewatercheck/terms" onClick={onNavigate}>
               Terms of Use
             </a>
-            <a href="/privacy" onClick={onNavigate}>
-              Privacy Statement
+            <a href="/thewatercheck/privacy" onClick={onNavigate}>
+              Privacy Notice
             </a>
             <a href="/accessibility" onClick={onNavigate}>
               Accessibility

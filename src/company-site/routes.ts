@@ -7,6 +7,8 @@ export type CompanyRouteKey =
   | "press"
   | "terms"
   | "privacy"
+  | "watercheck-privacy"
+  | "watercheck-terms"
   | "accessibility"
   | "mybiblelens-store"
   | "watercheck-store"
@@ -74,6 +76,22 @@ const ROUTES: PublicRoute[] = [
     path: "/privacy",
     title: "Privacy Statement — Expected End",
     description: "How Expected End handles information on this website.",
+  },
+  {
+    key: "watercheck-privacy",
+    family: "company",
+    path: "/thewatercheck/privacy",
+    navTheme: "water",
+    title: "The Water Check Privacy Notice — Expected End",
+    description: "How The Water Check handles account, wellness, and optional health data.",
+  },
+  {
+    key: "watercheck-terms",
+    family: "company",
+    path: "/thewatercheck/terms",
+    navTheme: "water",
+    title: "The Water Check Terms of Use — Expected End",
+    description: "Terms for using The Water Check app.",
   },
   {
     key: "accessibility",
