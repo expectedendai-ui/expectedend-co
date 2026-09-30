@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "8U44UAYH5Q.co.expectedend.thewatercheck",
+        "paths": ["/auth/thewatercheck"]
+      }
+    ]
+  }
+}

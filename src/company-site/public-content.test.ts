@@ -45,6 +45,18 @@ const runAnalyticsScript = (indexHtml: string, hostname: string) => {
 };
 
 describe("public-content deployment guard", () => {
+  it("publishes The Water Check universal-link association as JSON", () => {
+    const association = JSON.parse(
+      readFileSync("public/.well-known/apple-app-site-association", "utf8"),
+    );
+    const headers = readFileSync("public/_headers", "utf8");
+
+    expect(association.applinks.details).toContainEqual({
+      appID: "8U44UAYH5Q.co.expectedend.thewatercheck",
+      paths: ["/auth/thewatercheck"],
+    });
+    expect(headers).toContain("/.well-known/apple-app-site-association\n  Content-Type: application/json");
+  });
   it("runs the approval gate before production deploy", () => {
     const packageJson = JSON.parse(readFileSync("package.json", "utf8")) as { scripts: { deploy: string } };
     expect(packageJson.scripts.deploy).toMatch(/^npm run check:public-content &&/);
