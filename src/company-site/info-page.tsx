@@ -7,7 +7,7 @@ type InfoPageProps = {
 
 export function InfoPage({ content }: InfoPageProps) {
   return (
-    <main className={styles.infoMain}>
+    <main className={styles.infoMain} id="top">
       <article className={styles.infoArticle}>
         <header className={styles.infoHeader}>
           <p className={styles.kicker}>{content.eyebrow}</p>

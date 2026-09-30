@@ -146,7 +146,7 @@ export function CompanySite({ leaving, onOpenArtWorld }: CompanySiteProps) {
       )}
       {renderCompanyRoute()}
       {route.key === "watercheck-calculator" || route.key === "watercheck-privacy" || route.key === "watercheck-terms" ? (
-        <WaterCheckFooter onNavigate={onNavigate} />
+        <WaterCheckFooter onNavigate={onNavigate} backToTopHref={route.key === "watercheck-calculator" ? "#water-check-title" : "#top"} />
       ) : route.key === "denzel-rigaud" ? (
         <FounderFooter onNavigate={onNavigate} onOpenArtWorld={onOpenArtWorld} />
       ) : (

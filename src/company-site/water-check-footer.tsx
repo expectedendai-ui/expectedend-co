@@ -3,6 +3,7 @@ import { CONTACT_HREF } from "./content";
 
 type WaterCheckFooterProps = {
   onNavigate: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+  backToTopHref?: string;
 };
 
 const YEAR = 2026;
@@ -11,7 +12,7 @@ const YEAR = 2026;
  * Footer for /thewatercheckpage only. The Water Check is for everyone, so this footer stays
  * neutral: no mission paragraph, no verse. The company appears as one small credit line.
  */
-export function WaterCheckFooter({ onNavigate }: WaterCheckFooterProps) {
+export function WaterCheckFooter({ onNavigate, backToTopHref = "#water-check-title" }: WaterCheckFooterProps) {
   return (
     <footer className="waterCheckFooter" data-water-check-footer>
       <div className="waterCheckFooterInner">
@@ -28,8 +29,8 @@ export function WaterCheckFooter({ onNavigate }: WaterCheckFooterProps) {
         <nav className="waterCheckFooterLinks" aria-label="Footer navigation">
           <div>
             <p className="waterCheckFooterHeading">The Water Check</p>
-            <a href="#calculator">Hydration calculator</a>
-            <a href="#the-app">Explore the app</a>
+            <a href="/thewatercheckpage#calculator">Hydration calculator</a>
+            <a href="/thewatercheckpage#the-app">Explore the app</a>
             <a href="https://www.instagram.com/thewatercheck/" target="_blank" rel="noopener noreferrer">
               @thewatercheck on Instagram
             </a>
@@ -67,7 +68,7 @@ export function WaterCheckFooter({ onNavigate }: WaterCheckFooterProps) {
           </a>{" "}
           project. Educational estimate, not medical advice.
         </p>
-        <a className="waterCheckFooterTop" href="#water-check-title">
+        <a className="waterCheckFooterTop" href={backToTopHref}>
           Back to top ↑
         </a>
       </div>

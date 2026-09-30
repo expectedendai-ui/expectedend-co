@@ -12,7 +12,7 @@ describe("Water Check footer", () => {
     const footer = screen.getByRole("contentinfo");
     expect(footer).toHaveAttribute("data-water-check-footer");
     const nav = within(footer).getByRole("navigation", { name: "Footer navigation" });
-    expect(within(nav).getByRole("link", { name: "Hydration calculator" })).toHaveAttribute("href", "#calculator");
+    expect(within(nav).getByRole("link", { name: "Hydration calculator" })).toHaveAttribute("href", "/thewatercheckpage#calculator");
     expect(within(nav).getByRole("link", { name: "@thewatercheck on Instagram" })).toHaveAttribute(
       "href",
       "https://www.instagram.com/thewatercheck/"
